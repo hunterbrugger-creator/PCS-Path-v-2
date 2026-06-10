@@ -1,0 +1,778 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary);font-size:14px}
+.app{max-width:380px;margin:0 auto}
+.screen{display:none}.screen.on{display:block}
+.hdr{padding:12px 16px;color:white}
+.hdr h2{font-size:15px;font-weight:500;margin-bottom:1px}
+.hdr p{font-size:11px;opacity:.85}
+.hb{background:#185FA5}.hg{background:#3B6D11}.hd{background:#0C447C}.hgl{background:#26215C}.hlead{background:#085041}.hcounsel{background:#0C447C}.hin{background:#534AB7}
+.nav{display:flex;border-bottom:0.5px solid var(--color-border-tertiary)}
+.nb{flex:1;padding:6px 1px 5px;font-size:10px;font-weight:500;border:none;background:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;line-height:1.3}
+.nb i{display:block;font-size:15px;margin-bottom:1px}
+.nb.on{color:#185FA5;border-bottom-color:#185FA5}
+.nb.gon{color:#26215C;border-bottom-color:#26215C}
+.nb.bon{color:#3B6D11;border-bottom-color:#3B6D11}
+.nb.lon{color:#085041;border-bottom-color:#085041}
+.nb.pon{color:#534AB7;border-bottom-color:#534AB7}
+.nb.con{color:#0C447C;border-bottom-color:#0C447C}
+.tab{display:none}.tab.on{display:block}
+.slbl{font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.05em;padding:9px 12px 4px;text-transform:uppercase}
+.pad{padding:8px 12px;display:flex;flex-direction:column;gap:7px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px 12px}
+.cdim{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px 12px;opacity:.6}
+.faded{opacity:.5}
+.row{display:flex;align-items:center;gap:7px}
+.pill{padding:2px 6px;border-radius:99px;font-size:10px;font-weight:500}
+.pglobal{background:#EEEDFE;color:#26215C}.pmpf{background:#EAF3DE;color:#27500A}.plead{background:#E1F5EE;color:#085041}.pcounsel{background:#E6F1FB;color:#0C447C}
+.pinfo{background:#E6F1FB;color:#0C447C}.pred{background:#FCEBEB;color:#A32D2D}.pamb{background:#FAEEDA;color:#854F0B}.pgrn{background:#EAF3DE;color:#3B6D11}.ppin{background:#EEEDFE;color:#534AB7}
+.dover{background:#FCEBEB;color:#A32D2D}.dsoon{background:#FAEEDA;color:#854F0B}.dok{background:#EAF3DE;color:#3B6D11}
+.dpill{font-size:10px;font-weight:500;padding:1px 5px;border-radius:99px;margin-left:4px}
+.tn{font-size:13px;font-weight:500}.ts{font-size:11px;color:var(--color-text-secondary);margin-top:2px}.tsgn{font-size:11px;color:#3B6D11;margin-top:2px}
+.tagrow{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.chk{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.chk.ok{background:#1D9E75;border-color:#1D9E75;color:white}.chk.pd{border-color:#BA7517}
+.bdg{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;padding:2px 6px;border-radius:var(--border-radius-md);margin-top:4px}
+.bo{background:#EAF3DE;color:#3B6D11}.bl{background:#FAEEDA;color:#854F0B}.bw{background:#FCEBEB;color:#A32D2D}
+.dot{width:5px;height:5px;border-radius:50%;display:inline-block}.dg{background:#639922}.da{background:#BA7517}.dr{background:#A32D2D}
+.subs{margin-top:7px;border-top:0.5px solid var(--color-border-tertiary);padding-top:7px;display:flex;flex-direction:column;gap:5px}
+.str{display:flex;align-items:center;gap:7px;font-size:12px}
+.sc{width:15px;height:15px;border-radius:50%;border:1px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc.ok{background:#1D9E75;border-color:#1D9E75;color:white}
+.ibox{background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:7px 10px;margin:0 12px 8px;font-size:12px;color:#0C447C;display:flex;gap:6px;align-items:flex-start}
+.wbox{background:#FAEEDA;border:0.5px solid #FAC775;border-radius:var(--border-radius-md);padding:7px 10px;margin:0 12px 8px;font-size:12px;color:#854F0B;display:flex;gap:6px;align-items:flex-start}
+.ntf{background:#EAF3DE;border:0.5px solid #9FE1CB;border-radius:var(--border-radius-md);padding:7px 10px;margin:6px 12px 0;font-size:12px;color:#27500A;display:none;align-items:center;gap:7px}
+.pbtn{border:none;border-radius:var(--border-radius-md);padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;color:white;width:100%}
+.pb-blue{background:#185FA5}.pb-green{background:#3B6D11}.pb-lead{background:#085041}.pb-global{background:#26215C}.pb-counsel{background:#0C447C}.pb-purple{background:#534AB7}
+.ibtn{background:none;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:3px 8px;cursor:pointer;font-size:11px;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:3px}
+.ibtn.danger{color:#A32D2D;border-color:#F7C1C1}
+.sobtn{padding:4px 9px;font-size:11px;font-weight:500;background:#1D9E75;color:white;border:none;border-radius:var(--border-radius-md);cursor:pointer}
+.fl{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:4px;display:block}
+.fi{width:100%;padding:7px 10px;font-size:13px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);outline:none;font-family:var(--font-sans);margin-bottom:9px}
+.fsel{width:100%;padding:7px 10px;font-size:13px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);outline:none;font-family:var(--font-sans);margin-bottom:9px}
+.af{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px;display:none;margin:0 12px 12px}
+.af.on{display:block}
+.af h4{font-size:13px;font-weight:500;margin-bottom:10px}
+.pgw{background:rgba(255,255,255,.25);border-radius:4px;height:5px;margin-top:9px}
+.pgf{background:white;height:5px;border-radius:4px;transition:width .4s}
+.pgl{font-size:11px;margin-top:4px;opacity:.85}
+.mg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:8px 12px}
+.met{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px 11px}
+.ml{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px}.mv{font-size:19px;font-weight:500}.ms{font-size:11px;color:var(--color-text-tertiary);margin-top:1px}
+.bns{padding:0 12px 10px}.bns h3{font-size:13px;font-weight:500;margin-bottom:7px}
+.bnr{margin-bottom:8px}
+.bnt{height:14px;background:var(--color-background-secondary);border-radius:4px;display:flex;overflow:hidden}
+.bm{height:14px;background:#378ADD}.bo2{height:14px;background:#E24B4A}
+.bntots{display:flex;justify-content:space-between;margin-top:3px}
+.trnd{padding:0 12px 12px}.trnd h3{font-size:13px;font-weight:500;margin-bottom:7px}
+.trow{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.trow:last-child{border-bottom:none}
+.trn{font-size:12px;color:var(--color-text-secondary)}
+.vtabs{display:flex;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:3px;gap:3px;margin:0 12px 8px}
+.vt{flex:1;padding:5px;font-size:11px;font-weight:500;border:none;border-radius:6px;cursor:pointer;background:none;color:var(--color-text-secondary)}
+.vt.on{background:var(--color-background-primary);color:var(--color-text-primary);border:0.5px solid var(--color-border-tertiary)}
+.mc2{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px 12px;cursor:pointer}
+.mc2.pf{border-left:3px solid #A32D2D;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.mcx{display:none;margin-top:8px;border-top:0.5px solid var(--color-border-tertiary);padding-top:8px}
+.mcx.on{display:block}
+.delrow{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.delrow:last-child{border-bottom:none}
+.dm{background:#E6F1FB;color:#0C447C}.do2{background:#FCEBEB;color:#A32D2D}
+.sw{display:flex;align-items:center;gap:6px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:0 9px;height:34px;margin-bottom:7px}
+.sw input{border:none;background:none;font-size:13px;color:var(--color-text-primary);width:100%;outline:none}
+.fch{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}
+.fc{padding:4px 8px;font-size:11px;font-weight:500;border:0.5px solid var(--color-border-tertiary);border-radius:99px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.fc.on{background:#185FA5;color:white;border-color:#185FA5}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.fri{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.fri:last-child{border-bottom:none;padding-bottom:0}
+.fico{width:30px;height:30px;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dlb{padding:4px 9px;font-size:11px;font-weight:500;background:#185FA5;color:white;border:none;border-radius:var(--border-radius-md);cursor:pointer}
+.ulb{padding:4px 9px;font-size:11px;font-weight:500;background:none;color:#3B6D11;border:0.5px solid #9FE1CB;border-radius:var(--border-radius-md);cursor:pointer}
+.fst{font-size:10px;font-weight:500;padding:1px 6px;border-radius:99px}
+.fsp{background:#FAEEDA;color:#854F0B}.fsd{background:#EAF3DE;color:#3B6D11}
+.uz{border:0.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);padding:14px;text-align:center;cursor:pointer;margin-top:6px;color:var(--color-text-secondary);font-size:12px}
+.slotg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+.slot{padding:7px 4px;text-align:center;font-size:12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;background:var(--color-background-secondary)}
+.slot:hover{background:var(--color-background-primary);border-color:#185FA5;color:#185FA5}
+.slot.mine{background:#EAF3DE;color:#27500A;border-color:#9FE1CB;cursor:default}
+.slot.taken{color:var(--color-text-tertiary);cursor:default;text-decoration:line-through}
+.aprow{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.aprow:last-child{border-bottom:none}
+.apt{font-size:12px;font-weight:500;min-width:52px;color:#185FA5}
+.tipc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:11px 12px;cursor:pointer}
+.tipb{display:none;font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-top:8px;border-top:0.5px solid var(--color-border-tertiary);padding-top:8px}
+.tipb.on{display:block}
+.mode-toggle{display:flex;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:3px;gap:3px;margin:10px 12px 0}
+.mt-btn{flex:1;padding:8px 5px;font-size:12px;font-weight:500;border:none;border-radius:6px;cursor:pointer;background:none;color:var(--color-text-secondary)}
+.mt-btn.on{background:var(--color-background-primary);color:var(--color-text-primary);border:0.5px solid var(--color-border-tertiary)}
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.week-nav button{background:none;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:4px 10px;cursor:pointer;font-size:12px;color:var(--color-text-secondary)}
+.week-lbl{font-size:12px;font-weight:500}
+.req-badge{background:#FAEEDA;border:0.5px solid #FAC775;color:#854F0B;font-size:10px;font-weight:500;padding:1px 6px;border-radius:99px}
+.tip-mgr{display:flex;flex-direction:column;gap:7px}
+.tip-item{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px 12px}
+.tip-tag{font-size:10px;font-weight:500;padding:1px 6px;border-radius:99px}
+.tag-out{background:#E6F1FB;color:#0C447C}.tag-in{background:#EEEDFE;color:#534AB7}.tag-both{background:#EAF3DE;color:#27500A}
+.tier-badge{font-size:10px;font-weight:500;padding:1px 6px;border-radius:99px;background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+</style>
+
+<h2 class="sr-only">PCS Path v8 — all tiers can manage tips, commander has in and out dashboards, counselor is out-processing only, MPF has no global locked tasks</h2>
+<div class="app" id="app">
+
+<div id="s-login" class="screen on">
+<div class="hdr hb"><h2><i class="ti ti-plane" style="font-size:13px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>PCS Path</h2><p>RAF Mildenhall · personnel management portal</p></div>
+<div style="padding:14px 12px 8px">
+<div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">Sign in as:</div>
+<div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px">
+<div class="card" style="cursor:pointer" onclick="doLogin('member')"><div class="row"><div style="width:34px;height:34px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-user-circle" style="font-size:18px;color:#185FA5" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Member</div><div style="font-size:11px;color:var(--color-text-secondary)">In/out-process · forms · schedule · tips</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div></div>
+<div class="card" style="cursor:pointer" onclick="doLogin('worker')"><div class="row"><div style="width:34px;height:34px;border-radius:50%;background:#EAF3DE;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-clipboard-check" style="font-size:18px;color:#3B6D11" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Office worker</div><div style="font-size:11px;color:var(--color-text-secondary)">Sign off · appointments · docs · manage tips</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div></div>
+<div class="card" style="cursor:pointer" onclick="doLogin('lead')"><div class="row"><div style="width:34px;height:34px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-shield-half" style="font-size:18px;color:#085041" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Office lead admin</div><div style="font-size:11px;color:var(--color-text-secondary)">Scheduling · workers · office · tips</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div></div>
+<div class="card" style="cursor:pointer" onclick="doLogin('counsel')"><div class="row"><div style="width:34px;height:34px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-user-check" style="font-size:18px;color:#0C447C" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Base counselor</div><div style="font-size:11px;color:var(--color-text-secondary)">Out-processing members · sign off · tips</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div></div>
+<div class="card" style="cursor:pointer" onclick="doLogin('mpf')"><div class="row"><div style="width:34px;height:34px;border-radius:50%;background:#EAF3DE;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-building" style="font-size:18px;color:#3B6D11" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Base MPF super admin</div><div style="font-size:11px;color:var(--color-text-secondary)">Tasks · sign off · users · tips · requests</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div></div>
+<div class="card" style="cursor:pointer" onclick="doLogin('cmd')"><div class="row"><div style="width:34px;height:34px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-chart-bar" style="font-size:18px;color:#0C447C" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Commander — 100 LRS</div><div style="font-size:11px;color:var(--color-text-secondary)">In &amp; out-processing dashboards · tips</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div></div>
+<div class="card" style="cursor:pointer" onclick="doLogin('global')"><div class="row"><div style="width:34px;height:34px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-shield-lock" style="font-size:18px;color:#534AB7" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Global admin</div><div style="font-size:11px;color:var(--color-text-secondary)">Platform oversight · base rights · tips</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div></div>
+</div>
+</div>
+</div>
+
+<div id="s-member" class="screen">
+<div class="hdr hb"><h2>SSgt Carter, James</h2><p>Counselor: MSgt Davis · RAF Mildenhall</p></div>
+<div class="mode-toggle">
+<button class="mt-btn on" id="mode-out" onclick="setMode('out')"><i class="ti ti-plane-departure" style="font-size:13px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>Out-processing</button>
+<button class="mt-btn" id="mode-in" onclick="setMode('in')"><i class="ti ti-plane-arrival" style="font-size:13px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>In-processing</button>
+</div>
+<div id="member-out">
+<div style="background:#185FA5;padding:10px 16px;color:white"><div class="pgw"><div class="pgf" style="width:14%"></div></div><p class="pgl">4 of 28 complete · Dep 16 AUG 2026</p></div>
+<div class="nav">
+<button class="nb on" id="on-tasks" onclick="oTab('tasks')"><i class="ti ti-checklist" aria-hidden="true"></i>Checklist</button>
+<button class="nb" id="on-sched" onclick="oTab('sched')"><i class="ti ti-calendar" aria-hidden="true"></i>Schedule</button>
+<button class="nb" id="on-forms" onclick="oTab('forms')"><i class="ti ti-file-description" aria-hidden="true"></i>Forms</button>
+<button class="nb" id="on-tips" onclick="oTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.45" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+<div id="ot-tasks" class="tab on">
+<div class="slbl">Completed</div>
+<div class="pad" style="padding-top:0;gap:5px">
+<div class="card faded"><div class="row"><div class="chk ok"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div><div><div class="tn">EFMP family assessment · signed off 17 JUN</div></div></div></div>
+<div class="card faded"><div class="row"><div class="chk ok"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div><div><div class="tn">Bench stock · signed off 17 JUL</div></div></div></div>
+</div>
+<div class="slbl">Overdue</div>
+<div class="pad" style="padding-top:0;gap:5px">
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">TMO / personal property <span class="dpill dover">Overdue</span></div><div class="ts">Bldg 426 · Due 18 MAY</div><span class="bdg bw"><span class="dot dr"></span>Awaiting sign-off</span></div></div></div>
+</div>
+<div class="slbl">Pending</div>
+<div class="pad" style="padding-top:0;gap:5px">
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">Medical <span class="dpill dsoon">Jul 17</span></div><div class="ts">48 AMDS · Medical Records</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">Finance office <span class="dpill dsoon">Jul 22</span></div><div class="ts">100 CPTS · Bldg 441</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">Housing clearance <span class="dpill dok">Aug 1</span></div><div class="ts">Bldg 460</div><span class="bdg bl"><span class="dot da"></span>At lunch</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">MPF final-out appointment <span class="dpill dsoon">Jul 17</span></div><div class="ts">Bldg 436 · 09:30 booked</div><span class="bdg bo"><span class="dot dg"></span>Booked</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">100 LRS CSS final out <span class="dpill dok">Aug 15</span></div><div class="ts">Bldg 554</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+</div>
+</div>
+<div id="ot-sched" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-calendar" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Book slots or request appointments for offices that require confirmation.</span></div>
+<div class="slbl">Your upcoming appointments</div>
+<div class="pad" style="padding-top:0;gap:6px">
+<div class="card"><div class="row"><div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:6px 9px;text-align:center;flex-shrink:0"><div style="font-size:11px;font-weight:500;color:#185FA5">JUL</div><div style="font-size:18px;font-weight:500;color:#185FA5">17</div></div><div style="flex:1"><div style="font-size:13px;font-weight:500">MPF final-out</div><div style="font-size:11px;color:var(--color-text-secondary)">09:30 · Bldg 436</div></div><span class="pill pgrn">Confirmed</span></div></div>
+</div>
+<div class="slbl">Book — Medical Records (self-book)</div>
+<div class="pad" style="padding-top:0;gap:7px">
+<div class="card"><div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">Tue / Wed / Thu · Bldg 922 RAF Lakenheath</div><div class="slotg" id="mem-slots"></div></div>
+</div>
+</div>
+<div id="ot-forms" class="tab">
+<div class="ntf" id="ntf-mf"><i class="ti ti-circle-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span id="ntf-mft"></span></div>
+<div class="slbl">Orders &amp; documents</div>
+<div class="pad" style="padding-top:0;gap:6px">
+<div class="card">
+<div class="fri" style="padding-top:0"><div class="fico" style="background:#E6F1FB"><i class="ti ti-file-certificate" style="font-size:16px;color:#185FA5" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">PCS orders</div><span class="fst fsd">Download</span></div><button class="dlb" onclick="fakeD('PCS_Orders.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+<div class="fri"><div class="fico" style="background:#FAEEDA"><i class="ti ti-truck" style="font-size:16px;color:#854F0B" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">PPTY Form LGF 75</div><span class="fst fsp">Upload required</span></div><button class="dlb" onclick="fakeD('LGF75.pdf')" style="margin-right:4px"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button><button class="ulb" onclick="fakeU('LGF75')"><i class="ti ti-upload" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+<div class="fri"><div class="fico" style="background:#EAF3DE"><i class="ti ti-circle-check" style="font-size:16px;color:#3B6D11" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Finance clearance cert</div><div style="font-size:11px;color:var(--color-text-secondary)">Uploaded by 100 CPTS</div></div><button class="dlb" onclick="fakeD('Finance_Clearance.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+</div>
+</div>
+<div class="slbl">Family — Sarah Carter (spouse)</div>
+<div class="pad" style="padding-top:0;gap:6px">
+<div class="card">
+<div class="fri" style="padding-top:0"><div class="fico" style="background:#FAEEDA"><i class="ti ti-vaccine" style="font-size:15px;color:#854F0B" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500">Family member travel screening</div><span class="fst fsp">Pending</span></div><button class="dlb" onclick="fakeD('FMTS.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+<div class="fri"><div class="fico" style="background:#FAEEDA"><i class="ti ti-school" style="font-size:15px;color:#854F0B" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500">DoDEA enrollment — Ethan (age 8)</div><span class="fst fsp">Download &amp; submit</span></div><button class="dlb" onclick="fakeD('DoDEA.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+</div>
+</div>
+</div>
+<div id="ot-tips" class="tab">
+<div style="padding:9px 12px 4px;font-size:12px;color:var(--color-text-secondary)">Tap any tip to expand. Added by staff across the base.</div>
+<div class="pad" style="padding-top:6px;gap:7px" id="out-tips-list"></div>
+</div>
+</div>
+<div id="member-in" style="display:none">
+<div style="background:#534AB7;padding:10px 16px;color:white"><div class="pgw"><div class="pgf" style="width:8%"></div></div><p class="pgl">2 of 24 complete · RNLTD 20 JUL 2026</p></div>
+<div class="nav">
+<button class="nb pon" id="in-tasks" onclick="iTab('tasks')"><i class="ti ti-checklist" aria-hidden="true"></i>Checklist</button>
+<button class="nb" id="in-forms" onclick="iTab('forms')"><i class="ti ti-file-description" aria-hidden="true"></i>Forms</button>
+<button class="nb" id="in-tips" onclick="iTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.45" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+<div id="it-tasks" class="tab on">
+<div class="slbl">Completed</div>
+<div class="pad" style="padding-top:0;gap:5px">
+<div class="card faded"><div class="row"><div class="chk ok"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div><div><div class="tn">Report to unit · signed off 20 JUL</div></div></div></div>
+<div class="card faded"><div class="row"><div class="chk ok"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i></div><div><div class="tn">Base pass &amp; ID card · signed off 20 JUL</div></div></div></div>
+</div>
+<div class="slbl">Pending — this week</div>
+<div class="pad" style="padding-top:0;gap:5px">
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">Finance / pay set-up <span class="dpill dsoon">Due 22 JUL</span></div><div class="ts">100 CPTS · Bldg 441</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">Medical records transfer <span class="dpill dsoon">Due 24 JUL</span></div><div class="ts">48 MDG · RAF Lakenheath</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">Housing in-brief <span class="dpill dsoon">Due 24 JUL</span></div><div class="ts">Bldg 460 · Appointment required</div><span class="bdg bl"><span class="dot da"></span>Appointment needed</span></div></div></div>
+</div>
+<div class="slbl">Upcoming</div>
+<div class="pad" style="padding-top:0;gap:5px">
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">SOFA license test <span class="dpill dok">Due 1 AUG</span></div><div class="ts">Pass &amp; Reg · Bldg 440</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">SOFA &amp; ration card issue <span class="dpill dok">Due 3 AUG</span></div><div class="ts">MPF Customer Service · Bldg 436</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+<div class="card"><div class="row"><div class="chk pd"></div><div style="flex:1"><div class="tn">Commander in-processing <span class="dpill dok">Due 10 AUG</span></div><div class="ts">Final sign-off</div><span class="bdg bo"><span class="dot dg"></span>Open</span></div></div></div>
+</div>
+</div>
+<div id="it-forms" class="tab">
+<div class="ntf" id="ntf-if"><i class="ti ti-circle-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span id="ntf-ift"></span></div>
+<div class="slbl">Required forms</div>
+<div class="pad" style="padding-top:0;gap:6px">
+<div class="card">
+<div class="fri" style="padding-top:0"><div class="fico" style="background:#EEEDFE"><i class="ti ti-file-certificate" style="font-size:16px;color:#534AB7" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">PCS orders (inbound)</div><span class="fst fsd">Download</span></div><button class="dlb" style="background:#534AB7" onclick="fakeD('PCS_Inbound.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+<div class="fri"><div class="fico" style="background:#EEEDFE"><i class="ti ti-home" style="font-size:16px;color:#534AB7" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Housing application</div><span class="fst fsp">Upload required</span></div><button class="dlb" style="background:#534AB7;margin-right:4px" onclick="fakeD('Housing_App.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button><button class="ulb" onclick="fakeU('Housing')"><i class="ti ti-upload" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+<div class="fri"><div class="fico" style="background:#EAF3DE"><i class="ti ti-circle-check" style="font-size:16px;color:#3B6D11" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:500">Welcome letter &amp; base guide</div><div style="font-size:11px;color:var(--color-text-secondary)">Uploaded by MPF</div></div><button class="dlb" onclick="fakeD('Welcome.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div>
+</div>
+</div>
+</div>
+<div id="it-tips" class="tab">
+<div style="padding:9px 12px 4px;font-size:12px;color:var(--color-text-secondary)">Arrival tips from base staff.</div>
+<div class="pad" style="padding-top:6px;gap:7px" id="in-tips-list"></div>
+</div>
+</div>
+</div>
+
+<div id="s-worker" class="screen">
+<div class="hdr hg"><h2>SSgt Webb — Medical office</h2><p>Sign off · appointments · docs · tips</p></div>
+<div class="nav">
+<button class="nb on" id="wn-queue" onclick="wTab('queue')"><i class="ti ti-clipboard-check" aria-hidden="true"></i>Queue</button>
+<button class="nb" id="wn-appts" onclick="wTab('appts')"><i class="ti ti-calendar" aria-hidden="true"></i>Appts</button>
+<button class="nb" id="wn-docs" onclick="wTab('docs')"><i class="ti ti-files" aria-hidden="true"></i>Docs</button>
+<button class="nb" id="wn-tips" onclick="wTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.45" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+<div id="wt-queue" class="tab on">
+<div class="ntf" id="ntf-w"><i class="ti ti-circle-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span id="ntf-wt"></span></div>
+<div style="padding:9px 12px 0">
+<div class="sw"><i class="ti ti-search" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><input type="text" id="w-search" placeholder="Search members..." oninput="renderWQ()"></div>
+<div class="fch"><button class="fc on" id="wf-all" onclick="setWF('all')">All</button><button class="fc" id="wf-pending" onclick="setWF('pending')">Pending</button><button class="fc" id="wf-done" onclick="setWF('done')">Done</button></div>
+</div>
+<div class="pad" id="worker-q"></div>
+</div>
+<div id="wt-appts" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-calendar" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Today's appointments. Tap Notes to see member details.</span></div>
+<div class="slbl">Today — 14 JUL 2026</div>
+<div class="pad" style="padding-top:0;gap:6px">
+<div class="card">
+<div class="aprow" style="padding-top:0"><div class="apt">10:00</div><div style="flex:1"><div style="font-size:13px;font-weight:500">SSgt Carter, J.</div><div style="font-size:11px;color:var(--color-text-secondary)">Medical standards OCONUS</div></div><button class="ibtn" onclick="showNote('Carter','PPTY Form uploaded. Spouse + 1 dependent. Dog — UK pet import started. On-base housing confirmed.')">Notes</button></div>
+<div class="aprow"><div class="apt">10:30</div><div style="flex:1"><div style="font-size:13px;font-weight:500">A1C Kim, J.</div><div style="font-size:11px;color:var(--color-text-secondary)">Medical records</div></div><button class="ibtn" onclick="showNote('Kim','No dependents. No pets. Records transfer submitted.')">Notes</button></div>
+<div class="aprow"><div class="apt">11:00</div><div style="flex:1"><div style="font-size:13px;font-weight:500">SrA Reyes, P. <span class="pill ppin">Inbound</span></div><div style="font-size:11px;color:var(--color-text-secondary)">Medical records transfer — inbound</div></div><button class="ibtn" onclick="showNote('Reyes','Inbound from Ramstein. No family. No pets.')">Notes</button></div>
+</div>
+</div>
+<div id="note-box" style="display:none;margin:6px 12px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:var(--border-radius-md);padding:9px 11px">
+<div style="font-size:12px;font-weight:500;margin-bottom:4px" id="note-name"></div>
+<div style="font-size:12px;color:var(--color-text-secondary)" id="note-text"></div>
+</div>
+</div>
+<div id="wt-docs" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-files" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Documents relevant to your office only.</span></div>
+<div class="slbl">Out-processing members</div>
+<div class="pad" style="padding-top:0;gap:7px">
+<div class="card"><div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px">SSgt Carter, J.</div><div class="fri" style="padding-top:0"><div class="fico" style="background:#E6F1FB"><i class="ti ti-file-description" style="font-size:15px;color:#185FA5" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500">Medical clearance memo</div><div style="font-size:11px;color:var(--color-text-secondary)">Uploaded 12 JUL</div></div><button class="dlb" onclick="fakeD('Med_Carter.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div></div>
+</div>
+<div class="slbl">In-processing members</div>
+<div class="pad" style="padding-top:0;gap:7px">
+<div class="card"><div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px">SrA Reyes, P. <span class="pill ppin">Inbound</span></div><div class="fri" style="padding-top:0"><div class="fico" style="background:#EEEDFE"><i class="ti ti-file-description" style="font-size:15px;color:#534AB7" aria-hidden="true"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500">Previous station medical records</div><div style="font-size:11px;color:var(--color-text-secondary)">Uploaded 14 JUL</div></div><button class="dlb" onclick="fakeD('Med_Reyes.pdf')"><i class="ti ti-download" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button></div></div>
+</div>
+</div>
+<div id="wt-tips" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Add tips specific to your office that members will see in their Tips tab. You can target out-processing, in-processing, or both.</span></div>
+<div class="slbl">Tips from this office</div>
+<div class="pad" style="padding-top:0;gap:7px" id="worker-tip-list"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-green" onclick="toggleAF('worker-tip-form')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add office tip</button></div>
+<div class="af" id="worker-tip-form">
+<h4>New tip from Medical office</h4>
+<label class="fl">Title</label><input class="fi" id="wt-title" placeholder="e.g. Bring 2 copies of your orders to medical">
+<label class="fl">Detail</label><input class="fi" id="wt-body" placeholder="More detail for members...">
+<label class="fl">Applies to</label><select class="fsel" id="wt-type"><option value="out">Out-processing only</option><option value="in">In-processing only</option><option value="both">Both</option></select>
+<div style="display:flex;gap:7px"><button class="pbtn pb-green" style="width:auto;flex:1" onclick="addTip('worker')">Save tip</button><button class="ibtn" onclick="toggleAF('worker-tip-form')">Cancel</button></div>
+</div>
+</div>
+</div>
+
+<div id="s-lead" class="screen">
+<div class="hdr hlead"><h2><i class="ti ti-shield-half" style="font-size:13px;vertical-align:-2px;margin-right:3px" aria-hidden="true"></i>Office lead — Medical Records</h2><p>48 AMDS · Bldg 922 · RAF Lakenheath</p></div>
+<div class="nav">
+<button class="nb lon" id="ln-sched" onclick="lTab('sched')"><i class="ti ti-calendar" aria-hidden="true"></i>Schedule</button>
+<button class="nb" id="ln-queue" onclick="lTab('queue')"><i class="ti ti-clipboard-check" aria-hidden="true"></i>Queue</button>
+<button class="nb" id="ln-workers" onclick="lTab('workers')"><i class="ti ti-users" aria-hidden="true"></i>Workers</button>
+<button class="nb" id="ln-office" onclick="lTab('office')"><i class="ti ti-building" aria-hidden="true"></i>Office</button>
+<button class="nb" id="ln-tips" onclick="lTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.4" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+<div id="lt-sched" class="tab on">
+<div class="ntf" id="ntf-l"><i class="ti ti-circle-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span id="ntf-lt"></span></div>
+<div class="ibox" style="margin-top:9px"><i class="ti ti-settings" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Configure booking mode and manage slots weeks in advance.</span></div>
+<div class="pad" style="padding-top:0;gap:8px">
+<div class="card">
+<div style="font-size:13px;font-weight:500;margin-bottom:8px">Booking mode</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div class="card" id="mode-self" style="cursor:pointer;border-color:#185FA5;background:#E6F1FB" onclick="setMode2('self')"><div class="row"><div style="width:16px;height:16px;border-radius:50%;background:#185FA5;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-check" style="font-size:10px;color:white" aria-hidden="true"></i></div><div><div style="font-size:13px;font-weight:500;color:#185FA5">Self-book</div><div style="font-size:11px;color:#185FA5">Members pick from open slots</div></div></div></div>
+<div class="card" id="mode-req" style="cursor:pointer" onclick="setMode2('req')"><div class="row"><div style="width:16px;height:16px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);flex-shrink:0"></div><div><div style="font-size:13px;font-weight:500">Request &amp; confirm</div><div style="font-size:11px;color:var(--color-text-secondary)">Members request — you approve</div></div></div></div>
+</div>
+</div>
+<div class="card">
+<div class="week-nav">
+<button onclick="changeWeek(-1)"><i class="ti ti-chevron-left" style="font-size:12px" aria-hidden="true"></i></button>
+<span class="week-lbl" id="week-lbl">Week of 14 JUL</span>
+<button onclick="changeWeek(1)"><i class="ti ti-chevron-right" style="font-size:12px" aria-hidden="true"></i></button>
+</div>
+<div class="slotg" id="lead-slots"></div>
+<button class="pbtn pb-lead" style="margin-top:10px" onclick="addLeadSlot()"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add slot</button>
+</div>
+<div class="card">
+<div style="font-size:13px;font-weight:500;margin-bottom:7px">Pending requests</div>
+<div class="aprow" style="padding-top:0"><div class="apt">Aug 1</div><div style="flex:1"><div style="font-size:12px;font-weight:500">SSgt Carter, J.</div><div style="font-size:11px;color:var(--color-text-secondary)">Morning · Medical records</div></div><div style="display:flex;gap:5px"><button class="sobtn" onclick="showN('ntf-l','ntf-lt','Confirmed — Carter notified.')">Confirm</button><button class="ibtn danger">Decline</button></div></div>
+</div>
+</div>
+</div>
+<div id="lt-queue" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-eye" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Full queue across all workers — in and out-processing.</span></div>
+<div class="pad" id="lead-q"></div>
+</div>
+<div id="lt-workers" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-users" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Assign members to workers. Workers only see their assigned members.</span></div>
+<div class="pad" style="padding-top:0;gap:6px">
+<div class="card"><div class="row" style="margin-bottom:7px"><div class="av" style="background:#B5D4F4;color:#0C447C">SW</div><div style="flex:1"><div style="font-size:13px;font-weight:500">SSgt Webb, S.</div><div style="font-size:11px;color:var(--color-text-secondary)">5 members assigned</div></div></div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px"><span class="pill pinfo">Carter</span><span class="pill pinfo">Kim</span><span class="pill pinfo">Reyes</span><span class="pill pinfo">Walker</span><span class="pill pinfo">Nguyen</span></div><button class="ibtn" style="width:100%;justify-content:center" onclick="showN('ntf-l','ntf-lt','Reassignment saved.')"><i class="ti ti-arrows-exchange" style="font-size:12px" aria-hidden="true"></i> Reassign</button></div>
+</div>
+<div style="padding:4px 12px 12px"><button class="pbtn pb-lead" onclick="showN('ntf-l','ntf-lt','Worker invite sent.')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add worker</button></div>
+</div>
+<div id="lt-office" class="tab">
+<div class="pad" style="padding-top:10px">
+<div class="card">
+<label class="fl">Office name</label><input class="fi" value="Medical Records (48 AMDS)">
+<label class="fl">Building &amp; room</label><input class="fi" value="Bldg 922">
+<label class="fl">Phone</label><input class="fi" value="226-8742">
+<label class="fl">Hours</label><input class="fi" value="Tue, Wed, Thu · 1000–1400">
+<label class="fl">Status</label><select class="fsel"><option>Open</option><option>At lunch</option><option>Long wait</option><option>Closed</option></select>
+<button class="pbtn pb-lead" onclick="showN('ntf-l','ntf-lt','Saved — member checklists updated.')">Save changes</button>
+</div>
+</div>
+</div>
+<div id="lt-tips" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Add and manage tips for this office. These appear in the member Tips tab.</span></div>
+<div class="slbl">Office tips</div>
+<div class="pad" style="padding-top:0;gap:7px" id="lead-tip-list"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-lead" onclick="toggleAF('lead-tip-form')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add tip</button></div>
+<div class="af" id="lead-tip-form">
+<h4>New tip from Medical Records</h4>
+<label class="fl">Title</label><input class="fi" id="lt-title" placeholder="e.g. IMR must be current before we can sign you off">
+<label class="fl">Detail</label><input class="fi" id="lt-body" placeholder="Detail for members...">
+<label class="fl">Applies to</label><select class="fsel" id="lt-type"><option value="out">Out-processing only</option><option value="in">In-processing only</option><option value="both">Both</option></select>
+<div style="display:flex;gap:7px"><button class="pbtn pb-lead" style="width:auto;flex:1" onclick="addTip('lead')">Save tip</button><button class="ibtn" onclick="toggleAF('lead-tip-form')">Cancel</button></div>
+</div>
+</div>
+</div>
+
+<div id="s-counsel" class="screen">
+<div class="hdr hcounsel"><h2><i class="ti ti-user-check" style="font-size:13px;vertical-align:-2px;margin-right:3px" aria-hidden="true"></i>Base counselor — MSgt Davis</h2><p>Out-processing caseload · RAF Mildenhall</p></div>
+<div class="nav">
+<button class="nb con" id="cn-members" onclick="cTab('members')"><i class="ti ti-users" aria-hidden="true"></i>Members</button>
+<button class="nb" id="cn-signoff" onclick="cTab('signoff')"><i class="ti ti-clipboard-check" aria-hidden="true"></i>Sign off</button>
+<button class="nb" id="cn-sched" onclick="cTab('sched')"><i class="ti ti-calendar" aria-hidden="true"></i>Schedule</button>
+<button class="nb" id="cn-reqs" onclick="cTab('reqs')"><i class="ti ti-id-badge" aria-hidden="true"></i>Requests</button>
+<button class="nb" id="cn-tips" onclick="cTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.4" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+<div id="ct-members" class="tab on">
+<div class="ntf" id="ntf-c"><i class="ti ti-circle-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span id="ntf-ct"></span></div>
+<div class="ibox" style="margin-top:9px"><i class="ti ti-plane-departure" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Your assigned out-processing members. In-processing is handled by offices and the commander.</span></div>
+<div class="slbl">Out-processing caseload (5 shown)</div>
+<div class="pad" style="padding-top:0;gap:6px" id="counsel-list"></div>
+</div>
+<div id="ct-signoff" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-clipboard-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Sign off MPF-owned out-processing tasks for your assigned members directly.</span></div>
+<div class="pad" style="padding-top:0;gap:7px" id="counsel-so"></div>
+</div>
+<div id="ct-sched" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-calendar" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Schedule out-processing counseling appointments with your members.</span></div>
+<div class="pad" style="padding-top:0;gap:7px">
+<div class="card">
+<label class="fl">Member</label><select class="fsel"><option>SSgt Carter, J.</option><option>A1C Kim, J.</option><option>SrA Reyes, P.</option><option>SSgt Walker, T.</option><option>Capt Nguyen, D.</option></select>
+<label class="fl">Type</label><select class="fsel"><option>Out-processing brief</option><option>Document review</option><option>General counseling</option></select>
+<label class="fl">Date</label><input class="fi" type="date">
+<button class="pbtn pb-counsel" onclick="showN('ntf-c','ntf-ct','Appointment scheduled — member notified.')">Schedule</button>
+</div>
+</div>
+</div>
+<div id="ct-reqs" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-id-badge" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Role requests from your out-processing members. Approve sends to MPF for final confirmation.</span></div>
+<div class="slbl">Pending role requests</div>
+<div class="pad" style="padding-top:0;gap:7px" id="counsel-req-list"></div>
+</div>
+<div id="ct-tips" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Add out-processing tips for your members — counselor-level guidance not tied to a specific office.</span></div>
+<div class="slbl">Counselor tips</div>
+<div class="pad" style="padding-top:0;gap:7px" id="counsel-tip-list"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-counsel" onclick="toggleAF('counsel-tip-form')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add tip</button></div>
+<div class="af" id="counsel-tip-form">
+<h4>New counselor tip</h4>
+<label class="fl">Title</label><input class="fi" id="ct-title" placeholder="e.g. Schedule your sponsor call early">
+<label class="fl">Detail</label><input class="fi" id="ct-body" placeholder="Detail for departing members...">
+<div style="display:flex;gap:7px"><button class="pbtn pb-counsel" style="width:auto;flex:1" onclick="addTip('counsel')">Save tip</button><button class="ibtn" onclick="toggleAF('counsel-tip-form')">Cancel</button></div>
+</div>
+</div>
+</div>
+
+<div id="s-mpf" class="screen">
+<div class="hdr hg"><h2><i class="ti ti-building" style="font-size:13px;vertical-align:-2px;margin-right:3px" aria-hidden="true"></i>Base MPF super admin</h2><p>RAF Mildenhall · full base configuration</p></div>
+<div class="nav">
+<button class="nb bon" id="bn-tasks" onclick="bTab('tasks')"><i class="ti ti-checklist" aria-hidden="true"></i>Tasks</button>
+<button class="nb" id="bn-signoff" onclick="bTab('signoff')"><i class="ti ti-clipboard-check" aria-hidden="true"></i>Sign off</button>
+<button class="nb" id="bn-users" onclick="bTab('users')"><i class="ti ti-users" aria-hidden="true"></i>Users</button>
+<button class="nb" id="bn-reqs" onclick="bTab('reqs')"><i class="ti ti-id-badge" aria-hidden="true"></i>Requests</button>
+<button class="nb" id="bn-tips" onclick="bTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.4" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+<div id="bt-tasks" class="tab on">
+<div class="ntf" id="ntf-b"><i class="ti ti-circle-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span id="ntf-bt"></span></div>
+<div class="vtabs" style="margin-top:9px"><button class="vt on" id="tv-out" onclick="setTV('out')">Out-processing</button><button class="vt" id="tv-in" onclick="setTV('in')">In-processing</button></div>
+<div id="task-out">
+<div class="slbl">Local — RAF Mildenhall out-processing</div>
+<div class="pad" style="padding-top:0;gap:5px" id="b-ltasks"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-green" onclick="toggleAF('baf-out')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add out-processing task</button></div>
+<div class="af" id="baf-out"><h4>New out-processing task</h4><label class="fl">Task name</label><input class="fi" id="b-tname" placeholder="e.g. Clear library"><label class="fl">Office</label><select class="fsel" id="b-toffice"><option>Library (Bldg 425)</option><option>Pass &amp; Reg (Bldg 440)</option><option>Finance (Bldg 441)</option><option>Housing (Bldg 460)</option><option>TMO (Bldg 426)</option></select><label class="fl">Due</label><select class="fsel" id="b-tdue"><option>90 days out</option><option>30 days out</option><option>14 days out</option><option>5 days out</option><option>Final out day</option></select><div style="display:flex;gap:7px"><button class="pbtn pb-green" style="width:auto;flex:1" onclick="addLT('out')">Save</button><button class="ibtn" onclick="toggleAF('baf-out')">Cancel</button></div></div>
+</div>
+<div id="task-in" style="display:none">
+<div class="slbl">Local — RAF Mildenhall in-processing</div>
+<div class="pad" style="padding-top:0;gap:5px" id="b-ltasks-in"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-purple" onclick="toggleAF('baf-in')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add in-processing task</button></div>
+<div class="af" id="baf-in"><h4>New in-processing task</h4><label class="fl">Task name</label><input class="fi" id="b-tname-in" placeholder="e.g. Issue ration card"><label class="fl">Office</label><select class="fsel" id="b-toffice-in"><option>MPF Customer Service (Bldg 436)</option><option>Pass &amp; Reg (Bldg 440)</option><option>Finance (Bldg 441)</option><option>Housing (Bldg 460)</option><option>Medical (Bldg 922)</option></select><label class="fl">Due (after RNLTD)</label><select class="fsel" id="b-tdue-in"><option>Day 1</option><option>Within 3 days</option><option>Within 7 days</option><option>Within 14 days</option><option>Within 30 days</option></select><div style="display:flex;gap:7px"><button class="pbtn pb-purple" style="width:auto;flex:1" onclick="addLT('in')">Save</button><button class="ibtn" onclick="toggleAF('baf-in')">Cancel</button></div></div>
+</div>
+</div>
+<div id="bt-signoff" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-clipboard-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Sign off any task for any member when needed.</span></div>
+<div class="vtabs" style="margin-top:8px"><button class="vt on" id="sv-out" onclick="setSV('out')">Out-processing</button><button class="vt" id="sv-in" onclick="setSV('in')">In-processing</button></div>
+<div id="so-out" class="pad" style="padding-top:0;gap:7px" id="mpf-so"></div>
+<div id="so-in" style="display:none" class="pad" style="padding-top:0;gap:7px">
+<div class="card"><div class="row" style="margin-bottom:6px"><div class="av" style="background:#EEEDFE;color:#534AB7">SR</div><div style="flex:1"><div style="font-size:13px;font-weight:500">SrA Reyes, P.</div><div style="font-size:11px;color:var(--color-text-secondary)">RNLTD: 20 JUL · In-processing</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">Finance / pay set-up</span><button class="sobtn" onclick="showN('ntf-b','ntf-bt','SrA Reyes signed off on finance.')">Sign off</button></div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;font-size:12px"><span style="color:var(--color-text-secondary);flex:1">Housing in-brief</span><button class="sobtn" onclick="showN('ntf-b','ntf-bt','SrA Reyes signed off on housing.')">Sign off</button></div></div>
+</div>
+</div>
+<div id="bt-users" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-users" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Manage all users at RAF Mildenhall. Assign roles within your authority.</span></div>
+<div class="pad" style="padding-top:0;gap:6px" id="b-users"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-green" onclick="showN('ntf-b','ntf-bt','User invite sent.')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add user</button></div>
+</div>
+<div id="bt-reqs" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-id-badge" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Role requests escalated from counselors. Approve grants the role immediately.</span></div>
+<div class="pad" style="padding-top:0;gap:7px" id="mpf-req-list"></div>
+</div>
+<div id="bt-tips" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Manage all tips across the base. Add MPF-level tips and review tips added by office staff.</span></div>
+<div class="vtabs" style="margin-top:8px"><button class="vt on" id="tipv-all" onclick="setTipView('all')">All tips</button><button class="vt" id="tipv-mpf" onclick="setTipView('mpf')">MPF tips</button></div>
+<div id="tipview-all" class="pad" style="padding-top:0;gap:7px" id="mpf-all-tips"></div>
+<div id="tipview-mpf" style="display:none">
+<div class="pad" style="padding-top:0;gap:7px" id="mpf-own-tips"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-green" onclick="toggleAF('mpf-tip-form')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add MPF tip</button></div>
+<div class="af" id="mpf-tip-form">
+<h4>New MPF tip</h4>
+<label class="fl">Title</label><input class="fi" id="mt-title" placeholder="e.g. Schedule your MPF appointment early">
+<label class="fl">Detail</label><input class="fi" id="mt-body" placeholder="Detail for members...">
+<label class="fl">Applies to</label><select class="fsel" id="mt-type"><option value="out">Out-processing only</option><option value="in">In-processing only</option><option value="both">Both</option></select>
+<div style="display:flex;gap:7px"><button class="pbtn pb-green" style="width:auto;flex:1" onclick="addTip('mpf')">Save tip</button><button class="ibtn" onclick="toggleAF('mpf-tip-form')">Cancel</button></div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="s-cmd" class="screen">
+<div class="hdr hd"><h2><i class="ti ti-chart-bar" style="font-size:13px;vertical-align:-2px;margin-right:3px" aria-hidden="true"></i>100 LRS — Commander</h2><p>Your squadron only · RAF Mildenhall</p></div>
+<div class="nav">
+<button class="nb on" id="cmdn-out" onclick="cmdTab('out')"><i class="ti ti-plane-departure" aria-hidden="true"></i>Out-proc</button>
+<button class="nb" id="cmdn-in" onclick="cmdTab('in')"><i class="ti ti-plane-arrival" aria-hidden="true"></i>In-proc</button>
+<button class="nb" id="cmdn-tips" onclick="cmdTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.45" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+
+<div id="cmd-out" class="tab on">
+<div class="vtabs" style="margin-top:9px"><button class="vt on" id="cv-ov" onclick="setCV('ov')">Overview</button><button class="vt" id="cv-bn" onclick="setCV('bn')">Bottleneck</button><button class="vt" id="cv-mem" onclick="setCV('mem')">Members</button></div>
+<div id="cv-ov-t"><div class="mg" id="cmd-met"></div><div class="trnd"><h3>Monthly trend — out-processing</h3><div class="trow"><span class="trn">Apr 2026</span><span class="pill pred">18.0 days</span></div><div class="trow"><span class="trn">May 2026</span><span class="pill pamb">14.2 days</span></div><div class="trow"><span class="trn">Jun 2026</span><span class="pill pamb">11.5 days</span></div><div class="trow"><span class="trn">Jul 2026</span><span class="pill pgrn">8.4 days ↑</span></div></div><div class="bns"><h3>Members needing attention</h3><div id="cmd-risk"></div></div></div>
+<div id="cv-bn-t" style="display:none"><div class="ibox"><i class="ti ti-info-circle" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><div><strong style="color:#0C447C">Blue</strong> = member pending · <strong style="color:#A32D2D">Red</strong> = office delay</div></div><div class="bns" style="padding-top:8px"><h3>Delay by office</h3><div id="cmd-bn"></div></div><div style="background:#EAF3DE;border:0.5px solid #9FE1CB;border-radius:var(--border-radius-md);padding:8px 10px;margin:0 12px 12px;font-size:12px;color:#27500A;display:flex;gap:6px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><span>TMO delay is mostly member-side — consider day-1 automated reminders.</span></div></div>
+<div id="cv-mem-t" style="display:none"><div class="pad" id="cmd-mem"></div></div>
+</div>
+
+<div id="cmd-in" class="tab" style="display:none">
+<div class="vtabs" style="margin-top:9px"><button class="vt on" id="civ-ov" onclick="setCIV('ov')">Overview</button><button class="vt" id="civ-bn" onclick="setCIV('bn')">Bottleneck</button><button class="vt" id="civ-mem" onclick="setCIV('mem')">Members</button></div>
+<div id="civ-ov-t">
+<div class="mg">
+<div class="met"><div class="ml">Arriving this cycle</div><div class="mv" style="color:#534AB7">8</div><div class="ms">members</div></div>
+<div class="met"><div class="ml">Avg. completion</div><div class="mv" style="color:#1D9E75">6.2 days</div><div class="ms">vs 12 day target</div></div>
+<div class="met"><div class="ml">On-time rate</div><div class="mv" style="color:#1D9E75">87%</div><div class="ms">target: 80%</div></div>
+<div class="met"><div class="ml">Action needed</div><div class="mv" style="color:#A32D2D">2</div><div class="ms">members behind</div></div>
+</div>
+<div class="trnd"><h3>Monthly trend — in-processing</h3><div class="trow"><span class="trn">Apr 2026</span><span class="pill pred">14.2 days</span></div><div class="trow"><span class="trn">May 2026</span><span class="pill pamb">10.8 days</span></div><div class="trow"><span class="trn">Jun 2026</span><span class="pill pamb">8.4 days</span></div><div class="trow"><span class="trn">Jul 2026</span><span class="pill pgrn">6.2 days ↑</span></div></div>
+<div class="bns"><h3>Inbound members — status</h3>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;gap:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:8px 10px"><div class="av" style="background:#EEEDFE;color:#534AB7">SR</div><div style="flex:1"><div style="font-size:12px;font-weight:500">SrA Reyes, P.</div><div style="font-size:11px;color:var(--color-text-secondary)">RNLTD: 20 JUL · 8% complete</div></div><span class="pill pamb">Attention</span></div>
+<div style="display:flex;align-items:center;gap:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:8px 10px"><div class="av" style="background:#EAF3DE;color:#27500A">KM</div><div style="flex:1"><div style="font-size:12px;font-weight:500">TSgt Morris, K.</div><div style="font-size:11px;color:var(--color-text-secondary)">RNLTD: 22 JUL · 17% complete</div></div><span class="pill pgrn">On track</span></div>
+<div style="display:flex;align-items:center;gap:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:8px 10px"><div class="av" style="background:#FAEEDA;color:#633806">BL</div><div style="flex:1"><div style="font-size:12px;font-weight:500">A1C Lee, B.</div><div style="font-size:11px;color:var(--color-text-secondary)">RNLTD: 1 AUG · 0% complete</div></div><span class="pill pgrn">On track</span></div>
+</div>
+</div>
+</div>
+<div id="civ-bn-t" style="display:none">
+<div class="ibox"><i class="ti ti-info-circle" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><div><strong style="color:#0C447C">Blue</strong> = member pending · <strong style="color:#A32D2D">Red</strong> = office delay</div></div>
+<div class="bns" style="padding-top:8px"><h3>In-processing delay by office</h3>
+<div class="bnr"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>Housing in-brief</span><span style="color:var(--color-text-tertiary)">3.2 days avg</span></div><div class="bnt"><div class="bm" style="width:35%"></div><div class="bo2" style="width:65%"></div></div><div class="bntots"><span style="font-size:10px;color:#185FA5">1.1d member</span><span style="font-size:10px;color:#A32D2D">2.1d office</span></div></div>
+<div class="bnr"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>Medical records</span><span style="color:var(--color-text-tertiary)">1.8 days avg</span></div><div class="bnt"><div class="bm" style="width:50%"></div><div class="bo2" style="width:50%"></div></div><div class="bntots"><span style="font-size:10px;color:#185FA5">0.9d member</span><span style="font-size:10px;color:#A32D2D">0.9d office</span></div></div>
+<div class="bnr"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>Finance / pay set-up</span><span style="color:var(--color-text-tertiary)">1.2 days avg</span></div><div class="bnt"><div class="bm" style="width:75%"></div><div class="bo2" style="width:25%"></div></div><div class="bntots"><span style="font-size:10px;color:#185FA5">0.9d member</span><span style="font-size:10px;color:#A32D2D">0.3d office</span></div></div>
+</div>
+<div style="background:#EAF3DE;border:0.5px solid #9FE1CB;border-radius:var(--border-radius-md);padding:8px 10px;margin:0 12px 12px;font-size:12px;color:#27500A;display:flex;gap:6px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i><span>Housing in-brief is the top in-processing bottleneck — mostly office delay. Consider additional appointment slots.</span></div>
+</div>
+<div id="civ-mem-t" style="display:none">
+<div class="ibox" style="margin-top:0"><i class="ti ti-plane-arrival" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Inbound members and their in-processing completion.</span></div>
+<div class="pad" style="padding-top:0;gap:7px">
+<div class="mc2"><div class="row"><div class="av" style="background:#EEEDFE;color:#534AB7">SR</div><div style="flex:1"><div style="font-size:13px;font-weight:500">SrA Reyes, P. <span class="pill pamb">Attention</span></div><div style="font-size:11px;color:var(--color-text-secondary)">RNLTD: 20 JUL · 8% complete</div></div></div><div style="margin-top:7px;border-top:0.5px solid var(--color-border-tertiary);padding-top:7px"><div class="delrow"><span style="flex:1;font-size:12px;color:var(--color-text-secondary)">Housing in-brief</span><span class="pill do2">Office delay</span><span style="font-size:11px;min-width:26px;text-align:right">2d</span></div></div></div>
+<div class="mc2"><div class="row"><div class="av" style="background:#EAF3DE;color:#27500A">KM</div><div style="flex:1"><div style="font-size:13px;font-weight:500">TSgt Morris, K. <span class="pill pgrn">On track</span></div><div style="font-size:11px;color:var(--color-text-secondary)">RNLTD: 22 JUL · 17% complete</div></div></div></div>
+</div>
+</div>
+</div>
+
+<div id="cmd-tips" class="tab" style="display:none">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Add commander-level tips for your squadron members — leadership perspective on PCS success.</span></div>
+<div class="slbl">Commander tips</div>
+<div class="pad" style="padding-top:0;gap:7px" id="cmd-tip-list"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-counsel" onclick="toggleAF('cmd-tip-form')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add commander tip</button></div>
+<div class="af" id="cmd-tip-form">
+<h4>New commander tip</h4>
+<label class="fl">Title</label><input class="fi" id="cmd-tip-title" placeholder="e.g. Talk to your 1st Sgt before final out">
+<label class="fl">Detail</label><input class="fi" id="cmd-tip-body" placeholder="Message to your squadron members...">
+<label class="fl">Applies to</label><select class="fsel" id="cmd-tip-type"><option value="out">Out-processing only</option><option value="in">In-processing only</option><option value="both">Both</option></select>
+<div style="display:flex;gap:7px"><button class="pbtn pb-counsel" style="width:auto;flex:1" onclick="addTip('cmd')">Save tip</button><button class="ibtn" onclick="toggleAF('cmd-tip-form')">Cancel</button></div>
+</div>
+</div>
+</div>
+
+<div id="s-global" class="screen">
+<div class="hdr hgl"><h2><i class="ti ti-shield-lock" style="font-size:13px;vertical-align:-2px;margin-right:3px" aria-hidden="true"></i>Global admin</h2><p>App owner · platform oversight</p></div>
+<div class="nav">
+<button class="nb gon" id="gn-info" onclick="gTab('info')"><i class="ti ti-info-circle" aria-hidden="true"></i>Platform</button>
+<button class="nb" id="gn-bases" onclick="gTab('bases')"><i class="ti ti-building" aria-hidden="true"></i>Bases</button>
+<button class="nb" id="gn-reqs" onclick="gTab('reqs')"><i class="ti ti-id-badge" aria-hidden="true"></i>Requests</button>
+<button class="nb" id="gn-health" onclick="gTab('health')"><i class="ti ti-activity" aria-hidden="true"></i>Health</button>
+<button class="nb" id="gn-tips" onclick="gTab('tips')"><i class="ti ti-bulb" aria-hidden="true"></i>Tips</button>
+<button class="nb" style="flex:.4" onclick="goLogin()"><i class="ti ti-logout" aria-hidden="true"></i></button>
+</div>
+<div id="gt-info" class="tab on">
+<div style="padding:10px 12px;display:flex;flex-direction:column;gap:10px">
+<div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:12px"><div style="font-size:13px;font-weight:500;margin-bottom:4px">About PCS Path</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">PCS Path digitizes both in-processing and out-processing for the Air Force. Members, offices, counselors, commanders, and base administrators are connected in real time on any device.</div></div>
+<div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:12px"><div style="font-size:13px;font-weight:500;margin-bottom:7px">Global admin responsibilities</div><div style="font-size:12px;color:var(--color-text-secondary);display:flex;flex-direction:column;gap:5px"><span><i class="ti ti-check" style="color:#1D9E75;margin-right:5px;font-size:12px" aria-hidden="true"></i>Own and maintain the application platform</span><span><i class="ti ti-check" style="color:#1D9E75;margin-right:5px;font-size:12px" aria-hidden="true"></i>Grant base MPF super admin rights</span><span><i class="ti ti-check" style="color:#1D9E75;margin-right:5px;font-size:12px" aria-hidden="true"></i>Monitor platform health across all bases</span><span><i class="ti ti-check" style="color:#1D9E75;margin-right:5px;font-size:12px" aria-hidden="true"></i>Add global-level tips visible AF-wide</span><span><i class="ti ti-check" style="color:#1D9E75;margin-right:5px;font-size:12px" aria-hidden="true"></i>Integrate with orders and assignment notifications</span><span><i class="ti ti-x" style="color:#A32D2D;margin-right:5px;font-size:12px" aria-hidden="true"></i>Does not assign or manage tasks at base level</span></div></div>
+</div>
+</div>
+<div id="gt-bases" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-building" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Grant or revoke base MPF super admin rights per installation.</span></div>
+<div class="pad" style="padding-top:0;gap:6px" id="g-baselist"></div>
+<div style="padding:4px 12px 12px"><button class="pbtn pb-global" onclick="showN('ntf-g','ntf-gt','Installation added.')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add installation</button></div>
+<div class="ntf" id="ntf-g" style="margin:0 12px 8px"><i class="ti ti-circle-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span id="ntf-gt"></span></div>
+</div>
+<div id="gt-reqs" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-id-badge" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>MPF super admin role requests escalated to global level.</span></div>
+<div class="pad" style="padding-top:0;gap:7px" id="g-req-list"></div>
+</div>
+<div id="gt-health" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-activity" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Platform health — aggregated AF-wide. No individual member data.</span></div>
+<div class="mg" style="padding-top:10px">
+<div class="met"><div class="ml">Active bases</div><div class="mv" style="color:#185FA5">47</div><div class="ms">4 MAJCOMs</div></div>
+<div class="met"><div class="ml">Out-processing</div><div class="mv" style="color:#1D9E75">2,841</div><div class="ms">active members</div></div>
+<div class="met"><div class="ml">In-processing</div><div class="mv" style="color:#534AB7">1,203</div><div class="ms">active members</div></div>
+<div class="met"><div class="ml">Overdue tasks</div><div class="mv" style="color:#A32D2D">341</div><div class="ms">all bases</div></div>
+</div>
+</div>
+<div id="gt-tips" class="tab">
+<div class="ibox" style="margin-top:9px"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Global tips appear for all members AF-wide, on top of base-specific tips. Use sparingly for universal guidance.</span></div>
+<div class="slbl">Global tips</div>
+<div class="pad" style="padding-top:0;gap:7px" id="global-tip-list"></div>
+<div style="padding:4px 12px 10px"><button class="pbtn pb-global" onclick="toggleAF('global-tip-form')"><i class="ti ti-plus" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>Add global tip</button></div>
+<div class="af" id="global-tip-form">
+<h4>New global tip</h4>
+<label class="fl">Title</label><input class="fi" id="gt-title" placeholder="e.g. Your no-fee passport takes 6–8 weeks">
+<label class="fl">Detail</label><input class="fi" id="gt-body" placeholder="Detail for all members AF-wide...">
+<label class="fl">Applies to</label><select class="fsel" id="gt-type"><option value="out">Out-processing only</option><option value="in">In-processing only</option><option value="both">Both</option></select>
+<div style="display:flex;gap:7px"><button class="pbtn pb-global" style="width:auto;flex:1" onclick="addTip('global')">Save tip</button><button class="ibtn" onclick="toggleAF('global-tip-form')">Cancel</button></div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+var wf='all',expM=null,expIM=null,cV='ov',cIV='ov',currentWeek=0,taskView='out',soView='out',tipView='all',expTip={};
+var weeks=['Week of 14 JUL','Week of 21 JUL','Week of 28 JUL','Week of 4 AUG','Week of 11 AUG'];
+var mSlots=[{t:'Tue 10:00',s:'taken'},{t:'Tue 10:30',s:'taken'},{t:'Wed 10:00',s:'open'},{t:'Wed 10:30',s:'open'},{t:'Wed 11:00',s:'taken'},{t:'Thu 10:00',s:'open'}];
+var leadSlotsData={0:[{t:'Mon 09:00',s:'taken'},{t:'Mon 09:30',s:'taken'},{t:'Tue 10:00',s:'open'},{t:'Tue 10:30',s:'open'},{t:'Wed 10:00',s:'booked',m:'Carter'},{t:'Wed 10:30',s:'open'},{t:'Thu 10:00',s:'open'},{t:'Thu 10:30',s:'taken'}],1:[{t:'Mon 09:00',s:'open'},{t:'Tue 10:00',s:'open'},{t:'Tue 10:30',s:'open'},{t:'Wed 10:00',s:'open'},{t:'Thu 10:00',s:'open'}],2:[{t:'Tue 10:00',s:'open'},{t:'Wed 10:00',s:'open'},{t:'Thu 10:00',s:'open'}]};
+var lTasksOut=[{id:201,name:'Clear library',office:'Library (Bldg 425)',due:'3 days out'},{id:202,name:'Turn in ration card',office:'MPF (Bldg 436)',due:'3 days out'},{id:203,name:'Mobility gear turn-in',office:'War Readiness (Bldg 550)',due:'45 days out'}];
+var lTasksIn=[{id:301,name:'Issue ration card',office:'MPF Customer Service (Bldg 436)',due:'Within 3 days'},{id:302,name:'SOFA card issue',office:'MPF Customer Service (Bldg 436)',due:'Within 7 days'},{id:303,name:'Vehicle registration',office:'Pass & Reg (Bldg 440)',due:'Within 14 days'}];
+var bUsers=[{name:'SSgt Webb, S.',role:'Office worker',office:'Medical Records'},{name:'MSgt Davis, R.',role:'Base counselor',office:'All members'},{name:'SSgt Morris, R.',role:'Office lead admin',office:'TMO/HHG'},{name:'MSgt Chen, L.',role:'Base MPF super admin',office:'All offices'}];
+var aBases=[{name:'RAF Mildenhall',country:'UK',mpf:'MSgt Chen, L.',active:true},{name:'Ramstein AB',country:'Germany',mpf:'MSgt Torres, A.',active:true},{name:'Kadena AB',country:'Japan',mpf:'SSgt Park, J.',active:true},{name:'Aviano AB',country:'Italy',mpf:'MSgt Brown, K.',active:true},{name:'Travis AFB',country:'CONUS',mpf:'Pending',active:false}];
+var roleRequests=[{id:1,name:'SSgt Carter, J.',current:'Member',requested:'Office worker',reason:'Taking over TMO counter duties next month',status:'pending'},{id:2,name:'A1C Lopez, M.',current:'Office worker',requested:'Office lead admin',reason:'Current lead PCSing in August',status:'pending'}];
+var globalReqs=[{id:10,name:'MSgt Green, T.',base:'Yokota AB',requested:'Base MPF super admin',reason:'Yokota onboarding to PCS Path Q3',status:'pending'}];
+var qMem=[{id:'carter',init:'JC',color:'#B5D4F4',tc:'#0C447C',name:'1LT Carter, J.',dep:'16 AUG',depD:69,over:true,tasks:[{id:'ms',name:'Medical standards OCONUS',done:false},{id:'mr',name:'Medical records',done:false}]},{id:'kim',init:'JK',color:'#C0DD97',tc:'#27500A',name:'A1C Kim, J.',dep:'20 AUG',depD:73,over:false,tasks:[{id:'ms',name:'Medical standards OCONUS',done:false},{id:'mr',name:'Medical records',done:true}]},{id:'reyes',init:'PR',color:'#CECBF6',tc:'#3C3489',name:'SrA Reyes, P.',dep:'25 AUG',depD:78,over:false,tasks:[{id:'ms',name:'Medical standards OCONUS',done:false},{id:'mr',name:'Medical records',done:false}]},{id:'walker',init:'TW',color:'#F5C4B3',tc:'#712B13',name:'SSgt Walker, T.',dep:'01 SEP',depD:85,over:false,tasks:[{id:'ms',name:'Medical standards OCONUS',done:true},{id:'mr',name:'Medical records',done:false}]}];
+var soMem=[{init:'JC',color:'#B5D4F4',tc:'#0C447C',name:'1LT Carter, J.',dep:'16 AUG',tasks:[{id:'ms',name:'Medical standards OCONUS',done:false},{id:'mr',name:'Medical records',done:false}]},{init:'JK',color:'#C0DD97',tc:'#27500A',name:'A1C Kim, J.',dep:'20 AUG',tasks:[{id:'ms',name:'Medical standards OCONUS',done:false},{id:'mr',name:'Medical records',done:true}]}];
+var cmdD={dep:12,avg:'8.4',ot:83,act:3,offices:[{name:'TMO/HHG',m:4.2,o:1.9},{name:'Medical',m:2.1,o:2.8},{name:'Housing',m:2.8,o:0.8},{name:'Finance',m:1.4,o:0.6}],members:[{init:'JC',color:'#B5D4F4',tc:'#0C447C',name:'1LT Carter, J.',dep:'16 AUG',pct:14,risk:'high',tasks:[{name:'TMO/HHG',dt:'member',days:6}]},{init:'SK',color:'#C0DD97',tc:'#27500A',name:'SSgt Kim, S.',dep:'20 AUG',pct:38,risk:'medium',tasks:[{name:'Housing',dt:'member',days:4}]},{init:'TR',color:'#CECBF6',tc:'#3C3489',name:'SrA Reyes, T.',dep:'25 AUG',pct:52,risk:'low',tasks:[]},{init:'MW',color:'#F5C4B3',tc:'#712B13',name:'MSgt Walker, M.',dep:'01 SEP',pct:71,risk:'low',tasks:[]}]};
+
+var allTips=[
+  {id:1,title:'Apply for your no-fee passport immediately',body:'No-fee passports take 6–8 weeks. The moment orders drop, apply via MPF. Do not wait until your flight is booked.',type:'out',tier:'global',tierLabel:'Global'},
+  {id:2,title:'Start TMO as soon as orders drop',body:'Submit your PPTY Form (LGF 75) immediately. Waiting even a week can compress your shipping timeline significantly.',type:'out',tier:'mpf',tierLabel:'Base MPF'},
+  {id:3,title:'SOFA license is required before driving off-base',body:'At OCONUS locations you cannot legally drive on local roads on your US license alone. Schedule the SOFA license test in your first week.',type:'in',tier:'mpf',tierLabel:'Base MPF'},
+  {id:4,title:'Bring 2 copies of orders to every appointment',body:'Every office will ask for orders. Print at least 10 copies and keep a digital backup in this app.',type:'both',tier:'mpf',tierLabel:'Base MPF'},
+  {id:5,title:'IMR must be current before we can sign you off',body:'Your Immunization / Medical Readiness record must be current 90 days past your RNLTD for OCONUS moves.',type:'out',tier:'office',tierLabel:'Medical office'},
+  {id:6,title:'Bring previous medical records from last station',body:'We need your records from your previous base. Upload them to your forms tab before your appointment to save time.',type:'in',tier:'office',tierLabel:'Medical office'},
+];
+
+function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});document.getElementById(id).classList.add('on');}
+function goLogin(){show('s-login');}
+function doLogin(r){
+  if(r==='member'){show('s-member');setMode('out');renderMemSlots();renderMemberTips();}
+  else if(r==='worker'){show('s-worker');wTab('queue');renderWQ();renderTipsList('worker-tip-list','office',null);}
+  else if(r==='lead'){show('s-lead');lTab('sched');renderLQ();renderLeadSlots();renderTipsList('lead-tip-list','office',null);}
+  else if(r==='counsel'){show('s-counsel');cTab('members');renderCounsel();renderTipsList('counsel-tip-list','counsel',null);renderCounselReqs();}
+  else if(r==='mpf'){show('s-mpf');bTab('tasks');renderMPF();renderUsers();}
+  else if(r==='cmd'){show('s-cmd');cmdTab('out');renderCmd();renderTipsList('cmd-tip-list','cmd',null);}
+  else if(r==='global'){show('s-global');gTab('info');renderGlobal();renderTipsList('global-tip-list','global',null);}
+}
+
+function setMode(m){
+  document.getElementById('mode-out').className='mt-btn'+(m==='out'?' on':'');
+  document.getElementById('mode-in').className='mt-btn'+(m==='in'?' on':'');
+  document.getElementById('member-out').style.display=m==='out'?'block':'none';
+  document.getElementById('member-in').style.display=m==='in'?'block':'none';
+}
+function oTab(t){['tasks','sched','forms','tips'].forEach(function(x){document.getElementById('ot-'+x).classList.remove('on');document.getElementById('on-'+x).classList.remove('on');});document.getElementById('ot-'+t).classList.add('on');document.getElementById('on-'+t).classList.add('on');}
+function iTab(t){['tasks','forms','tips'].forEach(function(x){document.getElementById('it-'+x).classList.remove('on');document.getElementById('in-'+x).classList.remove('on');});document.getElementById('it-'+t).classList.add('on');document.getElementById('in-'+t).classList.add('on');}
+function wTab(t){['queue','appts','docs','tips'].forEach(function(x){document.getElementById('wt-'+x).classList.remove('on');document.getElementById('wn-'+x).classList.remove('on');});document.getElementById('wt-'+t).classList.add('on');document.getElementById('wn-'+t).classList.add('on');}
+function lTab(t){['sched','queue','workers','office','tips'].forEach(function(x){document.getElementById('lt-'+x).classList.remove('on');document.getElementById('ln-'+x).classList.remove('on');});document.getElementById('lt-'+t).classList.add('on');document.getElementById('ln-'+t).classList.add('on');}
+function cTab(t){['members','signoff','sched','reqs','tips'].forEach(function(x){document.getElementById('ct-'+x).classList.remove('on');document.getElementById('cn-'+x).classList.remove('on');});document.getElementById('ct-'+t).classList.add('on');document.getElementById('cn-'+t).classList.add('on');if(t==='signoff')renderCounselSO();}
+function bTab(t){['tasks','signoff','users','reqs','tips'].forEach(function(x){document.getElementById('bt-'+x).classList.remove('on');var e=document.getElementById('bn-'+x);if(e)e.classList.remove('bon');});document.getElementById('bt-'+t).classList.add('on');var e=document.getElementById('bn-'+t);if(e)e.classList.add('bon');if(t==='signoff')renderMPFSO();if(t==='users')renderUsers();if(t==='reqs')renderMPFReqs();if(t==='tips')renderMPFTips();}
+function gTab(t){['info','bases','reqs','health','tips'].forEach(function(x){document.getElementById('gt-'+x).classList.remove('on');document.getElementById('gn-'+x).classList.remove('gon');});document.getElementById('gt-'+t).classList.add('on');document.getElementById('gn-'+t).classList.add('gon');if(t==='bases')renderGlobal();if(t==='reqs')renderGlobalReqs();if(t==='tips')renderTipsList('global-tip-list','global',null);}
+function cmdTab(t){['out','in','tips'].forEach(function(x){var el=document.getElementById('cmd-'+x);if(el)el.style.display=x===t?'block':'none';document.getElementById('cmdn-'+x).classList.toggle('on',x===t);});if(t==='tips')renderTipsList('cmd-tip-list','cmd',null);}
+function setCV(v){cV=v;['ov','bn','mem'].forEach(function(x){document.getElementById('cv-'+x+'-t').style.display=x===v?'block':'none';document.getElementById('cv-'+x).className='vt'+(x===v?' on':'');});}
+function setCIV(v){cIV=v;['ov','bn','mem'].forEach(function(x){document.getElementById('civ-'+x+'-t').style.display=x===v?'block':'none';document.getElementById('civ-'+x).className='vt'+(x===v?' on':'');});}
+function setTV(v){taskView=v;['out','in'].forEach(function(x){document.getElementById('tv-'+x).className='vt'+(x===v?' on':'');document.getElementById('task-'+x).style.display=x===v?'block':'none';});}
+function setSV(v){soView=v;['out','in'].forEach(function(x){document.getElementById('sv-'+x).className='vt'+(x===v?' on':'');document.getElementById('so-'+x).style.display=x===v?'block':'none';});}
+function setTipView(v){tipView=v;['all','mpf'].forEach(function(x){document.getElementById('tipv-'+x).className='vt'+(x===v?' on':'');document.getElementById('tipview-'+x).style.display=x===v?'block':'none';});if(v==='all')renderMPFTips();if(v==='mpf')renderTipsList('mpf-own-tips','mpf',null);}
+function setWF(f){wf=f;['all','pending','done'].forEach(function(x){document.getElementById('wf-'+x).className='fc'+(x===f?' on':'');});renderWQ();}
+function setMode2(m){var s=document.getElementById('mode-self'),r=document.getElementById('mode-req');if(m==='self'){s.style.borderColor='#185FA5';s.style.background='#E6F1FB';r.style.borderColor='';r.style.background='';}else{r.style.borderColor='#085041';r.style.background='#E1F5EE';s.style.borderColor='';s.style.background='';}}
+function toggleAF(id){document.getElementById(id).classList.toggle('on');}
+function changeWeek(d){currentWeek=Math.max(0,Math.min(weeks.length-1,currentWeek+d));document.getElementById('week-lbl').textContent=weeks[currentWeek];renderLeadSlots();}
+function addLeadSlot(){if(!leadSlotsData[currentWeek])leadSlotsData[currentWeek]=[];leadSlotsData[currentWeek].push({t:'New slot',s:'open'});renderLeadSlots();showN('ntf-l','ntf-lt','Slot added to '+weeks[currentWeek]+'.');}
+
+function renderMemSlots(){var g=document.getElementById('mem-slots');if(!g)return;g.innerHTML='';mSlots.forEach(function(s,i){var d=document.createElement('div');d.className='slot'+(s.s==='taken'?' taken':s.s==='mine'?' mine':'');d.textContent=s.t.split(' ')[1];if(s.s==='open'){d.onclick=(function(idx,el){return function(){mSlots[idx].s='mine';el.className='slot mine';el.onclick=null;showN('ntf-w','ntf-wt',mSlots[idx].t+' booked.');}})(i,d);}g.appendChild(d);});}
+function renderLeadSlots(){var g=document.getElementById('lead-slots');if(!g)return;g.innerHTML='';var slots=leadSlotsData[currentWeek]||[];slots.forEach(function(s,i){var d=document.createElement('div');var t=s.t.split(' ')[1]||s.t;if(s.s==='taken'){d.className='slot taken';d.textContent=t;}else if(s.s==='booked'){d.className='slot mine';d.textContent=t+(s.m?' ('+s.m+')');}else{d.className='slot';d.textContent=t;d.onclick=(function(idx,el){return function(){leadSlotsData[currentWeek][idx].s='taken';el.className='slot taken';el.onclick=null;showN('ntf-l','ntf-lt','Slot blocked.');}})(i,d);}g.appendChild(d);});}
+
+function renderMemberTips(){
+  var outList=document.getElementById('out-tips-list');
+  var inList=document.getElementById('in-tips-list');
+  if(!outList||!inList)return;
+  outList.innerHTML='';inList.innerHTML='';
+  var outTips=allTips.filter(function(t){return t.type==='out'||t.type==='both';});
+  var inTips=allTips.filter(function(t){return t.type==='in'||t.type==='both';});
+  function makeTipEl(t,listId){
+    var key=listId+'-'+t.id;
+    var isExp=expTip[key];
+    var tagClass=t.type==='out'?'tag-out':t.type==='in'?'tag-in':'tag-both';
+    var tagLabel=t.type==='out'?'Out-processing':t.type==='in'?'In-processing':'Both';
+    var d=document.createElement('div');d.className='tipc';
+    d.innerHTML='<div class="row" onclick="toggleTipEl(\''+key+'\',\''+listId+'\')"><div style="flex:1"><div class="tn">'+t.title+'</div><div style="margin-top:4px;display:flex;gap:4px"><span class="tip-tag '+tagClass+'">'+tagLabel+'</span><span class="tier-badge">'+t.tierLabel+'</span></div></div><i class="ti ti-chevron-'+(isExp?'up':'down')+'" style="font-size:13px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div><div class="tipb'+(isExp?' on':'')+'">'+t.body+'</div>';
+    return d;
+  }
+  outTips.forEach(function(t){outList.appendChild(makeTipEl(t,'out'));});
+  inTips.forEach(function(t){inList.appendChild(makeTipEl(t,'in'));});
+}
+
+function toggleTipEl(key,listId){expTip[key]=!expTip[key];renderMemberTips();}
+
+function renderTipsList(containerId,tier,typeFilter){
+  var el=document.getElementById(containerId);if(!el)return;
+  var tips=allTips.filter(function(t){return t.tier===tier&&(!typeFilter||t.type===typeFilter||t.type==='both');});
+  if(!tips.length){el.innerHTML='<div class="card" style="font-size:12px;color:var(--color-text-secondary)">No tips added yet.</div>';return;}
+  el.innerHTML='';
+  tips.forEach(function(t,i){
+    var tagClass=t.type==='out'?'tag-out':t.type==='in'?'tag-in':'tag-both';
+    var tagLabel=t.type==='out'?'Out only':t.type==='in'?'In only':'Both';
+    var d=document.createElement('div');d.className='tip-item';
+    d.innerHTML='<div class="row" style="margin-bottom:4px"><span class="tn" style="flex:1">'+t.title+'</span><button class="ibtn danger" onclick="removeTip('+t.id+',\''+containerId+'\',\''+tier+'\')"><i class="ti ti-trash" style="font-size:11px" aria-hidden="true"></i></button></div><div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:5px">'+t.body+'</div><span class="tip-tag '+tagClass+'">'+tagLabel+'</span>';
+    el.appendChild(d);
+  });
+}
+
+function renderMPFTips(){
+  var el=document.getElementById('tipview-all');if(!el)return;el.innerHTML='';
+  if(!allTips.length){el.innerHTML='<div class="pad" style="padding-top:0"><div class="card" style="font-size:12px;color:var(--color-text-secondary)">No tips across the base yet.</div></div>';return;}
+  el.innerHTML='';
+  allTips.forEach(function(t){
+    var tagClass=t.type==='out'?'tag-out':t.type==='in'?'tag-in':'tag-both';
+    var tagLabel=t.type==='out'?'Out only':t.type==='in'?'In only':'Both';
+    var d=document.createElement('div');d.className='tip-item';d.style.marginBottom='7px';
+    d.innerHTML='<div class="row" style="margin-bottom:4px"><span class="tn" style="flex:1">'+t.title+'</span></div><div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:5px">'+t.body+'</div><div style="display:flex;gap:4px"><span class="tip-tag '+tagClass+'">'+tagLabel+'</span><span class="tier-badge">'+t.tierLabel+'</span></div>';
+    el.appendChild(d);
+  });
+}
+
+function addTip(role){
+  var titleId,bodyId,typeId,tier,tierLabel,notifId,notifTId,listId,formId;
+  if(role==='worker'){titleId='wt-title';bodyId='wt-body';typeId='wt-type';tier='office';tierLabel='Medical office';notifId='ntf-w';notifTId='ntf-wt';listId='worker-tip-list';formId='worker-tip-form';}
+  else if(role==='lead'){titleId='lt-title';bodyId='lt-body';typeId='lt-type';tier='office';tierLabel='Medical Records lead';notifId='ntf-l';notifTId='ntf-lt';listId='lead-tip-list';formId='lead-tip-form';}
+  else if(role==='counsel'){titleId='ct-title';bodyId='ct-body';typeId=null;tier='counsel';tierLabel='Base counselor';notifId='ntf-c';notifTId='ntf-ct';listId='counsel-tip-list';formId='counsel-tip-form';}
+  else if(role==='mpf'){titleId='mt-title';bodyId='mt-body';typeId='mt-type';tier='mpf';tierLabel='Base MPF';notifId='ntf-b';notifTId='ntf-bt';listId='mpf-own-tips';formId='mpf-tip-form';}
+  else if(role==='cmd'){titleId='cmd-tip-title';bodyId='cmd-tip-body';typeId='cmd-tip-type';tier='cmd';tierLabel='100 LRS Commander';notifId='ntf-c';notifTId='ntf-ct';listId='cmd-tip-list';formId='cmd-tip-form';}
+  else if(role==='global'){titleId='gt-title';bodyId='gt-body';typeId='gt-type';tier='global';tierLabel='Global';notifId='ntf-g';notifTId='ntf-gt';listId='global-tip-list';formId='global-tip-form';}
+  var title=document.getElementById(titleId).value.trim();
+  var body=document.getElementById(bodyId).value.trim();
+  var type=typeId?document.getElementById(typeId).value:'out';
+  if(!title)return;
+  allTips.push({id:Date.now(),title:title,body:body,type:type,tier:tier,tierLabel:tierLabel});
+  document.getElementById(titleId).value='';document.getElementById(bodyId).value='';
+  toggleAF(formId);
+  renderTipsList(listId,tier,null);
+  renderMemberTips();
+  if(role==='mpf')renderMPFTips();
+  showN(notifId,notifTId,'Tip added — members will see it in their Tips tab.');
+}
+
+function removeTip(id,containerId,tier){
+  allTips=allTips.filter(function(t){return t.id!==id;});
+  renderTipsList(containerId,tier,null);
+  renderMemberTips();
+  if(tier==='mpf')renderMPFTips();
+}
+
+function renderWQ(){var q=document.getElementById('worker-q');q.innerHTML='';var s=(document.getElementById('w-search')||{value:''}).value.toLowerCase();qMem.filter(function(m){if(s&&m.name.toLowerCase().indexOf(s)<0)return false;if(wf==='pending'&&m.tasks.every(function(t){return t.done;}))return false;if(wf==='done'&&!m.tasks.every(function(t){return t.done;}))return false;return true;}).forEach(function(m){var dc=m.over?'pred':m.depD<85?'pamb':'pgrn';var rows=m.tasks.map(function(t){return t.done?'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><span style="font-size:11px;color:#3B6D11;font-weight:500"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i> Done</span></div>':'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><button class="sobtn" onclick="wSO(\''+m.id+'\',\''+t.id+'\',event)">Sign off</button></div>';}).join('');var d=document.createElement('div');d.className='card';d.style.marginBottom='2px';d.innerHTML='<div class="row" style="margin-bottom:6px"><div class="av" style="background:'+m.color+';color:'+m.tc+'">'+m.init+'</div><div style="flex:1"><div style="font-size:13px;font-weight:500">'+m.name+'</div><div style="font-size:11px;color:var(--color-text-secondary)">Dep: '+m.dep+'</div></div><span class="pill '+dc+'">'+(m.over?'Overdue':'On track')+'</span></div>'+rows;q.appendChild(d);});}
+function wSO(mid,tid,e){e.stopPropagation();doSO(mid,tid);renderWQ();renderLQ();showN('ntf-w','ntf-wt','Signed off — member notified.');}
+function doSO(mid,tid){var m=qMem.find(function(x){return x.id===mid;});if(!m)return;var t=m.tasks.find(function(x){return x.id===tid;});if(!t||t.done)return;t.done=true;var sm=soMem.find(function(x){return x.init===m.init;});if(sm){var st=sm.tasks.find(function(x){return x.id===tid;});if(st)st.done=true;}}
+function showNote(name,note){var b=document.getElementById('note-box');document.getElementById('note-name').textContent=name+' — notes';document.getElementById('note-text').textContent=note;b.style.display='block';}
+function renderLQ(){var lq=document.getElementById('lead-q');if(!lq)return;lq.innerHTML='';qMem.forEach(function(m){var dc=m.over?'pred':'pgrn';var rows=m.tasks.map(function(t){return t.done?'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><span style="font-size:11px;color:#3B6D11;font-weight:500"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i> Done</span></div>':'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><button class="sobtn" onclick="doSO(\''+m.id+'\',\''+t.id+'\',event);renderLQ();showN(\'ntf-l\',\'ntf-lt\',\'Signed off.\')">Sign off</button></div>';}).join('');var d=document.createElement('div');d.className='card';d.style.marginBottom='7px';d.innerHTML='<div class="row" style="margin-bottom:6px"><div class="av" style="background:'+m.color+';color:'+m.tc+'">'+m.init+'</div><div style="flex:1"><div style="font-size:13px;font-weight:500">'+m.name+'</div><div style="font-size:11px;color:var(--color-text-secondary)">Dep: '+m.dep+'</div></div><span class="pill '+dc+'">'+(m.over?'Overdue':'On track')+'</span></div>'+rows;lq.appendChild(d);});}
+function renderCounsel(){var ol=document.getElementById('counsel-list');if(!ol)return;ol.innerHTML='';[{init:'JC',color:'#B5D4F4',tc:'#0C447C',name:'1LT Carter, J.',dep:'16 AUG',pct:14,risk:'high'},{init:'JK',color:'#C0DD97',tc:'#27500A',name:'A1C Kim, J.',dep:'20 AUG',pct:21,risk:'medium'},{init:'PR',color:'#CECBF6',tc:'#3C3489',name:'SrA Reyes, P.',dep:'25 AUG',pct:36,risk:'low'},{init:'TW',color:'#F5C4B3',tc:'#712B13',name:'SSgt Walker, T.',dep:'01 SEP',pct:57,risk:'low'},{init:'DN',color:'#9FE1CB',tc:'#085041',name:'Capt Nguyen, D.',dep:'05 SEP',pct:29,risk:'high'}].forEach(function(m){var rc=m.risk==='high'?'pred':m.risk==='medium'?'pamb':'pgrn';var d=document.createElement('div');d.className='card';d.innerHTML='<div class="row"><div class="av" style="background:'+m.color+';color:'+m.tc+'">'+m.init+'</div><div style="flex:1"><div style="font-size:13px;font-weight:500">'+m.name+'</div><div style="font-size:11px;color:var(--color-text-secondary)">Dep: '+m.dep+' · '+m.pct+'% complete</div></div><span class="pill '+rc+'">'+(m.risk==='high'?'High risk':m.risk==='medium'?'Attention':'On track')+'</span></div>';ol.appendChild(d);});}
+function renderCounselSO(){var sl=document.getElementById('ct-signoff');if(!sl)return;sl.innerHTML='<div class="ibox" style="margin-top:9px"><i class="ti ti-clipboard-check" style="font-size:13px;flex-shrink:0" aria-hidden="true"></i><span>Sign off out-processing tasks for your assigned members.</span></div><div class="pad" style="padding-top:0;gap:7px">'+soMem.map(function(m){var rows=m.tasks.map(function(t){return t.done?'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><span style="font-size:11px;color:#3B6D11;font-weight:500"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i> Done</span></div>':'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><button class="sobtn" onclick="counselSO(\''+m.init+'\',\''+t.id+'\',event)">Sign off</button></div>';}).join('');return '<div class="card" style="margin-bottom:7px"><div class="row" style="margin-bottom:6px"><div class="av" style="background:'+m.color+';color:'+m.tc+'">'+m.init+'</div><div style="flex:1"><div style="font-size:13px;font-weight:500">'+m.name+'</div></div></div>'+rows+'</div>';}).join('')+'</div>';}
+function counselSO(init,tid,e){e.stopPropagation();var m=soMem.find(function(x){return x.init===init;});if(!m)return;var t=m.tasks.find(function(x){return x.id===tid;});if(!t||t.done)return;t.done=true;renderCounselSO();showN('ntf-c','ntf-ct',m.name+' signed off.');}
+function renderCounselReqs(){var rl=document.getElementById('counsel-req-list');if(!rl)return;rl.innerHTML='';var mine=roleRequests.filter(function(r){return r.status==='pending';});if(!mine.length){rl.innerHTML='<div class="card" style="font-size:12px;color:var(--color-text-secondary)">No pending requests.</div>';return;}mine.forEach(function(r){var d=document.createElement('div');d.className='card';d.style.marginBottom='7px';d.innerHTML='<div class="row" style="margin-bottom:5px"><span style="flex:1;font-size:13px;font-weight:500">'+r.name+'</span><span class="req-badge">Pending</span></div><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px">Current: '+r.current+' → <strong>'+r.requested+'</strong></div><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px">'+r.reason+'</div><div style="display:flex;gap:6px"><button class="sobtn" onclick="handleReq('+r.id+',\'approved-mpf\',\'ntf-c\',\'ntf-ct\')">Approve → MPF</button><button class="ibtn danger" onclick="handleReq('+r.id+',\'denied\',\'ntf-c\',\'ntf-ct\')">Deny</button></div>';rl.appendChild(d);});}
+function renderMPF(){var ltl=document.getElementById('b-ltasks');ltl.innerHTML='';lTasksOut.forEach(function(t,i){var d=document.createElement('div');d.className='card';d.style.marginBottom='5px';d.innerHTML='<div class="row" style="margin-bottom:4px"><span class="tn" style="flex:1;font-size:13px">'+t.name+'</span><button class="ibtn danger" onclick="lTasksOut.splice('+i+',1);renderMPF();showN(\'ntf-b\',\'ntf-bt\',\'Task removed.\')"><i class="ti ti-trash" style="font-size:11px" aria-hidden="true"></i></button></div><div class="ts">'+t.office+'</div><div class="tagrow"><span class="pill pmpf">'+t.due+'</span></div>';ltl.appendChild(d);});var ltli=document.getElementById('b-ltasks-in');ltli.innerHTML='';lTasksIn.forEach(function(t,i){var d=document.createElement('div');d.className='card';d.style.marginBottom='5px';d.innerHTML='<div class="row" style="margin-bottom:4px"><span class="tn" style="flex:1;font-size:13px">'+t.name+'</span><button class="ibtn danger" onclick="lTasksIn.splice('+i+',1);renderMPF();showN(\'ntf-b\',\'ntf-bt\',\'Task removed.\')"><i class="ti ti-trash" style="font-size:11px" aria-hidden="true"></i></button></div><div class="ts">'+t.office+'</div><div class="tagrow"><span class="pill ppin">'+t.due+'</span></div>';ltli.appendChild(d);});}
+function renderMPFSO(){var sl=document.getElementById('so-out');if(!sl)return;sl.innerHTML='';soMem.forEach(function(m){var rows=m.tasks.map(function(t){return t.done?'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><span style="font-size:11px;color:#3B6D11;font-weight:500"><i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i> Done</span></div>':'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px"><span style="color:var(--color-text-secondary);flex:1">'+t.name+'</span><button class="sobtn" onclick="mpfSO(\''+m.init+'\',\''+t.id+'\',event)">Sign off</button></div>';}).join('');var d=document.createElement('div');d.className='card';d.style.marginBottom='7px';d.innerHTML='<div class="row" style="margin-bottom:6px"><div class="av" style="background:'+m.color+';color:'+m.tc+'">'+m.init+'</div><div style="flex:1"><div style="font-size:13px;font-weight:500">'+m.name+'</div></div></div>'+rows;sl.appendChild(d);});}
+function mpfSO(init,tid,e){e.stopPropagation();var m=soMem.find(function(x){return x.init===init;});if(!m)return;var t=m.tasks.find(function(x){return x.id===tid;});if(!t||t.done)return;t.done=true;renderMPFSO();showN('ntf-b','ntf-bt',m.name+' signed off.');}
+function renderUsers(){var ul=document.getElementById('b-users');if(!ul)return;ul.innerHTML='';bUsers.forEach(function(u){var rc=u.role==='Base MPF super admin'?'pmpf':u.role==='Base counselor'?'pcounsel':u.role==='Office lead admin'?'plead':'pinfo';var d=document.createElement('div');d.className='card';d.style.marginBottom='5px';d.innerHTML='<div class="row" style="margin-bottom:3px"><span style="flex:1;font-size:13px;font-weight:500">'+u.name+'</span><span class="pill '+rc+'">'+u.role+'</span></div><div class="ts">'+u.office+'</div>';ul.appendChild(d);});}
+function renderMPFReqs(){var rl=document.getElementById('mpf-req-list');if(!rl)return;rl.innerHTML='';var mine=roleRequests.filter(function(r){return r.status==='approved-mpf'||r.status==='pending';});if(!mine.length){rl.innerHTML='<div class="card" style="font-size:12px;color:var(--color-text-secondary)">No pending requests.</div>';return;}mine.forEach(function(r){var d=document.createElement('div');d.className='card';d.style.marginBottom='7px';d.innerHTML='<div class="row" style="margin-bottom:5px"><span style="flex:1;font-size:13px;font-weight:500">'+r.name+'</span><span class="req-badge">Pending</span></div><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px">Requesting: <strong>'+r.requested+'</strong></div><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px">'+r.reason+'</div><div style="display:flex;gap:6px"><button class="sobtn" onclick="handleReq('+r.id+',\'approved\',\'ntf-b\',\'ntf-bt\')">Approve</button><button class="ibtn danger" onclick="handleReq('+r.id+',\'denied\',\'ntf-b\',\'ntf-bt\')">Deny</button></div>';rl.appendChild(d);});}
+function handleReq(id,action,nid,tid){var r=roleRequests.find(function(x){return x.id===id;});if(!r)return;r.status=action;if(action==='approved'){bUsers.push({name:r.name,role:r.requested,office:'TBD'});showN(nid,tid,r.name+' approved as '+r.requested+'.');}else if(action==='approved-mpf'){showN(nid,tid,r.name+'\'s request forwarded to MPF for final approval.');}else{showN(nid,tid,'Request denied.');}renderMPFReqs();renderCounselReqs();renderGlobalReqs();}
+function addLT(which){if(which==='out'){var n=document.getElementById('b-tname').value.trim();if(!n)return;lTasksOut.push({id:Date.now(),name:n,office:document.getElementById('b-toffice').value,due:document.getElementById('b-tdue').value});document.getElementById('b-tname').value='';toggleAF('baf-out');}else{var n2=document.getElementById('b-tname-in').value.trim();if(!n2)return;lTasksIn.push({id:Date.now(),name:n2,office:document.getElementById('b-toffice-in').value,due:document.getElementById('b-tdue-in').value});document.getElementById('b-tname-in').value='';toggleAF('baf-in');}renderMPF();showN('ntf-b','ntf-bt','Task added.');}
+function renderCmd(){var mg=document.getElementById('cmd-met');mg.innerHTML='';[{l:'Departing',v:cmdD.dep,c:'#185FA5',s:'this cycle'},{l:'Avg. completion',v:cmdD.avg+' days',c:'#1D9E75',s:'↓ from 18'},{l:'On-time rate',v:cmdD.ot+'%',c:'#1D9E75',s:'target: 80%'},{l:'Action needed',v:cmdD.act,c:'#A32D2D',s:'members'}].forEach(function(x){var div=document.createElement('div');div.className='met';div.innerHTML='<div class="ml">'+x.l+'</div><div class="mv" style="color:'+x.c+'">'+x.v+'</div><div class="ms">'+x.s+'</div>';mg.appendChild(div);});var ar=document.getElementById('cmd-risk');ar.innerHTML='';cmdD.members.filter(function(m){return m.risk!=='low';}).forEach(function(m){var rc=m.risk==='high'?'pred':'pamb';var d=document.createElement('div');d.style.cssText='display:flex;align-items:center;gap:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:8px 10px;margin-bottom:6px';d.innerHTML='<div class="av" style="background:'+m.color+';color:'+m.tc+'">'+m.init+'</div><div style="flex:1"><div style="font-size:12px;font-weight:500">'+m.name+'</div><div style="font-size:11px;color:var(--color-text-secondary)">Dep: '+m.dep+' · '+m.pct+'% complete</div></div><span class="pill '+rc+'">'+(m.risk==='high'?'High risk':'Attention')+'</span>';ar.appendChild(d);});var bc=document.getElementById('cmd-bn');bc.innerHTML='';var mxT=Math.max.apply(null,cmdD.offices.map(function(o){return o.m+o.o;}));cmdD.offices.forEach(function(o){var tot=o.m+o.o;var mp=Math.round((o.m/mxT)*100);var op=Math.round((o.o/mxT)*100);var d=document.createElement('div');d.className='bnr';d.innerHTML='<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>'+o.name+'</span><span style="color:var(--color-text-tertiary)">'+tot.toFixed(1)+'d</span></div><div class="bnt"><div class="bm" style="width:'+mp+'%"></div><div class="bo2" style="width:'+op+'%"></div></div><div class="bntots"><span style="font-size:10px;color:#185FA5">'+o.m.toFixed(1)+'d member</span><span style="font-size:10px;color:#A32D2D">'+o.o.toFixed(1)+'d office</span></div>';bc.appendChild(d);});var cm=document.getElementById('cmd-mem');cm.innerHTML='';cmdD.members.forEach(function(m,i){var rc=m.risk==='high'?'pred':m.risk==='medium'?'pamb':'pgrn';var rl=m.risk==='high'?'High risk':m.risk==='medium'?'Attention':'On track';var isE=expM===i;var rows=m.tasks.length?m.tasks.map(function(t){return '<div class="delrow"><span style="flex:1;font-size:12px;color:var(--color-text-secondary)">'+t.name+'</span><span class="pill '+(t.dt==='member'?'dm':'do2')+'">'+(t.dt==='member'?'Member pending':'Office delay')+'</span><span style="font-size:11px;min-width:26px;text-align:right">'+t.days+'d</span></div>';}).join(''):'<div style="font-size:12px;color:#3B6D11"><i class="ti ti-circle-check" style="font-size:11px" aria-hidden="true"></i> No delays</div>';var card=document.createElement('div');card.className='mc2'+(m.risk==='high'?' pf':'');card.innerHTML='<div class="row" onclick="togM('+i+')"><div class="av" style="background:'+m.color+';color:'+m.tc+'">'+m.init+'</div><div style="flex:1"><div style="font-size:13px;font-weight:500">'+m.name+' <span class="pill '+rc+'">'+rl+'</span></div><div style="font-size:11px;color:var(--color-text-secondary)">Dep: '+m.dep+' · '+m.pct+'% complete</div></div><i class="ti ti-chevron-'+(isE?'up':'down')+'" style="font-size:13px;color:var(--color-text-tertiary)" aria-hidden="true"></i></div><div class="mcx'+(isE?' on':'')+'"><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:5px">Outstanding delays</div>'+rows+'</div>';cm.appendChild(card);});}
+function togM(i){expM=expM===i?null:i;renderCmd();}
+function renderGlobal(){var bl=document.getElementById('g-baselist');if(!bl)return;bl.innerHTML='';aBases.forEach(function(b){var d=document.createElement('div');d.className='card';d.style.marginBottom='5px';d.innerHTML='<div class="row" style="margin-bottom:3px"><span style="flex:1;font-size:13px;font-weight:500">'+b.name+'</span><span class="pill '+(b.active?'pgrn':'pamb')+'">'+(b.active?'Active':'Pending')+'</span></div><div class="ts">'+b.country+' · MPF: '+b.mpf+'</div>'+(b.active?'':'<button class="sobtn" style="margin-top:7px;width:100%" onclick="showN(\'ntf-g\',\'ntf-gt\',\'MPF rights granted.\')">Grant MPF rights</button>');bl.appendChild(d);});}
+function renderGlobalReqs(){var rl=document.getElementById('g-req-list');if(!rl)return;rl.innerHTML='';var pending=globalReqs.filter(function(r){return r.status==='pending';});if(!pending.length){rl.innerHTML='<div class="card" style="font-size:12px;color:var(--color-text-secondary)">No pending global requests.</div>';return;}pending.forEach(function(r){var d=document.createElement('div');d.className='card';d.style.marginBottom='7px';d.innerHTML='<div class="row" style="margin-bottom:5px"><span style="flex:1;font-size:13px;font-weight:500">'+r.name+'</span><span class="req-badge">Pending</span></div><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px">Base: '+r.base+' · Requesting: <strong>'+r.requested+'</strong></div><div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px">'+r.reason+'</div><div style="display:flex;gap:6px"><button class="sobtn" onclick="r2=globalReqs.find(function(x){return x.id==='+r.id+'});if(r2){r2.status=\'approved\';renderGlobalReqs();showN(\'ntf-g\',\'ntf-gt\',r2.name+\' granted MPF access at \'+r2.base+\'.\');}">Grant access</button><button class="ibtn danger" onclick="r2=globalReqs.find(function(x){return x.id==='+r.id+'});if(r2){r2.status=\'denied\';renderGlobalReqs();showN(\'ntf-g\',\'ntf-gt\',\'Request denied.\');}">Deny</button></div>';rl.appendChild(d);});}
+function fakeD(f){showN('ntf-mf','ntf-mft',f+' downloaded.');}
+function fakeU(t){showN('ntf-mf','ntf-mft',t+' uploaded — office notified.');}
+function showN(nid,tid,msg){var n=document.getElementById(nid),t=document.getElementById(tid);if(!n||!t)return;t.textContent=msg;n.style.display='flex';clearTimeout(n._t);n._t=setTimeout(function(){n.style.display='none';},3500);}
+</script>
