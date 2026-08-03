@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PCS Path</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{--b1:#fff;--b2:#f6f5f3;--b3:#edebe7;--t1:#1a1a18;--t2:#61605c;--t3:#8a8984;--d3:rgba(0,0,0,.11);--d2:rgba(0,0,0,.2);--rm:9px;--rl:13px;
+--fn:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+@media(prefers-color-scheme:dark){:root{--b1:#1f1f1d;--b2:#2a2a27;--b3:#141413;--t1:#f0ede8;--t2:#b3b1a9;--t3:#87867f;--d3:rgba(255,255,255,.1);--d2:rgba(255,255,255,.18)}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--b3);font-family:var(--fn);color:var(--t1);font-size:14px;-webkit-font-smoothing:antialiased}
+body{display:flex;justify-content:center;align-items:flex-start;padding:18px 0 44px}
+.shell{width:390px;background:var(--b1);border-radius:22px;overflow:hidden;box-shadow:0 6px 40px rgba(0,0,0,.13);min-height:82vh}
+@media(max-width:430px){body{padding:0}.shell{width:100%;border-radius:0;min-height:100vh;box-shadow:none}}
+.scr{display:none}.scr.on{display:block}
+.hdr{padding:15px 17px;color:#fff}
+.hdr h2{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.hdr p{font-size:11.5px;opacity:.86;margin-top:3px}
+.hb{background:#1A5FA8}.hg{background:#3C6E12}.hd{background:#0D4680}.hgl{background:#292363}.hl{background:#0A5344}.hp{background:#554CBB}.hs{background:#8A4B10}
+.nav{display:flex;border-bottom:1px solid var(--d3)}
+.nb{flex:1;padding:10px 2px 8px;font-size:10.5px;font-weight:500;border:none;background:none;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;font-family:var(--fn);position:relative}
+.nb i{display:block;font-size:17px;margin-bottom:3px}
+.nb.on{color:#1A5FA8;border-bottom-color:#1A5FA8}
+.nb.gon{color:#292363;border-bottom-color:#292363}
+.nb.bon{color:#3C6E12;border-bottom-color:#3C6E12}
+.nb.lon{color:#0A5344;border-bottom-color:#0A5344}
+.nb.con{color:#0D4680;border-bottom-color:#0D4680}
+.nb.son{color:#8A4B10;border-bottom-color:#8A4B10}
+.dotb{position:absolute;top:6px;right:calc(50% - 19px);min-width:16px;height:16px;border-radius:99px;background:#C0392B;color:#fff;font-size:9.5px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px}
+.dotb.on{display:flex}
+.tab{display:none}.tab.on{display:block}
+.pad{padding:13px;display:flex;flex-direction:column;gap:9px}
+.card{background:var(--b1);border:1px solid var(--d3);border-radius:var(--rl);padding:13px}
+.row{display:flex;align-items:center;gap:10px}
+.pill{padding:3px 8px;border-radius:99px;font-size:10.5px;font-weight:600;white-space:nowrap}
+.pr{background:#FCEBEB;color:#A32D2D}.pa{background:#FAEEDA;color:#7A4809}.pn{background:#E9F3DD;color:#356210}
+.pi{background:#E6F1FB;color:#0D4680}.pp{background:#EEEDFE;color:#554CBB}.pm{background:#E9F3DD;color:#356210}
+.pl{background:#E1F5EE;color:#0A5344}.psp{background:#FBEEE0;color:#8A4B10}.pgy{background:var(--b2);color:var(--t3)}
+.tn{font-size:13.5px;font-weight:600;line-height:1.35;letter-spacing:-.005em}
+.ts{font-size:11.5px;color:var(--t2);margin-top:3px;line-height:1.4}
+.chk{width:23px;height:23px;border-radius:50%;border:1.5px solid var(--d2);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.chk.ck{background:#1D9E75;border-color:#1D9E75;color:#fff}
+.chk.od{border-color:#A32D2D;border-width:2px}
+.tdet{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--d3)}
+.tdet.on{display:block}
+.dlbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.dtxt{font-size:12.5px;color:var(--t2);line-height:1.65;margin-bottom:12px}
+.dmeta{display:flex;flex-direction:column;gap:7px;background:var(--b2);border-radius:var(--rm);padding:10px 11px;margin-bottom:12px}
+.dmr{display:flex;gap:9px;font-size:11.5px;color:var(--t2);align-items:flex-start}
+.dmr i{font-size:14px;color:var(--t3);width:15px;flex-shrink:0;margin-top:1px}
+.filt{display:flex;gap:7px;padding:12px 13px 0}
+.fb{flex:1;padding:8px 4px;font-size:11.5px;font-weight:600;border:1px solid var(--d3);border-radius:var(--rm);cursor:pointer;background:var(--b2);color:var(--t2);font-family:var(--fn)}
+.fb.on{background:#1A5FA8;color:#fff;border-color:#1A5FA8}
+.mtog{display:flex;background:var(--b2);border-radius:var(--rm);padding:3px;gap:3px;margin:13px 13px 0}
+.mtb{flex:1;padding:9px;font-size:12px;font-weight:600;border:none;border-radius:6px;cursor:pointer;background:none;color:var(--t2);font-family:var(--fn)}
+.mtb.on{background:var(--b1);color:var(--t1);box-shadow:0 1px 2px rgba(0,0,0,.07)}
+.pbtn{border:none;border-radius:var(--rm);padding:10px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:#fff;width:100%;font-family:var(--fn)}
+.bblue{background:#1A5FA8}.bgreen{background:#3C6E12}.blead{background:#0A5344}.bglob{background:#292363}.bcoun{background:#0D4680}.bpurp{background:#554CBB}.bspon{background:#8A4B10}
+.ibtn{background:none;border:1px solid var(--d3);border-radius:var(--rm);padding:6px 11px;cursor:pointer;font-size:11.5px;color:var(--t2);font-family:var(--fn)}
+.ibtn.dg{color:#A32D2D;border-color:#F2C4C4}
+.sbtn{padding:6px 12px;font-size:11.5px;font-weight:600;background:#1D9E75;color:#fff;border:none;border-radius:var(--rm);cursor:pointer;font-family:var(--fn)}
+.fl{font-size:12px;font-weight:600;color:var(--t2);margin-bottom:6px;display:block}
+.fi,.fs{width:100%;padding:9px 11px;font-size:13px;border:1px solid var(--d2);border-radius:var(--rm);background:var(--b1);color:var(--t1);outline:none;font-family:var(--fn);margin-bottom:11px}
+.fi:focus,.fs:focus{border-color:#1A5FA8}
+textarea.fi{min-height:72px;resize:vertical;line-height:1.55}
+.af{background:var(--b2);border:1px solid var(--d3);border-radius:var(--rl);padding:14px;display:none;margin:0 13px 13px}
+.af.on{display:block}
+.af h4{font-size:13.5px;font-weight:600;margin-bottom:12px}
+.ntf{background:#E9F3DD;border:1px solid #9CD98A;border-radius:var(--rm);padding:10px 12px;margin:11px 13px 0;font-size:12px;color:#2C5410;display:none;align-items:center;gap:8px}
+.pgw{background:rgba(255,255,255,.24);border-radius:4px;height:6px;margin-top:12px;overflow:hidden}
+.pgf{background:#fff;height:6px;border-radius:4px;transition:width .45s ease}
+.pgl{font-size:11.5px;margin-top:6px;opacity:.86}
+.slbl{font-size:10.5px;font-weight:700;color:var(--t3);letter-spacing:.07em;padding:16px 13px 0;text-transform:uppercase}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:13px}
+.met{background:var(--b2);border-radius:var(--rm);padding:12px 13px}
+.ml{font-size:11px;color:var(--t2);font-weight:500}
+.mv{font-size:21px;font-weight:600;margin-top:4px;letter-spacing:-.02em}
+.ms{font-size:10.5px;color:var(--t3);margin-top:3px}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.emp{text-align:center;padding:38px 22px;color:var(--t3);font-size:12.5px}
+.emp i{font-size:30px;display:block;margin-bottom:10px;opacity:.45}
+.bnr{margin-bottom:11px}
+.bnt{height:12px;background:var(--b2);border-radius:4px;display:flex;overflow:hidden}
+.bbl{height:12px;background:#3B8DE0}.bred{height:12px;background:#E24B4A}
+.tipc{background:var(--b1);border:1px solid var(--d3);border-radius:var(--rl);padding:13px;cursor:pointer}
+.tipb{display:none;font-size:12.5px;color:var(--t2);line-height:1.65;margin-top:11px;padding-top:11px;border-top:1px solid var(--d3)}
+.tipb.on{display:block}
+.ttag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:99px}
+.tout{background:#E6F1FB;color:#0D4680}.tin{background:#EEEDFE;color:#554CBB}.tbo{background:#E9F3DD;color:#356210}
+.tbadge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:99px;background:var(--b2);color:var(--t3)}
+.slotg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:10px}
+.slot{padding:9px 4px;text-align:center;font-size:11.5px;font-weight:500;border:1px solid var(--d3);border-radius:var(--rm);cursor:pointer;background:var(--b2)}
+.slot.taken{color:var(--t3);text-decoration:line-through;cursor:default}
+.frow{display:flex;align-items:center;gap:11px;padding:10px 0;border-top:1px solid var(--d3)}
+button:focus-visible,input:focus-visible{outline:2px solid #1A5FA8;outline-offset:2px}
+.jrny{display:flex;align-items:center;gap:9px;padding:11px 13px;background:var(--b2);border-bottom:1px solid var(--d3)}
+.jleg{flex:1;min-width:0}
+.jbase{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jsub{font-size:10.5px;color:var(--t2);margin-top:2px}
+.jarrow{color:var(--t3);font-size:15px;flex-shrink:0}
+.jstat{font-size:10px;font-weight:600;padding:3px 8px;border-radius:99px;flex-shrink:0}
+.offbar{background:#FAEEDA;color:#7A4809;font-size:11.5px;font-weight:600;padding:8px 13px;display:none;align-items:center;gap:7px}
+.offbar.on{display:flex}
+.msg{max-width:82%;padding:10px 12px;border-radius:14px;font-size:12.5px;line-height:1.55}
+.msg.them{background:var(--b2);border-bottom-left-radius:4px}
+.msg.me{background:#1A5FA8;color:#fff;border-bottom-right-radius:4px}
+.msgt{font-size:10px;color:var(--t3);margin-top:4px}
+.msgwrap{display:flex;flex-direction:column;gap:9px;padding:13px}
+.composer{display:flex;gap:8px;padding:11px 13px;border-top:1px solid var(--d3);align-items:center}
+.composer input{flex:1;padding:9px 12px;font-size:13px;border:1px solid var(--d2);border-radius:99px;background:var(--b1);color:var(--t1);outline:none;font-family:var(--fn)}
+.inb{background:var(--b1);border:1px solid var(--d3);border-radius:var(--rl);padding:12px 13px;cursor:pointer;display:flex;gap:11px}
+.inb.unread{border-left:3px solid #1A5FA8}
+.inbi{width:32px;height:32px;border-radius:var(--rm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rule{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid var(--d3)}
+.tgl{position:relative;width:40px;height:23px;flex-shrink:0;cursor:pointer}
+.tgl input{opacity:0;width:0;height:0}
+.tsl{position:absolute;inset:0;background:var(--d2);border-radius:99px;transition:.2s}
+.tsl:before{content:"";position:absolute;height:17px;width:17px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.tgl input:checked+.tsl{background:#3C6E12}
+.tgl input:checked+.tsl:before{transform:translateX(17px)}
+.hero{padding:34px 22px 26px;text-align:center;background:linear-gradient(160deg,#1A5FA8,#0D4680)}
+.hero h1{color:#fff;font-size:23px;font-weight:600;letter-spacing:-.02em}
+.hero p{color:rgba(255,255,255,.84);font-size:12.5px;margin-top:7px;line-height:1.5}
+.rolecard{background:var(--b1);border:1px solid var(--d3);border-radius:var(--rl);padding:13px;cursor:pointer;display:flex;align-items:center;gap:11px}
+.rolecard:hover{border-color:#1A5FA8}
+.ricon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stepbar{display:flex;gap:6px;padding:13px 13px 0}
+.step{flex:1;height:4px;border-radius:99px;background:var(--d3)}
+.step.on{background:#1A5FA8}
+.acct{background:var(--b2);border-radius:var(--rm);padding:10px 12px;font-size:12px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:9px}
+.acct:hover{background:var(--d3)}
+.banner{padding:11px 13px;font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:8px}
+.bwait{background:#FAEEDA;color:#7A4809}
+.bok{background:#E9F3DD;color:#2C5410}
+</style>
+</head>
+<body>
+<div class="shell"><div id="app">
+
+<div id="s-login" class="scr on">
+<div class="hero"><h1>PCS Path</h1><p>Your move, one checklist, start to finish</p></div>
+<div class="pad">
+<label class="fl">Email</label>
+<input class="fi" id="lg-email" type="email" placeholder="first.last@us.af.mil" autocomplete="username">
+<label class="fl">Password</label>
+<input class="fi" id="lg-pass" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+<button class="pbtn bblue" onclick="doLogin()">Sign in</button>
+<div style="text-align:center;padding:4px 0"><button class="ibtn" style="border:none" onclick="startSignup()">Create an account</button></div>
+<div class="slbl" style="padding-left:0">Demo accounts</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div class="acct" onclick="quick('carter@us.af.mil')"><i class="ti ti-user-circle" style="font-size:17px;color:#1A5FA8"></i><div><div style="font-weight:600;color:var(--t1)">SSgt Carter</div><div style="font-size:11px">Member only, mid-PCS</div></div></div>
+<div class="acct" onclick="quick('webb@us.af.mil')"><i class="ti ti-users" style="font-size:17px;color:#3C6E12"></i><div><div style="font-weight:600;color:var(--t1)">SSgt Webb</div><div style="font-size:11px">Office worker who is also PCSing</div></div></div>
+<div class="acct" onclick="quick('alvarez@us.af.mil')"><i class="ti ti-friends" style="font-size:17px;color:#8A4B10"></i><div><div style="font-weight:600;color:var(--t1)">TSgt Alvarez</div><div style="font-size:11px">Sponsor and office lead</div></div></div>
+<div class="acct" onclick="quick('chen@us.af.mil')"><i class="ti ti-building" style="font-size:17px;color:#3C6E12"></i><div><div style="font-weight:600;color:var(--t1)">MSgt Chen</div><div style="font-size:11px">Base MPF super admin</div></div></div>
+<div class="acct" onclick="quick('davis@us.af.mil')"><i class="ti ti-user-check" style="font-size:17px;color:#0D4680"></i><div><div style="font-weight:600;color:var(--t1)">MSgt Davis</div><div style="font-size:11px">Base counselor and commander</div></div></div>
+<div class="acct" onclick="quick('reed@us.af.mil')"><i class="ti ti-shield-lock" style="font-size:17px;color:#554CBB"></i><div><div style="font-weight:600;color:var(--t1)">Mr Reed</div><div style="font-size:11px">Global admin</div></div></div>
+<div class="acct" onclick="quick('nguyen@us.af.mil')"><i class="ti ti-clock" style="font-size:17px;color:#7A4809"></i><div><div style="font-weight:600;color:var(--t1)">Capt Nguyen</div><div style="font-size:11px">New profile awaiting MPF review</div></div></div>
+</div>
+<div class="ntf" id="nf-lg" style="margin:0"><i class="ti ti-alert-circle" style="font-size:15px"></i><span id="nf-lgt"></span></div>
+<div style="text-align:center;font-size:11px;color:var(--t3);padding:8px 0;line-height:1.7">PCS Path v11 &middot; prototype<br>Tasks from the RAF Mildenhall checklist &middot; people are fictional</div>
+</div>
+</div>
+
+<div id="s-roles" class="scr">
+<div class="hdr hb"><h2 id="rl-name">Welcome back</h2><p id="rl-sub">Choose how you want to work today</p></div>
+<div style="padding:13px 13px 0;font-size:11.5px;color:var(--t2);line-height:1.55">You hold more than one role. Pick one to start, and switch any time from the menu.</div>
+<div class="pad" id="rolelist"></div>
+<div style="padding:0 13px 16px"><button class="ibtn" style="width:100%" onclick="signOut()">Sign out</button></div>
+</div>
+
+<div id="s-signup" class="scr">
+<div class="hdr hb"><h2>Create your profile</h2><p id="su-step">Step 1 of 3 &middot; Who you are</p></div>
+<div class="stepbar"><div class="step on" id="sb1"></div><div class="step" id="sb2"></div><div class="step" id="sb3"></div></div>
+
+<div id="su-1" class="tab on"><div class="pad">
+<label class="fl">Rank and full name</label><input class="fi" id="su-name" placeholder="SSgt Carter, James">
+<label class="fl">Work email</label><input class="fi" id="su-email" type="email" placeholder="first.last@us.af.mil">
+<label class="fl">DoD ID number</label><input class="fi" id="su-dod" placeholder="10 digits" inputmode="numeric">
+<label class="fl">Unit</label><input class="fi" id="su-unit" placeholder="100 LRS">
+<label class="fl">Current base</label>
+<select class="fs" id="su-base"><option>RAF Mildenhall</option><option>Ramstein AB</option><option>Kadena AB</option><option>Travis AFB</option></select>
+<button class="pbtn bblue" onclick="suNext(2)">Continue</button>
+</div></div>
+
+<div id="su-2" class="tab"><div class="pad">
+<div style="font-size:11.5px;color:var(--t2);line-height:1.55">This tells us which checklist to build for you. You can change it later if your orders change.</div>
+<label class="fl">What are you doing</label>
+<select class="fs" id="su-dir"><option value="out">Out-processing, I am leaving this base</option><option value="in">In-processing, I just arrived</option><option value="both">Both, I am mid-move</option></select>
+<label class="fl">Gaining base</label>
+<select class="fs" id="su-gain"><option>Ramstein AB</option><option>Kadena AB</option><option>Osan AB</option><option>Aviano AB</option><option>Travis AFB</option><option>Not yet assigned</option></select>
+<label class="fl">Projected departure date</label><input class="fi" id="su-dep" type="date">
+<label class="fl">Move type</label>
+<select class="fs" id="su-type"><option>OCONUS to OCONUS</option><option>OCONUS to CONUS</option><option>CONUS to OCONUS</option><option>CONUS to CONUS</option></select>
+<div style="display:flex;gap:9px"><button class="ibtn" onclick="suNext(1)">Back</button><button class="pbtn bblue" style="flex:1" onclick="suNext(3)">Continue</button></div>
+</div></div>
+
+<div id="su-3" class="tab"><div class="pad">
+<div style="font-size:11.5px;color:var(--t2);line-height:1.55">These add tasks to your checklist. Skip anything that does not apply.</div>
+<div class="card">
+<div class="rule" style="border-top:none;padding-top:0"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Travelling with family</div><div class="ts">Adds family medical and education clearance</div></div><label class="tgl"><input type="checkbox" id="su-fam"><span class="tsl"></span></label></div>
+<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">EFMP enrolled</div><div class="ts">Adds EFMP family needs assessment</div></div><label class="tgl"><input type="checkbox" id="su-efmp"><span class="tsl"></span></label></div>
+<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Shipping a vehicle</div><div class="ts">Adds POV export and Pass and Registration</div></div><label class="tgl"><input type="checkbox" id="su-pov"><span class="tsl"></span></label></div>
+<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Bringing pets</div><div class="ts">Adds veterinary and import documentation</div></div><label class="tgl"><input type="checkbox" id="su-pet"><span class="tsl"></span></label></div>
+<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Living in the dorms</div><div class="ts">Adds unaccompanied housing inspection</div></div><label class="tgl"><input type="checkbox" id="su-dorm"><span class="tsl"></span></label></div>
+<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">I hold a SIPR token</div><div class="ts">Adds token turn-in at Bldg 591</div></div><label class="tgl"><input type="checkbox" id="su-sipr"><span class="tsl"></span></label></div>
+<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">I am a custodian or monitor</div><div class="ts">Equipment, bench stock, GPC or records</div></div><label class="tgl"><input type="checkbox" id="su-cust"><span class="tsl"></span></label></div>
+<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">I ride a motorcycle</div><div class="ts">Adds MUSTT profile transfer</div></div><label class="tgl"><input type="checkbox" id="su-moto"><span class="tsl"></span></label></div>
+</div>
+<div style="display:flex;gap:9px"><button class="ibtn" onclick="suNext(2)">Back</button><button class="pbtn bblue" style="flex:1" onclick="submitProfile()">Submit for review</button></div>
+</div></div>
+</div>
+
+<div id="s-pending" class="scr">
+<div class="hdr hb"><h2 id="pd-name">Profile submitted</h2><p>Waiting on RAF Mildenhall MPF</p></div>
+<div class="pad">
+<div class="card" style="text-align:center;padding:26px 16px">
+<i class="ti ti-clock-hour-4" style="font-size:34px;color:#7A4809"></i>
+<div class="tn" style="margin-top:11px">MPF is reviewing your profile</div>
+<div class="ts" style="line-height:1.6">They confirm your unit, dates and orders before your checklist unlocks. Most profiles clear within one duty day. You will get a notification the moment it does.</div>
+</div>
+<div class="card">
+<div class="dlbl">What you submitted</div>
+<div id="pd-summary"></div>
+</div>
+<div class="card" style="background:var(--b2)">
+<div class="tn">While you wait</div>
+<div class="ts" style="line-height:1.6">If your orders are already final, email them to your CSS now. That is the single thing most likely to hold up your review.</div>
+</div>
+<button class="ibtn" style="width:100%" onclick="signOut()">Sign out</button>
+</div>
+</div>
+
+<div id="s-member" class="scr">
+<div class="hdr" id="mhdr" style="background:#1A5FA8">
+<h2 id="m-name">SSgt Carter, James</h2>
+<p id="mhsub">Departs 16 AUG 2026</p>
+<div class="pgw"><div class="pgf" id="mpgf" style="width:0%"></div></div>
+<p class="pgl" id="mpgl">0 of 0 complete</p>
+</div>
+<div class="offbar" id="offbar"><i class="ti ti-wifi-off" style="font-size:14px"></i><span>Offline. Showing your saved checklist. Changes sync when you reconnect.</span></div>
+<div class="jrny" id="jrny"></div>
+<div class="mtog" id="mdirtog">
+<button class="mtb on" id="mo-out" onclick="setDir('out')">Out-processing</button>
+<button class="mtb" id="mo-in" onclick="setDir('in')">In-processing</button>
+</div>
+<div class="nav">
+<button class="nb on" id="mn-tasks" onclick="mTab('tasks')"><i class="ti ti-checklist"></i>Tasks</button>
+<button class="nb" id="mn-inbox" onclick="mTab('inbox')"><i class="ti ti-bell"></i>Inbox<span class="dotb" id="mbadge">0</span></button>
+<button class="nb" id="mn-forms" onclick="mTab('forms')"><i class="ti ti-file-description"></i>Forms</button>
+<button class="nb" id="mn-tips" onclick="mTab('tips')"><i class="ti ti-bulb"></i>Tips</button>
+<button class="nb" id="mn-me" onclick="mTab('me')"><i class="ti ti-user"></i>Profile</button>
+</div>
+<div id="mt-tasks" class="tab on">
+<div class="ntf" id="nf-m"><i class="ti ti-circle-check" style="font-size:15px"></i><span id="nf-mt"></span></div>
+<div class="filt">
+<button class="fb on" id="mf-todo" onclick="setFilt('todo')">To do</button>
+<button class="fb" id="mf-all" onclick="setFilt('all')">All</button>
+<button class="fb" id="mf-done" onclick="setFilt('done')">Completed</button>
+</div>
+<div class="pad" id="mlist"></div>
+</div>
+<div id="mt-inbox" class="tab">
+<div class="filt">
+<button class="fb on" id="ib-all" onclick="setInbox('all')">All</button>
+<button class="fb" id="ib-reminder" onclick="setInbox('reminder')">Reminders</button>
+<button class="fb" id="ib-message" onclick="setInbox('message')">Sponsor</button>
+</div>
+<div class="pad" id="minbox"></div>
+</div>
+<div id="mt-forms" class="tab"><div class="pad" id="mforms"></div></div>
+<div id="mt-tips" class="tab"><div class="pad" id="mtips"></div></div>
+<div id="mt-me" class="tab"><div class="pad" id="mprofile"></div></div>
+</div>
+
+<div id="s-sponsor" class="scr">
+<div class="hdr hs"><h2 id="sp-name">Sponsor</h2><p>Your inbound member</p></div>
+<div class="nav">
+<button class="nb son" id="sn-mem" onclick="sTab('mem')"><i class="ti ti-user-circle"></i>My member</button>
+<button class="nb" id="sn-prep" onclick="sTab('prep')"><i class="ti ti-list-check"></i>Prep list</button>
+<button class="nb" id="sn-msg" onclick="sTab('msg')"><i class="ti ti-message"></i>Messages</button>
+<button class="nb" id="sn-sw" onclick="switchRole()"><i class="ti ti-arrows-exchange"></i>Switch</button>
+</div>
+<div id="st-mem" class="tab on">
+<div class="ntf" id="nf-s"><i class="ti ti-circle-check" style="font-size:15px"></i><span id="nf-st"></span></div>
+<div class="pad" id="smem"></div>
+</div>
+<div id="st-prep" class="tab">
+<div style="padding:13px 13px 0;font-size:11.5px;color:var(--t2);line-height:1.55">Things to have ready before your member lands.</div>
+<div class="pad" id="sprep"></div>
+</div>
+<div id="st-msg" class="tab">
+<div class="msgwrap" id="smsgs"></div>
+<div class="composer"><input id="sinput" placeholder="Message your member" onkeydown="if(event.key==='Enter')sendMsg()"><button class="sbtn" onclick="sendMsg()">Send</button></div>
+</div>
+</div>
+
+<div id="s-worker" class="scr">
+<div class="hdr hg"><h2 id="wk-name">Office worker</h2><p id="wk-sub">Medical Records</p></div>
+<div class="nav">
+<button class="nb on" id="wn-queue" onclick="wTab('queue')"><i class="ti ti-clipboard-check"></i>Queue</button>
+<button class="nb" id="wn-docs" onclick="wTab('docs')"><i class="ti ti-files"></i>Documents</button>
+<button class="nb" id="wn-tips" onclick="wTab('tips')"><i class="ti ti-bulb"></i>Tips</button>
+<button class="nb" id="wn-sw" onclick="switchRole()"><i class="ti ti-arrows-exchange"></i>Switch</button>
+</div>
+<div id="wt-queue" class="tab on">
+<div class="ntf" id="nf-w"><i class="ti ti-circle-check" style="font-size:15px"></i><span id="nf-wt"></span></div>
+<div class="pad" id="wqueue"></div>
+</div>
+<div id="wt-docs" class="tab">
+<div class="pad">
+<div class="card"><div class="tn">SSgt Carter, J.</div><div class="frow" style="margin-top:9px"><i class="ti ti-file-description" style="font-size:18px;color:#1A5FA8"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Medical clearance memorandum</div><div class="ts">Uploaded 12 JUL</div></div><button class="ibtn">Open</button></div></div>
+<div class="card"><div class="tn">SrA Reyes, P. <span class="pill pp">Inbound</span></div><div class="frow" style="margin-top:9px"><i class="ti ti-file-description" style="font-size:18px;color:#554CBB"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Records from Ramstein</div><div class="ts">Arrived with handoff on 14 JUL</div></div><button class="ibtn">Open</button></div></div>
+</div>
+</div>
+<div id="wt-tips" class="tab">
+<div class="pad" id="wtips"></div>
+<div style="padding:0 13px 13px"><button class="pbtn bgreen" onclick="tog('waf')">Add office tip</button></div>
+<div class="af" id="waf"><h4>New tip</h4><label class="fl">Title</label><input class="fi" id="wt-t" placeholder="Short headline"><label class="fl">Detail</label><textarea class="fi" id="wt-b" placeholder="What members need to know"></textarea><label class="fl">Applies to</label><select class="fs" id="wt-y"><option value="out">Out-processing</option><option value="in">In-processing</option><option value="both">Both</option></select><div style="display:flex;gap:9px"><button class="pbtn bgreen" style="flex:1" onclick="addTip('worker')">Save tip</button><button class="ibtn" onclick="tog('waf')">Cancel</button></div></div>
+</div>
+</div>
+
+<div id="s-lead" class="scr">
+<div class="hdr hl"><h2 id="ld-name">Office lead</h2><p id="ld-sub">Medical Records</p></div>
+<div class="nav">
+<button class="nb lon" id="ln-sched" onclick="lTab('sched')"><i class="ti ti-calendar"></i>Schedule</button>
+<button class="nb" id="ln-queue" onclick="lTab('queue')"><i class="ti ti-clipboard-check"></i>Queue</button>
+<button class="nb" id="ln-office" onclick="lTab('office')"><i class="ti ti-building"></i>Office</button>
+<button class="nb" id="ln-tips" onclick="lTab('tips')"><i class="ti ti-bulb"></i>Tips</button>
+<button class="nb" id="ln-sw" onclick="switchRole()"><i class="ti ti-arrows-exchange"></i>Switch</button>
+</div>
+<div id="lt-sched" class="tab on">
+<div class="ntf" id="nf-l"><i class="ti ti-circle-check" style="font-size:15px"></i><span id="nf-lt"></span></div>
+<div class="pad">
+<div class="card">
+<div class="row" style="justify-content:space-between;margin-bottom:10px"><button class="ibtn" onclick="wk(-1)"><i class="ti ti-chevron-left" style="font-size:13px"></i></button><span style="font-size:12.5px;font-weight:600" id="wklbl">Week of 14 JUL</span><button class="ibtn" onclick="wk(1)"><i class="ti ti-chevron-right" style="font-size:13px"></i></button></div>
+<div class="slotg" id="lslots"></div>
+<button class="pbtn blead" style="margin-top:12px" onclick="addSlot()">Add slot</button>
+</div>
+<div class="card">
+<div class="tn">Pending requests</div>
+<div class="frow" style="margin-top:9px"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">SSgt Carter, J.</div><div class="ts">Aug 1, morning preferred</div></div><button class="sbtn" onclick="say('nf-l','nf-lt','Confirmed. Carter has been notified.')">Confirm</button></div>
+</div>
+</div>
+</div>
+<div id="lt-queue" class="tab"><div class="pad" id="lqueue"></div></div>
+<div id="lt-office" class="tab">
+<div class="pad"><div class="card">
+<label class="fl">Office name</label><input class="fi" value="Medical Records">
+<label class="fl">Building</label><input class="fi" value="Bldg 922, RAF Lakenheath">
+<label class="fl">Phone</label><input class="fi" value="226-8742">
+<label class="fl">Hours</label><input class="fi" value="0730-1630 Monday to Friday">
+<label class="fl">Current status</label><select class="fs"><option>Open</option><option>At lunch</option><option>Long wait</option><option>Closed</option></select>
+<button class="pbtn blead" onclick="say('nf-l','nf-lt','Saved. Member checklists updated.')">Save changes</button>
+</div></div>
+</div>
+<div id="lt-tips" class="tab">
+<div class="pad" id="ltips"></div>
+<div style="padding:0 13px 13px"><button class="pbtn blead" onclick="tog('laf')">Add tip</button></div>
+<div class="af" id="laf"><h4>New tip</h4><label class="fl">Title</label><input class="fi" id="lt-t" placeholder="Short headline"><label class="fl">Detail</label><textarea class="fi" id="lt-b" placeholder="What members need to know"></textarea><label class="fl">Applies to</label><select class="fs" id="lt-y"><option value="out">Out-processing</option><option value="in">In-processing</option><option value="both">Both</option></select><div style="display:flex;gap:9px"><button class="pbtn blead" style="flex:1" onclick="addTip('lead')">Save tip</button><button class="ibtn" onclick="tog('laf')">Cancel</button></div></div>
+</div>
+</div>
+
+<div id="s-counsel" class="scr">
+<div class="hdr hd"><h2 id="cn-name">Base counselor</h2><p>Out-processing caseload</p></div>
+<div class="nav">
+<button class="nb con" id="cn-mem" onclick="cTab('mem')"><i class="ti ti-users"></i>Members</button>
+<button class="nb" id="cn-so" onclick="cTab('so')"><i class="ti ti-clipboard-check"></i>Sign off</button>
+<button class="nb" id="cn-req" onclick="cTab('req')"><i class="ti ti-id-badge"></i>Requests</button>
+<button class="nb" id="cn-tips" onclick="cTab('tips')"><i class="ti ti-bulb"></i>Tips</button>
+<button class="nb" id="cn-sw" onclick="switchRole()"><i class="ti ti-arrows-exchange"></i>Switch</button>
+</div>
+<div id="ct-mem" class="tab on">
+<div class="ntf" id="nf-c"><i class="ti ti-circle-check" style="font-size:15px"></i><span id="nf-ct"></span></div>
+<div class="pad" id="clist"></div>
+</div>
+<div id="ct-so" class="tab"><div class="pad" id="cso"></div></div>
+<div id="ct-req" class="tab"><div class="pad" id="creq"></div></div>
+<div id="ct-tips" class="tab">
+<div class="pad" id="ctips"></div>
+<div style="padding:0 13px 13px"><button class="pbtn bcoun" onclick="tog('caf')">Add tip</button></div>
+<div class="af" id="caf"><h4>New counselor tip</h4><label class="fl">Title</label><input class="fi" id="ct-t" placeholder="Short headline"><label class="fl">Detail</label><textarea class="fi" id="ct-b" placeholder="What members need to know"></textarea><div style="display:flex;gap:9px"><button class="pbtn bcoun" style="flex:1" onclick="addTip('counsel')">Save tip</button><button class="ibtn" onclick="tog('caf')">Cancel</button></div></div>
+</div>
+</div>
+
+<div id="s-mpf" class="scr">
+<div class="hdr hg"><h2 id="mp-name">Base MPF super admin</h2><p>RAF Mildenhall</p></div>
+<div class="nav">
+<button class="nb bon" id="bn-prof" onclick="bTab('prof')"><i class="ti ti-user-plus"></i>Profiles<span class="dotb" id="bbadge">0</span></button>
+<button class="nb" id="bn-tasks" onclick="bTab('tasks')"><i class="ti ti-list-details"></i>Master list</button>
+<button class="nb" id="bn-inb" onclick="bTab('inb')"><i class="ti ti-plane-arrival"></i>Inbound</button>
+<button class="nb" id="bn-users" onclick="bTab('users')"><i class="ti ti-users"></i>Users</button>
+<button class="nb" id="bn-sw" onclick="switchRole()"><i class="ti ti-arrows-exchange"></i>Switch</button>
+</div>
+<div id="bt-prof" class="tab on">
+<div class="ntf" id="nf-b"><i class="ti ti-circle-check" style="font-size:15px"></i><span id="nf-bt"></span></div>
+<div style="padding:13px 13px 0;font-size:11.5px;color:var(--t2);line-height:1.55">New members build their own profile. You confirm the details are right before their checklist unlocks.</div>
+<div class="pad" id="bprof"></div>
+</div>
+<div id="bt-tasks" class="tab">
+<div class="mtog">
+<button class="mtb on" id="bo-out" onclick="setMDir('out')">Out-processing</button>
+<button class="mtb" id="bo-in" onclick="setMDir('in')">In-processing</button>
+</div>
+<div style="padding:12px 13px 0;font-size:11.5px;color:var(--t2);line-height:1.55">The list every member at this base sees. What you write here is what they read when they open the task.</div>
+<div class="pad" id="blist"></div>
+<div style="padding:0 13px 13px"><button class="pbtn bgreen" onclick="tog('baf')">Add task to master list</button></div>
+<div class="af" id="baf">
+<h4>New task</h4>
+<label class="fl">Task name</label><input class="fi" id="bt-n" placeholder="Clear base library">
+<label class="fl">Description</label><textarea class="fi" id="bt-d" placeholder="What this task is and what the member needs to do or bring"></textarea>
+<label class="fl">Office</label><input class="fi" id="bt-o" placeholder="Base Library">
+<label class="fl">Location</label><input class="fi" id="bt-loc" placeholder="Bldg 425">
+<label class="fl">Hours</label><input class="fi" id="bt-h" placeholder="1000-1700 Monday to Saturday">
+<label class="fl">Phone</label><input class="fi" id="bt-p" placeholder="238-2352">
+<label class="fl">Due</label><input class="fi" id="bt-w" placeholder="01 AUG 2026">
+<div style="display:flex;gap:9px"><button class="pbtn bgreen" style="flex:1" onclick="addMaster()">Save to master list</button><button class="ibtn" onclick="tog('baf')">Cancel</button></div>
+</div>
+<div class="slbl">Automatic reminders</div>
+<div style="padding:8px 13px 0;font-size:11.5px;color:var(--t2);line-height:1.55">Sent to members automatically. Switch off any you do not want from this base.</div>
+<div class="pad" id="brules"></div>
+</div>
+<div id="bt-inb" class="tab">
+<div style="padding:13px 13px 0;font-size:11.5px;color:var(--t2);line-height:1.55">Members inbound to RAF Mildenhall. Their record arrives when the losing base signs the final out.</div>
+<div class="pad" id="binbound"></div>
+</div>
+<div id="bt-users" class="tab">
+<div style="padding:13px 13px 0;font-size:11.5px;color:var(--t2);line-height:1.55">Everyone with an account at this base. A person can hold several roles at once.</div>
+<div class="pad" id="busers"></div>
+</div>
+</div>
+
+<div id="s-cmd" class="scr">
+<div class="hdr hd"><h2 id="cd-name">Commander</h2><p id="cd-sub">100 LRS</p></div>
+<div class="nav">
+<button class="nb con" id="dn-out" onclick="dTab('out')"><i class="ti ti-plane-departure"></i>Out-proc</button>
+<button class="nb" id="dn-in" onclick="dTab('in')"><i class="ti ti-plane-arrival"></i>In-proc</button>
+<button class="nb" id="dn-tips" onclick="dTab('tips')"><i class="ti ti-bulb"></i>Tips</button>
+<button class="nb" id="dn-sw" onclick="switchRole()"><i class="ti ti-arrows-exchange"></i>Switch</button>
+</div>
+<div id="dt-out" class="tab on">
+<div class="mg">
+<div class="met"><div class="ml">Departing</div><div class="mv" style="color:#1A5FA8">12</div><div class="ms">this cycle</div></div>
+<div class="met"><div class="ml">Avg. completion</div><div class="mv" style="color:#1D9E75">8.4d</div><div class="ms">down from 18</div></div>
+<div class="met"><div class="ml">On-time rate</div><div class="mv" style="color:#1D9E75">83%</div><div class="ms">target 80%</div></div>
+<div class="met"><div class="ml">Need attention</div><div class="mv" style="color:#A32D2D">3</div><div class="ms">members</div></div>
+</div>
+<div class="slbl">Delay by office</div>
+<div class="pad" style="padding-top:8px" id="dbn"></div>
+<div class="slbl">Members needing attention</div>
+<div class="pad" style="padding-top:8px" id="drisk"></div>
+</div>
+<div id="dt-in" class="tab">
+<div class="mg">
+<div class="met"><div class="ml">Arriving</div><div class="mv" style="color:#554CBB">8</div><div class="ms">this cycle</div></div>
+<div class="met"><div class="ml">Avg. completion</div><div class="mv" style="color:#1D9E75">6.2d</div><div class="ms">target 12d</div></div>
+<div class="met"><div class="ml">With sponsor</div><div class="mv" style="color:#1D9E75">7 of 8</div><div class="ms">assigned</div></div>
+<div class="met"><div class="ml">Need attention</div><div class="mv" style="color:#A32D2D">2</div><div class="ms">members</div></div>
+</div>
+<div class="slbl">Inbound members</div>
+<div class="pad" style="padding-top:8px" id="dinb"></div>
+</div>
+<div id="dt-tips" class="tab">
+<div class="pad" id="dtips"></div>
+<div style="padding:0 13px 13px"><button class="pbtn bcoun" onclick="tog('daf')">Add commander tip</button></div>
+<div class="af" id="daf"><h4>New commander tip</h4><label class="fl">Title</label><input class="fi" id="dt-t" placeholder="Short headline"><label class="fl">Detail</label><textarea class="fi" id="dt-b" placeholder="Message to your squadron"></textarea><label class="fl">Applies to</label><select class="fs" id="dt-y"><option value="out">Out-processing</option><option value="in">In-processing</option><option value="both">Both</option></select><div style="display:flex;gap:9px"><button class="pbtn bcoun" style="flex:1" onclick="addTip('cmd')">Save tip</button><button class="ibtn" onclick="tog('daf')">Cancel</button></div></div>
+</div>
+</div>
+
+<div id="s-global" class="scr">
+<div class="hdr hgl"><h2 id="gl-name">Global admin</h2><p>Platform oversight</p></div>
+<div class="nav">
+<button class="nb gon" id="gn-health" onclick="gTab('health')"><i class="ti ti-activity"></i>Health</button>
+<button class="nb" id="gn-bases" onclick="gTab('bases')"><i class="ti ti-building"></i>Bases</button>
+<button class="nb" id="gn-req" onclick="gTab('req')"><i class="ti ti-id-badge"></i>Requests</button>
+<button class="nb" id="gn-tips" onclick="gTab('tips')"><i class="ti ti-bulb"></i>Tips</button>
+<button class="nb" id="gn-sw" onclick="switchRole()"><i class="ti ti-arrows-exchange"></i>Switch</button>
+</div>
+<div id="gt-health" class="tab on">
+<div class="ntf" id="nf-g"><i class="ti ti-circle-check" style="font-size:15px"></i><span id="nf-gt"></span></div>
+<div class="mg">
+<div class="met"><div class="ml">Active bases</div><div class="mv" style="color:#1A5FA8">47</div><div class="ms">4 MAJCOMs</div></div>
+<div class="met"><div class="ml">Handoffs in flight</div><div class="mv" style="color:#554CBB">612</div><div class="ms">base to base</div></div>
+<div class="met"><div class="ml">Out-processing</div><div class="mv" style="color:#1D9E75">2,841</div><div class="ms">members</div></div>
+<div class="met"><div class="ml">Overdue tasks</div><div class="mv" style="color:#A32D2D">341</div><div class="ms">all bases</div></div>
+</div>
+<div class="slbl">Top bottleneck AF-wide</div>
+<div class="pad" style="padding-top:8px">
+<div class="bnr"><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:5px"><span>TMO personal property</span><span style="color:var(--t3)">5.8d</span></div><div class="bnt"><div class="bbl" style="width:82%"></div><div class="bred" style="width:18%"></div></div></div>
+<div style="font-size:12px;color:#2C5410;background:#E9F3DD;border-radius:var(--rm);padding:11px 12px;line-height:1.55">TMO delay is 81% member-side. The day-one reminder is live at 44 of 47 bases and this figure is down 1.2 days since it switched on.</div>
+</div>
+</div>
+<div id="gt-bases" class="tab"><div class="pad" id="gbases"></div></div>
+<div id="gt-req" class="tab"><div class="pad" id="greq"></div></div>
+<div id="gt-tips" class="tab">
+<div class="pad" id="gtips"></div>
+<div style="padding:0 13px 13px"><button class="pbtn bglob" onclick="tog('gaf')">Add global tip</button></div>
+<div class="af" id="gaf"><h4>New global tip</h4><label class="fl">Title</label><input class="fi" id="gt-t" placeholder="Short headline"><label class="fl">Detail</label><textarea class="fi" id="gt-b" placeholder="Guidance for all members AF-wide"></textarea><label class="fl">Applies to</label><select class="fs" id="gt-y"><option value="out">Out-processing</option><option value="in">In-processing</option><option value="both">Both</option></select><div style="display:flex;gap:9px"><button class="pbtn bglob" style="flex:1" onclick="addTip('global')">Save tip</button><button class="ibtn" onclick="tog('gaf')">Cancel</button></div></div>
+</div>
+</div>
+
+</div></div>
+<script>
+var me=null,role=null,dir='out',mdir='out',filt='todo',inboxFilt='all',expT={},expTip={},curWk=0,online=true,suStep=1,draft={};
+
+var accounts=[
+{email:'carter@us.af.mil',name:'SSgt Carter, James',unit:'100 LRS',roles:['member'],status:'active',profile:{dir:'out',gaining:'Ramstein AB',depart:'16 AUG 2026',type:'OCONUS to OCONUS',fam:true,efmp:true,pov:true,pet:true,dorm:false,sipr:true,cust:true,moto:false}},
+{email:'webb@us.af.mil',name:'SSgt Webb, Sarah',unit:'48 AMDS',roles:['member','worker'],status:'active',office:'Medical Records',profile:{dir:'out',gaining:'Travis AFB',depart:'12 SEP 2026',type:'OCONUS to CONUS',fam:false,efmp:false,pov:false,pet:false,dorm:false,sipr:false,cust:true,moto:true}},
+{email:'alvarez@us.af.mil',name:'TSgt Alvarez, Marco',unit:'100 LRS',roles:['sponsor','lead'],status:'active',office:'Medical Records'},
+{email:'chen@us.af.mil',name:'MSgt Chen, Linda',unit:'100 FSS',roles:['mpf'],status:'active'},
+{email:'davis@us.af.mil',name:'MSgt Davis, Robert',unit:'100 LRS',roles:['counsel','cmd'],status:'active'},
+{email:'reed@us.af.mil',name:'Mr Reed, Alan',unit:'HQ AFPC',roles:['global'],status:'active'},
+{email:'nguyen@us.af.mil',name:'Capt Nguyen, David',unit:'100 MXS',roles:['member'],status:'pending',profile:{dir:'out',gaining:'Osan AB',depart:'05 SEP 2026',type:'OCONUS to OCONUS',fam:true,efmp:false,pov:false,pet:false,dorm:false,sipr:true,cust:false,moto:false}}
+];
+
+var roleMeta={
+member:{n:'Member',d:'Your own PCS checklist',i:'ti-user-circle',bg:'#E6F1FB',fg:'#1A5FA8'},
+sponsor:{n:'Sponsor',d:'Your inbound member',i:'ti-friends',bg:'#FBEEE0',fg:'#8A4B10'},
+worker:{n:'Office worker',d:'Sign off members at your office',i:'ti-clipboard-check',bg:'#E9F3DD',fg:'#3C6E12'},
+lead:{n:'Office lead admin',d:'Scheduling, workers, office setup',i:'ti-shield-half',bg:'#E1F5EE',fg:'#0A5344'},
+counsel:{n:'Base counselor',d:'Out-processing caseload',i:'ti-user-check',bg:'#E6F1FB',fg:'#0D4680'},
+mpf:{n:'Base MPF super admin',d:'Profiles, master list, users',i:'ti-building',bg:'#E9F3DD',fg:'#3C6E12'},
+cmd:{n:'Commander',d:'Squadron dashboards',i:'ti-chart-bar',bg:'#E6F1FB',fg:'#0D4680'},
+global:{n:'Global admin',d:'Platform oversight',i:'ti-shield-lock',bg:'#EEEDFE',fg:'#554CBB'}
+};
+
+var journey={losing:'RAF Mildenhall',gaining:'Ramstein AB',depart:'16 AUG 2026',rnltd:'01 SEP 2026',handoff:'pending'};
+var weeks=['Week of 14 JUL','Week of 21 JUL','Week of 28 JUL','Week of 4 AUG'];
+
+var masterOut=[
+{id:1,name:'TMO personal property and POV',desc:'Appointments cannot be made without orders. Complete the PPTY form, Locally Generated Form 75, then send it with your orders to 100lrs.tmo@us.af.mil. Allow 72 business hours for a response. Watch the Outbound Personal Property presentation on the TMO SharePoint before you go.',office:'TMO, HHG and POV',loc:'Bldg 426, next to the Base Library',hours:'0900-1500 Monday to Friday',phone:'238-5779',due:'18 MAY 2026',status:'overdue',tag:'pov',carry:true},
+{id:2,name:'TMO passenger travel',desc:'Start travel using the Automated Passenger Reservation Tool on the Passenger Travel Access Point. Guides for the APRT and the travel process are on the TMO SharePoint. For help email 100lrs.pax@us.af.mil, which cannot accept encrypted mail. You will not be signed out of vMPF until 5 business days before departure.',office:'Passenger Travel and CTO',loc:'Bldg 598',hours:'0900-1500 Monday to Friday',phone:'238-2061',due:'17 JUN 2026',status:'overdue'},
+{id:3,name:'M and FRC EFMP family needs assessment',desc:'Required for Q-coded Airmen. Family needs assessments go to the gaining installation so support continues without a gap. Schedule after your travel screening clearance is authorised. Contact 100FSS.FSH.EFMP@us.af.mil with your DoD ID. If you are not Q-coded, email the same box to say so and you will be cleared.',office:'EFMP Family Support',loc:'M and FRC, Bldg 460',hours:'0800-1630 Monday to Friday',phone:'238-3406',due:'17 JUN 2026',status:'done',signed:'EFMP-FS on 17 JUN',tag:'efmp'},
+{id:4,name:'EZ PCS outbound briefing',desc:'Attend roughly four months before departure. Covers finance, personal property, vehicle shipment, passenger travel, Tricare and Pass and Registration. Register through the M and FRC events page. If short-notice orders make this impossible, email 100fss.fsfr@us.af.mil with your DoD ID.',office:'M and FRC',loc:'Bldg 460',hours:'0730-1630 Monday to Friday',phone:'238-3406',due:'17 JUN 2026',status:'done',signed:'M and FRC on 17 JUN'},
+{id:5,name:'Mobility gear turn-in',desc:'No appointment needed. You must be within 45 calendar days of final out. Uniform is not required. Remove all SIM M9 and name tapes. Wash the training coat and trousers in mild detergent and cold water, tumble dry low. Report lost or stolen items to the FLI manager and 100LRS.LGRRW@us.af.mil.',office:'War Readiness',loc:'Bldg 550',hours:'0800-1530 Mon to Fri, 0800-1330 Thu',phone:'238-5076',due:'02 JUL 2026',status:'done',signed:'War Readiness on 02 JUL'},
+{id:6,name:'PWCS equipment custodian',desc:'Custodians must submit an appointment letter to the PWCS manager and complete inventory turnover no later than 45 days before departure. Contact 100 CS SCOSA to start turnover. Everyone else is removed automatically.',office:'PWCS',loc:'Bldg 585',hours:'0730-1600 Monday to Friday',phone:'238-2006',due:'02 JUL 2026',status:'done',signed:'100 CS on 02 JUL',tag:'cust'},
+{id:7,name:'Government purchase card',desc:'Cardholders and approving officials contact the GPC team. Approving officials need a cancellation memo before out-processing. A copy of orders is not required. Everyone else is out-processed automatically when they appear in the system.',office:'48 CONS GPC',loc:'Bldg 977',hours:'0830-1630 Monday to Friday',phone:'226-2273',due:'07 JUL 2026',status:'done',signed:'48 CONS on 07 JUL',tag:'cust'},
+{id:8,name:'SIPR account and token',desc:'If you hold a SIPR token, return it to Bldg 591. You will not be cleared until it is turned in. If you do not hold one, send a digitally signed email to rafmildenhall.lra@us.af.mil or 100CS.SCOSC@us.af.mil to be cleared. You will not appear on the list until 90 days out.',office:'100 CS Local Registration Authorities',loc:'Bldg 591',hours:'0900-1100 Tuesday to Thursday',phone:'238-5728',due:'17 JUL 2026',status:'open',tag:'sipr'},
+{id:9,name:'Schedule MPF final-out appointment',desc:'Your CSS signs this off. Uniform is required for the appointment. Get with your CSS to book it no later than 30 calendar days from your projected departure. Print and hand carry every required item on the Team Mildenhall checklist with the CSS signature. Book after you have reserved your flight.',office:'MPF Career Development',loc:'Bldg 436, Rm 215',hours:'0800-1500 Monday to Friday',phone:'238-5447',due:'17 JUL 2026',status:'open',triggersHandoff:true},
+{id:10,name:'Medical standards OCONUS',desc:'All personnel PCSing must out-process through Medical Standards. vMPF will not clear earlier than 30 days before departure. Your IMR must be current 90 days past your RNLTD including DRHA and PHA. Email your completed medical clearance memorandum to the BOMC org box with your name, new duty station and DoD ID, subject line vOP PCS. Allow 7 duty days.',office:'48 AMDS Medical Standards',loc:'Lakenheath Hospital, Bldg 926',hours:'0730-1500 Monday to Friday',phone:'226-8202',due:'17 JUL 2026',status:'open',carry:true},
+{id:11,name:'Unit IT asset management',desc:'Primary custodians complete a physical inventory and submit an updated appointment letter for turnover no later than 30 days before departure. Contact 100cs.scosa@us.af.mil. Everyone else is removed automatically.',office:'100 CS SCOSA',loc:'Bldg 586',hours:'0730-1630 Monday to Friday',phone:'238-8118',due:'17 JUL 2026',status:'done',signed:'100 CS on 17 JUL',tag:'cust'},
+{id:12,name:'Equipment custodian and CA/CRL',desc:'Equipment custodians need an updated appointment letter naming your replacement, training certificates for the new custodians, and a signed CA/CRL R-14 reflecting them. COMSEC and SPRAM holders have extra training. Send everything to 100lrs.lgrmceequipment@us.af.mil.',office:'Equipment Custodian Out-processing',loc:'Bldg 442, Rm 208',hours:'0730-1600 Monday to Friday',phone:'238-7008',due:'17 JUL 2026',status:'done',signed:'100 LRS on 17 JUL',tag:'cust'},
+{id:13,name:'Bench stock',desc:'Email 100LRS.LGRSC2@us.af.mil stating whether you are a bench stock monitor, primary or alternate. If you are, attach an updated appointment letter and training certificates. Complete no later than 30 days before departure. You will not appear on the out-processing list until 60 days out.',office:'100 LRS Customer Service',loc:'Bldg 442',hours:'0730-1630 Monday to Friday',phone:'238-2124',due:'17 JUL 2026',status:'done',signed:'100 LRS on 17 JUL',tag:'cust'},
+{id:14,name:'Voting assistance',desc:'Notify your local election office you are no longer covered under UOCAVA. You may submit a national mail voter registration form before you separate. Use FVAP.gov for assistance. No visit required, members are removed every Friday from 1400.',office:'Installation Voting Assistance Office',loc:'M and FRC, Bldg 460',hours:'1400-1600 Wednesday to Friday',phone:'238-8683',due:'17 JUL 2026',status:'done',signed:'IVAO on 17 JUL'},
+{id:15,name:'Unit records POC',desc:'Records POCs named on a commander-signed appointment letter must be replaced on that letter and complete turnover before leaving. Call 100 CS SCXK to start. Everyone else is signed off automatically.',office:'Base Records Management',loc:'Bldg 239',hours:'0800-1600 Monday to Friday',phone:'238-7900',due:'17 JUL 2026',status:'done',signed:'Records Mgmt on 17 JUL',tag:'cust'},
+{id:16,name:'Facility manager appointment letter',desc:'Facility managers only. Civil Engineering needs an updated facility manager appointment letter for your area before you depart. Not applicable to anyone else.',office:'100 CES CEOER',loc:'Bldg 680, Rm G31',hours:'0700-1600 Monday to Friday',phone:'238-5655',due:'17 JUL 2026',status:'done',signed:'100 CES on 17 JUL',tag:'cust'},
+{id:17,name:'Clear finance office',desc:'Create a ticket in the Comptroller Services Portal when you are within 30 days of departure. Include your orders, any amendments, and your flight itinerary or date of departure. Any deferred security deposit debt must be paid off before vMPF will clear you. Cashier takes payment Tuesdays and Thursdays 0800-1100 by cashiers check, personal check or money order.',office:'100 CPTS Finance',loc:'Bldg 441',hours:'0900-1500 Monday to Friday',phone:'238-4874',due:'22 JUL 2026',status:'done',signed:'100 CPTS on 22 JUL'},
+{id:18,name:'Outstanding TDY orders',desc:'Go into DTS and make sure every voucher is filed before emailing. Members are out-processed roughly one to two weeks before final out. If you have not been cleared, email 100CPTS.FMA2@us.af.mil.',office:'100 CPTS FMA',loc:'Bldg 441',hours:'0800-1500 Monday to Friday',phone:'238-4874',due:'02 AUG 2026',status:'done',signed:'100 CPTS on 02 AUG'},
+{id:19,name:'Force protection AT Level 1',desc:'Your antiterrorism Level 1 training, course ZZ133079, must be current within the last year. Review the DoD Foreign Clearance Guide for the country you are PCSing to. Send your certificate to 100sfs.s5w@us.af.mil. Sponsors are responsible for family members aged 14 and older completing the briefing before OCONUS travel.',office:'100 ARW Antiterrorism Office',loc:'Your unit AT rep',hours:'0800-1630 Monday to Friday',phone:'238-3455',due:'02 AUG 2026',status:'done',signed:'AT Office on 02 AUG'},
+{id:20,name:'Clear library',desc:'If you and your dependents have no library account, or have an account with nothing checked out, no visit is needed. You are signed off automatically once your name appears on vMPF, typically about three weeks before final out. Lost items must be replaced, call to discuss the procedure.',office:'Base Library',loc:'Bldg 425',hours:'1000-1700 Monday to Saturday',phone:'238-2352',due:'01 AUG 2026',status:'done',signed:'Library on 01 AUG'},
+{id:21,name:'100 LRS BAS and SIK letter',desc:'If you receive BAS or are subsistence in kind, a Form 220 must be completed and turned in so payment stops. The 220 must be signed by the commander, so plan ahead. Checked off at your squadron out-processing appointment.',office:'100 LRS CSS',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-5450',due:'01 AUG 2026',status:'open'},
+{id:22,name:'Vehicles and restricted area badge',desc:'Only Pass and ID signs this, not your CSS. Walk-ins 0800-1200, appointments 1300-1530. Complete no later than 3 days before MPF final out. All vehicles must be exported, sold or scrapped first. Bring your restricted area badge with DD Form 2586, driving fuel permit including dependents, proof of vehicle disposal, a copy of orders and your checklist. Do not sell imported vehicles without notifying the office, and never to a British national.',office:'Pass and Registration',loc:'Bldg 440',hours:'0800-1530 Monday to Friday',phone:'238-5501',due:'01 AUG 2026',status:'open',tag:'pov'},
+{id:23,name:'Clear housing office',desc:'Off base, give 30 days written notice and get a landlord clearance letter. You can claim your last 10 nights of TLA counting back from departure, including 3 nights overlapping OHA. Base housing, book a pre-inspection 30 to 45 days out and bring your departure date and orders to schedule the final. Dorm residents just provide orders.',office:'Mildenhall Housing Office',loc:'Bldg 460, RAF Lakenheath',hours:'0800-1530 Monday to Friday',phone:'226-2101',due:'01 AUG 2026',status:'open'},
+{id:24,name:'First sergeant final-out debrief',desc:'Out-process with the first sergeant no later than 5 duty days before departure. Covers quality force review including UIF, PIF and FCP where applicable, and your feedback on squadron operations.',office:'100 LRS First Sergeant',loc:'Bldg 554, Rm 107',hours:'0730-1700 Monday to Friday',phone:'238-5473',due:'01 AUG 2026',status:'open'},
+{id:25,name:'Dental records',desc:'Email or bring a copy of your PCS orders within 10 duty days of final out. Emailed orders get you the transfer of dental records memorandum within 48 hours to take to your final out appointment. All dental and medical records are mailed to your gaining treatment facility.',office:'48 DS Dental Clinic',loc:'Bldg 446, RAF Lakenheath',hours:'0730-1700 Mon to Thu, 0730-1630 Fri',phone:'226-8010',due:'06 AUG 2026',status:'open',carry:true},
+{id:26,name:'Clear furnishings management office',desc:'Every item issued from FMS must be returned before this clears. Call to schedule pick-up of government loaned assets. This one requires a visit, it will not clear on its own.',office:'Furnishing Management Office',loc:'Bldg 73, RAF Feltwell',hours:'0830-1530 Mon to Wed, 0930-1530 Thu, 0830-1500 Fri',phone:'226-7030',due:'06 AUG 2026',status:'open'},
+{id:27,name:'Medical records',desc:'You must be within 20 days of final out or you will not be cleared. Allow up to 72 hours. Bring 2 copies of orders to the Tricare front desk atrium in Bldg 922 on Tuesday, Wednesday or Thursday between 1000 and 1400.',office:'Medical Records',loc:'Bldg 922, RAF Lakenheath',hours:'0730-1630 Monday to Friday',phone:'226-8742',due:'06 AUG 2026',status:'open',carry:true},
+{id:28,name:'Motorcycle safety representative',desc:'All riders must be cleared from MUSTT. If you are PCSing, transfer your MUSTT profile to the gaining base. Non-riders are removed automatically. Cleared at your squadron final out.',office:'100 LRS Motorcycle Safety Rep',loc:'Bldg 426 or 554',hours:'0800-1500 Monday to Friday',phone:'238-1128',due:'06 AUG 2026',status:'open',tag:'moto'},
+{id:29,name:'HARM records',desc:'Only flyers and jumpers. Out-process your SARM office first, then email a copy of your orders to 100OSS.OSOF@us.af.mil. Jumpers must contact HARM for jump record pick-up between 0830 and 1530. Non-aircrew are removed automatically.',office:'HARM Records',loc:'Bldg 809',hours:'0800-1630 Monday to Friday',phone:'238-6955',due:'06 AUG 2026',status:'done',signed:'Removed, non-aircrew'},
+{id:30,name:'Out-process education office',desc:'Handled through vMPF. Your education records are locked and stay inaccessible until you in-process at your next base. If vMPF shows visit required, report to the education services office in person.',office:'Education Office',loc:'Bldg 427, Washington Square',hours:'0800-1600 Monday to Friday',phone:'238-2350',due:'06 AUG 2026',status:'done',signed:'Education on 06 AUG'},
+{id:31,name:'Immunizations clinic',desc:'If you need no immunizations you are signed out automatically within 10 days of the suspense date. Otherwise send your clearance memorandum to the SGOMA org box, filled out properly and named with your rank and full name.',office:'Immunizations Clinic',loc:'Bldg 932, RAF Lakenheath',hours:'0730-1630 Monday to Friday',phone:'226-8203',due:'06 AUG 2026',status:'done',signed:'Immunizations on 06 AUG'},
+{id:32,name:'Post office',desc:'Bring or email a copy of your orders and the RAFM worksheet from the post office website. Bring key fobs to the customer service window. Make sure you have a complete forwarding address before out-processing.',office:'Post Office',loc:'Bldg 442',hours:'0900-1600 Monday to Friday',phone:'238-7671',due:'09 AUG 2026',status:'open'},
+{id:33,name:'UDM and force protection',desc:'Stop by the unit deployment office no earlier than 5 days before final out. The UDM office checks this off.',office:'100 LRS UDM',loc:'Bldg 550, Rm 111',hours:'0800-1600 Monday to Friday',phone:'238-6686',due:'11 AUG 2026',status:'open'},
+{id:34,name:'Government drivers licence',desc:'If you hold a government licence you must out-process with OR and L to get your DAF Form 2296 master driver record transferred, or the gaining base cannot accept you. vMPF will not clear earlier than 30 days out. If you were never issued one, no action needed.',office:'Operations Resources and Logistics',loc:'Bldg 582',hours:'0730-1630 Monday to Friday',phone:'238-2442',due:'11 AUG 2026',status:'open'},
+{id:35,name:'Unaccompanied housing, dorms',desc:'Dorm residents schedule a pre-inspection and final inspection no later than 30 days before departure. You are signed off after the final inspection. Non-residents are signed off automatically 30 days out.',office:'Unaccompanied Housing',loc:'Dorm managers office',hours:'0730-1600 Monday to Friday',phone:'238-5736',due:'13 AUG 2026',status:'done',signed:'Removed, not a dorm resident',tag:'dorm'},
+{id:36,name:'Ration card turn-in',desc:'Turn in your ration card no earlier than 3 days before final out, to the CSS office that issued it since they account for the controlled item. If the card is lost you need a lost ration card letter signed by your first sergeant or commander.',office:'100 FSS Customer Service',loc:'Bldg 436',hours:'0800-1500 Monday to Friday',phone:'238-2276',due:'13 AUG 2026',status:'open'},
+{id:37,name:'CRO clearance',desc:'Meet flight admin to process any CRO requests. They update the duty status change request spreadsheet with any changes. Ask admin to wet sign a paper copy of the checklist and bring it to final out with your CSS.',office:'100 LRS Flight Admin',loc:'Bldg 554',hours:'0800-1530 Monday to Friday',phone:'238-0000',due:'15 AUG 2026',status:'open'},
+{id:38,name:'100 LRS CSS final out',desc:'Send your flight itinerary and orders to 100lrs.css@us.af.mil. You get a calendar invite with your squadron and MPF final out dates and times, with the MPF document checklist attached. Bring that checklist and the documents to your squadron final out.',office:'100 LRS CSS',loc:'Bldg 554, Rm 106',hours:'0830-1630 Monday to Thursday',phone:'238-6454',due:'15 AUG 2026',status:'open'},
+{id:39,name:'Government travel card verification',desc:'The APC verifies PCS status on your GTCC. PCS status and the increased limit should activate automatically no later than 15 days before DEROS and can be confirmed in Citibank. Checked off at squadron final out.',office:'100 LRS APC',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-5465',due:'15 AUG 2026',status:'open'},
+{id:40,name:'Sponsorship handover',desc:'Contact flight admin to reassign any inbound members you are sponsoring. Have flight admin wet sign a copy of the checklist. Signed off at squadron final out.',office:'100 LRS Sponsorship Program',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-2911',due:'15 AUG 2026',status:'open'},
+{id:41,name:'DTS detach',desc:'The ODTA detaches you from 100 LRS in DTS. Make sure there are no active authorizations or vouchers left open. Cleared at squadron final out.',office:'100 LRS ODTA',loc:'Bldg 554, Rm 106',hours:'0830-1600 Monday to Friday',phone:'238-5465',due:'15 AUG 2026',status:'open'},
+{id:42,name:'Return building and section keys',desc:'Return any building or section keys to the facility manager and have them wet sign a copy of the checklist. Cleared at final out with your CSS.',office:'100 LRS Facility Manager',loc:'Bldg 554, Rm 111',hours:'0800-1530 Monday to Friday',phone:'238-6379',due:'15 AUG 2026',status:'open'},
+{id:43,name:'Quality indicator clearance',desc:'If you have a UIF it is mailed to your next duty location. Cleared at your squadron final out appointment.',office:'100 LRS CSS',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-5450',due:'15 AUG 2026',status:'open'},
+{id:44,name:'Unit training manager',desc:'Visit the 100 LRS UTM for final out clearance. Take a paper copy of the checklist to be wet signed. Cleared at final out with your CSS.',office:'100 LRS UTM',loc:'Bldg 554, Rm 204',hours:'0800-1500 Monday to Friday',phone:'238-5786',due:'15 AUG 2026',status:'open'},
+{id:45,name:'EPB and OPB status',desc:'Be aware of your current performance brief status before you leave. Checked off at final out with your CSS.',office:'100 LRS CSS',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-5450',due:'15 AUG 2026',status:'open'},
+{id:46,name:'Fitness record verification',desc:'Verify your last and upcoming PT test and body composition assessment with the 100 LRS fitness monitor at final out with your CSS.',office:'100 LRS Fitness Monitor',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-6454',due:'16 AUG 2026',status:'open'},
+{id:47,name:'Client systems administrator',desc:'The CSA deletes your network account. Return any IT assets. Take a paper copy of the checklist to the CSA for a wet signature. Cleared at final out with your CSS.',office:'100 LRS CSA',loc:'Bldg 554',hours:'0800-1600 Monday to Friday',phone:'238-5463',due:'16 AUG 2026',status:'open'},
+{id:48,name:'Flight final out',desc:'See your flight admin to make a final out appointment with flight leadership. Take a paper copy of the checklist for a wet signature. Cleared at final out with your CSS.',office:'100 LRS Flight Leadership',loc:'Varies by flight',hours:'0800-1600 Monday to Friday',phone:'238-0000',due:'16 AUG 2026',status:'open'},
+{id:49,name:'Senior enlisted leader final out',desc:'Meet with the 100 LRS SEL and bring a paper copy of the checklist for a wet signature. Cleared at final out with your CSS.',office:'100 LRS SEL',loc:'Bldg 554, Rm 108',hours:'0800-1530 Monday to Friday',phone:'238-7224',due:'16 AUG 2026',status:'open'},
+{id:50,name:'Security manager',desc:'You complete IMT 2587 for security release during your final out appointment with the CSS.',office:'100 LRS Security Manager',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-6454',due:'16 AUG 2026',status:'open'},
+{id:51,name:'Stop special duty assignment pay',desc:'If you receive SDAP you must complete a Form 2096 to stop it before departing. Email 100lrs.css@us.af.mil to request the 2096 no later than 15 duty days before squadron final out.',office:'100 LRS CSS',loc:'Bldg 554, Rm 106',hours:'0800-1530 Monday to Friday',phone:'238-2911',due:'16 AUG 2026',status:'open'},
+{id:52,name:'Reports and analysis',desc:'Email a copy of your orders, your final out date, and the SSNs of any dependents aged 10 and over to 100SFS.S5.RA@us.af.mil. Orders are still required even if you have no dependents.',office:'Reports and Analysis',loc:'Bldg 438',hours:'0600-1600 Monday to Friday',phone:'238-5512',due:'16 AUG 2026',status:'open'},
+{id:53,name:'Family member medical and educational clearance',desc:'Initiate in MyVector. If you are EFMP enrolled or PCSing OCONUS you are prompted for this automatically after the travel screening questionnaire. The AF Form 1466 is no longer used for PCS. Use Chrome or Edge. Signed off once your FMTS application receives a final travel determination.',office:'Family Member Relocation Clearance',loc:'Lakenheath Hospital',hours:'0800-1600 Monday to Friday',phone:'226-8202',due:'18 MAY 2026',status:'done',signed:'Final travel determination',tag:'fam',carry:true},
+{id:54,name:'Narrative-only PRF, AF level students',desc:'Officers assigned as permanent party students training outside their utilization field need a narrative-only PRF, as do certain PPC codes. See AFI 36-2406 paragraph 8.1.5.6.1. Send the PRF to the Career Development org box before your DEROS month and bring it to MPF final out.',office:'MPF Career Development',loc:'Bldg 436, Rm 215',hours:'0800-1500 Monday to Friday',phone:'238-5447',due:'17 JUL 2026',status:'done',signed:'Not applicable'}
+];
+
+var masterIn=[
+{id:101,name:'Report to unit',desc:'Your first stop. Check in with your orderly room or first sergeant. Many other offices need proof of unit check-in before they will see you, so do this on day one.',office:'Your unit',loc:'Squadron',hours:'Duty hours',phone:'',due:'01 SEP 2026',status:'open'},
+{id:102,name:'Base pass and ID card',desc:'Get your base access credential and update your CAC with the new duty location. Bring your orders and current ID.',office:'Pass and Registration',loc:'Bldg 2101',hours:'0800-1530 Monday to Friday',phone:'',due:'01 SEP 2026',status:'open'},
+{id:103,name:'Finance in-processing',desc:'Set up pay for the new location including COLA, OHA and overseas entitlements. Bring orders, a recent LES, your lease if you have one, and bank details.',office:'86 CPTS Finance',loc:'Bldg 2118',hours:'0800-1500 Monday to Friday',phone:'',due:'04 SEP 2026',status:'open'},
+{id:104,name:'Medical records transfer in',desc:'Hand over the records you carried from Mildenhall and enroll with a local primary care team. Bring records for every family member.',office:'86 MDG Medical Records',loc:'Bldg 2113',hours:'0730-1630 Monday to Friday',phone:'',due:'08 SEP 2026',status:'open',fedBy:27},
+{id:105,name:'Housing in-brief',desc:'Mandatory briefing covering on-base availability, off-base rules and your housing entitlement. Appointment required, book before you arrive if you can.',office:'Housing Office',loc:'Bldg 2114',hours:'0800-1530 Monday to Friday',phone:'',due:'08 SEP 2026',status:'open'},
+{id:106,name:'USAREUR drivers licence',desc:'Germany requires the USAREUR licence and your US licence alone is not valid. A written test is required. Bring your US licence, orders and proof of insurance.',office:'Vehicle Registration',loc:'Bldg 2101',hours:'0800-1530 Monday to Friday',phone:'',due:'15 SEP 2026',status:'open'},
+{id:107,name:'NATO SOFA customs card',desc:'Issued for duty-free purchases and customs clearance in Germany. Bring your orders and ID.',office:'Customs Office',loc:'Bldg 2120',hours:'0800-1600 Monday to Friday',phone:'',due:'15 SEP 2026',status:'open'},
+{id:108,name:'Newcomer orientation brief',desc:'Base-wide orientation covering local laws, driving, host nation customs and available services. Offered weekly, sign up through your sponsor.',office:'Airman and Family Readiness',loc:'Bldg 2117',hours:'0730-1630 Monday to Friday',phone:'',due:'01 OCT 2026',status:'open'},
+{id:109,name:'Commander in-processing',desc:'Final sign-off. Your commander confirms in-processing is complete and you are released to full duty status.',office:'Squadron leadership',loc:'Squadron',hours:'Duty hours',phone:'',due:'01 OCT 2026',status:'open'}
+];
+
+var inbox=[
+{id:1,kind:'reminder',icon:'ti-alert-triangle',bg:'#FCEBEB',fg:'#A32D2D',t:'TMO personal property is overdue',b:'Due 18 MAY. Send the PPTY Form 75 and your orders to 100lrs.tmo@us.af.mil. Shipping slots fill fast in summer.',when:'Today',read:false},
+{id:2,kind:'message',icon:'ti-friends',bg:'#FBEEE0',fg:'#8A4B10',t:'TSgt Alvarez, your Ramstein sponsor',b:'Got your assignment notification. I put you on the temporary lodging list already. What is your rough arrival window?',when:'Today',read:false},
+{id:3,kind:'reminder',icon:'ti-clock',bg:'#FAEEDA',fg:'#7A4809',t:'Medical standards due in 3 days',b:'Email your completed clearance memorandum to the BOMC org box with subject line vOP PCS. Allow 7 duty days.',when:'Yesterday',read:false},
+{id:4,kind:'handoff',icon:'ti-plane',bg:'#EEEDFE',fg:'#554CBB',t:'Ramstein has your inbound record',b:'Your assignment notification reached Ramstein MPF. Your in-processing checklist is built and waiting. Your sponsor is TSgt Alvarez.',when:'2 days ago',read:true},
+{id:5,kind:'reminder',icon:'ti-bell',bg:'#E6F1FB',fg:'#0D4680',t:'Out-processing has started',b:'Your profile is approved and your checklist is live. The highest-value thing you can do this week is start TMO.',when:'12 JUL',read:true}
+];
+
+var rules=[
+{id:1,t:'Day one nudge',b:'Sent when out-processing opens, pointing at TMO first',on:true},
+{id:2,t:'Thirty days out',b:'Summary of everything still open with 30 days to go',on:true},
+{id:3,t:'Three days before a due date',b:'Per-task reminder with what to bring',on:true},
+{id:4,t:'Overdue escalation',b:'Daily until cleared, copied to the counselor after 7 days',on:true},
+{id:5,t:'Arrival week',b:'Sent on RNLTD with the first three in-processing stops',on:true},
+{id:6,t:'Sponsor introduction',b:'Introduces member and sponsor as soon as the handoff lands',on:false}
+];
+
+var sponsorMsgs=[
+{from:'them',b:'Got your assignment notification. I put you on the temporary lodging list already. What is your rough arrival window?',when:'Today 09:14'},
+{from:'me',b:'Appreciate it. Landing 01 SEP, wife and one kid, plus a dog.',when:'Today 09:31'},
+{from:'them',b:'Dog is fine, just make sure the health certificate is inside ten days of travel. On-base housing wait is about six weeks so plan on lodging.',when:'Today 09:40'}
+];
+
+var sponsorPrep=[
+{id:1,t:'Confirm temporary lodging booking',b:'Six week housing wait means they will need lodging on arrival',done:true},
+{id:2,t:'Send local area guide and school information',b:'One dependent aged 8, include the DoDEA elementary catchment',done:true},
+{id:3,t:'Arrange airport pickup',b:'Frankfurt is about ninety minutes out, confirm flight details',done:false},
+{id:4,t:'Reserve loan closet items',b:'Basic kitchen and bedding until household goods arrive',done:false},
+{id:5,t:'Introduce to section supervisor before arrival',b:'A quick call ahead of day one helps more than anything else',done:false}
+];
+
+var tips=[
+{id:1,t:'Apply for your no-fee passport immediately',b:'No-fee passports take six to eight weeks. Apply through MPF the moment orders drop rather than waiting for travel to be booked.',y:'out',tier:'global',tl:'Global'},
+{id:2,t:'Start TMO the week orders drop',b:'Shipping slots fill fast during summer PCS season. Submitting your PPTY Form 75 early gives you far more control over your pack-out dates.',y:'out',tier:'mpf',tl:'Base MPF'},
+{id:3,t:'Bring several copies of your orders everywhere',b:'Nearly every office on this checklist asks for a copy. Print ten and keep a digital copy on your phone.',y:'both',tier:'mpf',tl:'Base MPF'},
+{id:4,t:'Half the checklist clears at squadron final out',b:'CRO, GTCC, DTS, keys, UTM, fitness, CSA, SEL, security manager and SDAP are all signed at the same CSS appointment. Bring one wet-signed paper checklist and you knock out ten items.',y:'out',tier:'mpf',tl:'Base MPF'},
+{id:5,t:'IMR must be current 90 days past your RNLTD',b:'That includes DRHA and PHA. Check it before you email the clearance memorandum or we will send it back.',y:'out',tier:'office',tl:'Medical Standards'},
+{id:6,t:'Do not come to medical records too early',b:'You must be within 20 days of final out or the system will not let us clear you. Bring 2 copies of orders to the Tricare atrium Tuesday, Wednesday or Thursday between 1000 and 1400.',y:'out',tier:'office',tl:'Medical Records'},
+{id:7,t:'Sell or export your vehicle before Pass and Reg',b:'They cannot sign you off until every vehicle is off your record. Book a separate earlier appointment just to collect the export forms.',y:'out',tier:'counsel',tl:'Base counselor'}
+];
+
+var qMembers=[
+{id:'carter',ini:'JC',c:'#B5D4F4',tc:'#0D4680',n:'SSgt Carter, J.',dep:'16 AUG',over:true,tasks:[{id:'ms',n:'Medical standards OCONUS',done:false},{id:'mr',n:'Medical records',done:false}]},
+{id:'kim',ini:'JK',c:'#C0DD97',tc:'#356210',n:'A1C Kim, J.',dep:'20 AUG',over:false,tasks:[{id:'ms',n:'Medical standards OCONUS',done:false},{id:'mr',n:'Medical records',done:true}]},
+{id:'reyes',ini:'PR',c:'#CECBF6',tc:'#3C3489',n:'SrA Reyes, P.',dep:'25 AUG',over:false,tasks:[{id:'ms',n:'Medical standards OCONUS',done:false},{id:'mr',n:'Medical records',done:false}]},
+{id:'walker',ini:'TW',c:'#F5C4B3',tc:'#712B13',n:'SSgt Walker, T.',dep:'01 SEP',over:false,tasks:[{id:'ms',n:'Medical standards OCONUS',done:true},{id:'mr',n:'Medical records',done:false}]}
+];
+var caseload=[
+{ini:'JC',c:'#B5D4F4',tc:'#0D4680',n:'SSgt Carter, J.',dep:'16 AUG',pct:37,risk:'high'},
+{ini:'JK',c:'#C0DD97',tc:'#356210',n:'A1C Kim, J.',dep:'20 AUG',pct:21,risk:'medium'},
+{ini:'PR',c:'#CECBF6',tc:'#3C3489',n:'SrA Reyes, P.',dep:'25 AUG',pct:44,risk:'low'},
+{ini:'TW',c:'#F5C4B3',tc:'#712B13',n:'SSgt Walker, T.',dep:'01 SEP',pct:57,risk:'low'},
+{ini:'DN',c:'#9FE1CB',tc:'#0A5344',n:'Capt Nguyen, D.',dep:'05 SEP',pct:0,risk:'high'}
+];
+var inbound=[
+{ini:'SR',c:'#EEEDFE',tc:'#554CBB',n:'SrA Reyes, P.',from:'Ramstein AB',rnltd:'20 JUL',pct:8,sponsor:'SSgt Doyle',state:'arrived'},
+{ini:'KM',c:'#E9F3DD',tc:'#356210',n:'TSgt Morris, K.',from:'Kadena AB',rnltd:'22 JUL',pct:17,sponsor:'TSgt Alvarez',state:'arrived'},
+{ini:'BL',c:'#FBEEE0',tc:'#8A4B10',n:'A1C Lee, B.',from:'Travis AFB',rnltd:'01 AUG',pct:0,sponsor:'Not assigned',state:'enroute'},
+{ini:'HP',c:'#F5C4B3',tc:'#712B13',n:'SSgt Park, H.',from:'Aviano AB',rnltd:'12 AUG',pct:0,sponsor:'Not assigned',state:'notified'}
+];
+var bases=[
+{n:'RAF Mildenhall',c:'UK',mpf:'MSgt Chen, L.',live:true},
+{n:'Ramstein AB',c:'Germany',mpf:'MSgt Torres, A.',live:true},
+{n:'Kadena AB',c:'Japan',mpf:'SSgt Park, J.',live:true},
+{n:'Travis AFB',c:'CONUS',mpf:'Not assigned',live:false}
+];
+var greqs=[{id:10,n:'MSgt Green, T.',base:'Yokota AB',want:'Base MPF super admin',why:'Yokota onboarding in Q3',st:'pending'}];
+var reqs=[{id:1,n:'SSgt Webb, S.',cur:'Office worker',want:'Office lead admin',why:'Current lead is PCSing in August',st:'pending'}];
+var offices=[{n:'TMO personal property',m:4.2,o:1.9},{n:'Medical standards',m:2.1,o:2.8},{n:'Housing',m:2.8,o:0.8},{n:'Finance',m:1.4,o:0.6},{n:'Pass and Reg',m:1.9,o:0.5}];
+var slots={0:[{t:'Tue 10:00',s:'taken'},{t:'Tue 10:30',s:'open'},{t:'Wed 10:00',s:'open'},{t:'Wed 10:30',s:'taken'},{t:'Thu 10:00',s:'open'}],1:[{t:'Tue 10:00',s:'open'},{t:'Wed 10:00',s:'open'},{t:'Thu 10:00',s:'open'}],2:[{t:'Wed 10:00',s:'open'},{t:'Thu 10:00',s:'open'}],3:[{t:'Tue 10:00',s:'open'}]};
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function el(id){return document.getElementById(id);}
+function show(id){var l=document.querySelectorAll('.scr');for(var i=0;i<l.length;i++){l[i].classList.remove('on');}var e=el(id);if(e)e.classList.add('on');}
+function tog(id){var e=el(id);if(e)e.classList.toggle('on');}
+function say(nid,tid,msg){var n=el(nid),t=el(tid);if(!n||!t)return;t.textContent=msg;n.style.display='flex';clearTimeout(n._t);n._t=setTimeout(function(){n.style.display='none';},3400);}
+function initials(name){
+var s=String(name).replace(/^[A-Za-z0-9]+\s+/,'');
+var p=s.split(/[\s,]+/).filter(Boolean);
+if(p.length>=2)return (p[1].charAt(0)+p[0].charAt(0)).toUpperCase();
+return s.substring(0,2).toUpperCase();
+}
+
+function quick(email){var e=el('lg-email');if(e)e.value=email;var p=el('lg-pass');if(p)p.value='demo';doLogin();}
+function doLogin(){
+var e=el('lg-email'),p=el('lg-pass');
+var email=e?e.value.trim().toLowerCase():'';
+if(!email){say('nf-lg','nf-lgt','Enter your email to sign in.');return;}
+var found=null;
+for(var i=0;i<accounts.length;i++){if(accounts[i].email===email)found=accounts[i];}
+if(!found){say('nf-lg','nf-lgt','No account found. Create one to get started.');return;}
+me=found;
+if(e)e.value='';if(p)p.value='';
+if(me.status==='pending'){showPending();return;}
+if(me.roles.length===1){enterRole(me.roles[0]);}else{showRoles();}
+}
+function signOut(){me=null;role=null;show('s-login');}
+function showRoles(){
+show('s-roles');
+var n=el('rl-name');if(n)n.textContent=me.name;
+var s=el('rl-sub');if(s)s.textContent=me.unit+' \u00b7 choose how you want to work';
+var box=el('rolelist');if(!box)return;box.innerHTML='';
+for(var i=0;i<me.roles.length;i++){
+var r=me.roles[i],m=roleMeta[r];if(!m)continue;
+var d=document.createElement('div');d.className='rolecard';
+d.setAttribute('data-r',r);
+d.onclick=function(){enterRole(this.getAttribute('data-r'));};
+var extra='';
+if(r==='member'&&me.profile)extra=' \u00b7 departs '+esc(me.profile.depart);
+d.innerHTML='<div class="ricon" style="background:'+m.bg+'"><i class="ti '+m.i+'" style="font-size:19px;color:'+m.fg+'"></i></div><div style="flex:1"><div class="tn">'+esc(m.n)+'</div><div class="ts">'+esc(m.d)+extra+'</div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--t3)"></i>';
+box.appendChild(d);
+}
+}
+function switchRole(){if(me&&me.roles.length>1){showRoles();}else{signOut();}}
+function enterRole(r){
+role=r;
+if(r==='member'){show('s-member');initMember();}
+else if(r==='sponsor'){show('s-sponsor');var n=el('sp-name');if(n)n.textContent='Sponsor \u00b7 '+me.name;sTab('mem');drawSponsor();drawPrep();drawMsgs();}
+else if(r==='worker'){show('s-worker');var w=el('wk-name');if(w)w.textContent=me.name;var ws=el('wk-sub');if(ws)ws.textContent=(me.office||'Office')+' \u00b7 sign-off queue';wTab('queue');drawQueue('wqueue','w');drawTips('wtips','office');}
+else if(r==='lead'){show('s-lead');var l=el('ld-name');if(l)l.textContent='Office lead \u00b7 '+(me.office||'Office');lTab('sched');drawSlots();drawQueue('lqueue','l');drawTips('ltips','office');}
+else if(r==='counsel'){show('s-counsel');var c=el('cn-name');if(c)c.textContent='Counselor \u00b7 '+me.name;cTab('mem');drawCase();drawTips('ctips','counsel');drawReqs('creq','c');}
+else if(r==='mpf'){show('s-mpf');var mn=el('mp-name');if(mn)mn.textContent=me.name;bTab('prof');drawProfiles();drawMaster();drawRules();drawUsers();}
+else if(r==='cmd'){show('s-cmd');var cd=el('cd-name');if(cd)cd.textContent='Commander \u00b7 '+me.unit;dTab('out');drawCmd();drawDInb();drawTips('dtips','cmd');}
+else if(r==='global'){show('s-global');var g=el('gl-name');if(g)g.textContent=me.name;gTab('health');drawBases();drawTips('gtips','global');}
+}
+
+function startSignup(){suStep=1;suShow();show('s-signup');}
+function suShow(){
+var ids=[1,2,3];
+for(var i=0;i<ids.length;i++){
+var p=el('su-'+ids[i]),b=el('sb'+ids[i]);
+if(p)p.classList.toggle('on',ids[i]===suStep);
+if(b)b.classList.toggle('on',ids[i]<=suStep);
+}
+var labels={1:'Step 1 of 3 \u00b7 Who you are',2:'Step 2 of 3 \u00b7 Your move',3:'Step 3 of 3 \u00b7 What applies to you'};
+var s=el('su-step');if(s)s.textContent=labels[suStep];
+}
+function suNext(n){
+if(n===2&&suStep===1){
+var nm=el('su-name'),em=el('su-email');
+if(!nm||!nm.value.trim()){say('nf-lg','nf-lgt','Add your rank and name to continue.');return;}
+if(!em||!em.value.trim()){say('nf-lg','nf-lgt','Add your work email to continue.');return;}
+}
+suStep=n;suShow();
+}
+function chk(id){var e=el(id);return e?!!e.checked:false;}
+function val(id){var e=el(id);return e?e.value:'';}
+function submitProfile(){
+var name=val('su-name').trim()||'New member';
+var email=val('su-email').trim().toLowerCase()||('new'+Date.now()+'@us.af.mil');
+draft={name:name,email:email,dod:val('su-dod'),unit:val('su-unit').trim()||'Unit not given',base:val('su-base'),
+dir:val('su-dir')||'out',gaining:val('su-gain'),depart:val('su-dep')||'Not set',type:val('su-type'),
+fam:chk('su-fam'),efmp:chk('su-efmp'),pov:chk('su-pov'),pet:chk('su-pet'),dorm:chk('su-dorm'),sipr:chk('su-sipr'),cust:chk('su-cust'),moto:chk('su-moto')};
+var acct={email:email,name:name,unit:draft.unit,roles:['member'],status:'pending',profile:draft};
+var dup=false;
+for(var i=0;i<accounts.length;i++){if(accounts[i].email===email){accounts[i]=acct;dup=true;}}
+if(!dup)accounts.push(acct);
+me=acct;
+showPending();
+}
+function showPending(){
+show('s-pending');
+var n=el('pd-name');if(n)n.textContent=me.name;
+var s=el('pd-summary');if(!s)return;
+var p=me.profile||{};
+var opts=[];
+if(p.fam)opts.push('travelling with family');
+if(p.efmp)opts.push('EFMP enrolled');
+if(p.pov)opts.push('shipping a vehicle');
+if(p.pet)opts.push('bringing pets');
+if(p.dorm)opts.push('dorm resident');
+if(p.sipr)opts.push('holds a SIPR token');
+if(p.cust)opts.push('custodian or monitor');
+if(p.moto)opts.push('motorcycle rider');
+s.innerHTML='<div class="dmr" style="margin-top:8px"><i class="ti ti-user"></i><span>'+esc(me.name)+', '+esc(me.unit)+'</span></div>'+
+'<div class="dmr"><i class="ti ti-plane-departure"></i><span>'+(p.dir==='in'?'In-processing':p.dir==='both'?'Mid-move, both directions':'Out-processing')+' \u00b7 '+esc(p.gaining||'')+'</span></div>'+
+'<div class="dmr"><i class="ti ti-calendar"></i><span>Departs '+esc(p.depart||'not set')+'</span></div>'+
+'<div class="dmr"><i class="ti ti-list-check"></i><span>'+(opts.length?esc(opts.join(', ')):'No extra circumstances selected')+'</span></div>';
+}
+
+function appliesTo(t,p){
+if(!t.tag)return true;
+if(!p)return true;
+return !!p[t.tag];
+}
+function myTasks(d){
+var src=d==='out'?masterOut:masterIn;
+var p=me&&me.profile?me.profile:null;
+var out=[];
+for(var i=0;i<src.length;i++){if(appliesTo(src[i],p))out.push(src[i]);}
+return out;
+}
+
+function initMember(){
+var p=me.profile||{};
+var n=el('m-name');if(n)n.textContent=me.name;
+journey.gaining=p.gaining||'Gaining base';
+journey.depart=p.depart||'Not set';
+var tg=el('mdirtog');
+if(tg)tg.style.display=p.dir==='both'?'flex':(p.dir==='in'?'none':'flex');
+setDir(p.dir==='in'?'in':'out');
+drawForms();drawInbox();drawJourney();drawProfileTab();
+}
+function drawJourney(){
+var e=el('jrny');if(!e)return;
+var st=journey.handoff==='complete'?'<span class="jstat pn">Handed off</span>':'<span class="jstat pa">Pending final out</span>';
+e.innerHTML='<div class="jleg"><div class="jbase">'+esc(journey.losing)+'</div><div class="jsub">Departs '+esc(journey.depart)+'</div></div><i class="ti ti-arrow-narrow-right jarrow"></i><div class="jleg"><div class="jbase">'+esc(journey.gaining)+'</div><div class="jsub">RNLTD '+esc(journey.rnltd)+'</div></div>'+st;
+}
+function setDir(d){
+dir=d;
+var a=el('mo-out'),b=el('mo-in');
+if(a)a.className='mtb'+(d==='out'?' on':'');
+if(b)b.className='mtb'+(d==='in'?' on':'');
+var h=el('mhdr');if(h)h.style.background=d==='out'?'#1A5FA8':'#554CBB';
+var s=el('mhsub');
+if(s)s.textContent=d==='out'?('Departs '+journey.depart+' \u00b7 '+journey.losing):(journey.gaining+' \u00b7 RNLTD '+journey.rnltd);
+drawMember();drawTips('mtips',null);
+}
+function setFilt(f){
+filt=f;var ids=['todo','all','done'];
+for(var i=0;i<ids.length;i++){var e=el('mf-'+ids[i]);if(e)e.className='fb'+(ids[i]===f?' on':'');}
+drawMember();
+}
+function drawMember(){
+var list=myTasks(dir),done=0;
+for(var i=0;i<list.length;i++){if(list[i].status==='done')done++;}
+var pct=list.length?Math.round(done/list.length*100):0;
+var pf=el('mpgf'),pl=el('mpgl');
+if(pf)pf.style.width=pct+'%';
+if(pl)pl.textContent=done+' of '+list.length+' complete';
+var box=el('mlist');if(!box)return;box.innerHTML='';
+if(dir==='in'&&journey.handoff!=='complete'){
+box.innerHTML='<div class="card" style="background:var(--b2)"><div class="row"><i class="ti ti-plane-arrival" style="font-size:20px;color:#554CBB"></i><div style="flex:1"><div class="tn">'+esc(journey.gaining)+' is holding your checklist</div><div class="ts">It unlocks when '+esc(journey.losing)+' MPF signs your final out. Anything you already cleared carries over.</div></div></div></div>';
+}
+var shown=[];
+for(var j=0;j<list.length;j++){
+var t=list[j];
+if(filt==='todo'&&t.status==='done')continue;
+if(filt==='done'&&t.status!=='done')continue;
+shown.push(t);
+}
+if(!shown.length){box.innerHTML+='<div class="emp"><i class="ti ti-circle-check"></i>'+(filt==='done'?'Nothing completed yet':'You are all caught up')+'</div>';return;}
+for(var k=0;k<shown.length;k++){
+var t2=shown[k],key=dir+'-'+t2.id,open=!!expT[key];
+var isDone=t2.status==='done',isOver=t2.status==='overdue';
+var badge=isDone?'<span class="pill pn">Complete</span>':isOver?'<span class="pill pr">Overdue</span>':'<span class="pill pi">'+esc(t2.due)+'</span>';
+var mark='<div class="chk'+(isDone?' ck':isOver?' od':'')+'">'+(isDone?'<i class="ti ti-check" style="font-size:13px"></i>':'')+'</div>';
+var rows='<div class="dmr"><i class="ti ti-building"></i><span>'+esc(t2.office)+'</span></div><div class="dmr"><i class="ti ti-map-pin"></i><span>'+esc(t2.loc)+'</span></div>';
+if(t2.hours)rows+='<div class="dmr"><i class="ti ti-clock"></i><span>'+esc(t2.hours)+'</span></div>';
+if(t2.phone)rows+='<div class="dmr"><i class="ti ti-phone"></i><span>DSN '+esc(t2.phone)+'</span></div>';
+if(t2.carry)rows+='<div class="dmr"><i class="ti ti-arrow-right-circle"></i><span>Carries over to '+esc(journey.gaining)+'</span></div>';
+if(t2.fedBy)rows+='<div class="dmr"><i class="ti ti-link"></i><span>Records already sent from '+esc(journey.losing)+'</span></div>';
+if(t2.triggersHandoff)rows+='<div class="dmr"><i class="ti ti-plane"></i><span>Signing this releases your record to '+esc(journey.gaining)+'</span></div>';
+if(isDone&&t2.signed)rows+='<div class="dmr"><i class="ti ti-writing-sign"></i><span>'+esc(t2.signed)+'</span></div>';
+var card=document.createElement('div');card.className='card';
+if(isDone)card.style.opacity='.6';
+card.innerHTML='<div class="row" onclick="tapTask(\''+key+'\')" style="cursor:pointer">'+mark+'<div style="flex:1"><div class="tn">'+esc(t2.name)+'</div><div class="ts">'+esc(t2.office)+' \u00b7 '+esc(t2.loc)+'</div></div>'+badge+'</div><div class="tdet'+(open?' on':'')+'"><div class="dlbl">What this is</div><div class="dtxt">'+esc(t2.desc)+'</div><div class="dmeta">'+rows+'</div>'+(isDone?'':'<button class="pbtn '+(dir==='out'?'bblue':'bpurp')+'" onclick="reqAppt('+t2.id+')">Request appointment</button>')+'</div>';
+box.appendChild(card);
+}
+}
+function tapTask(k){expT[k]=!expT[k];drawMember();}
+function reqAppt(id){
+if(!online){say('nf-m','nf-mt','Saved. This sends as soon as you are back online.');return;}
+var list=myTasks(dir),nm='the office';
+for(var i=0;i<list.length;i++){if(list[i].id===id)nm=list[i].office;}
+say('nf-m','nf-mt','Request sent to '+nm+'.');
+}
+function drawProfileTab(){
+var box=el('mprofile');if(!box)return;
+var p=me.profile||{};
+var opts=[['fam','Travelling with family'],['efmp','EFMP enrolled'],['pov','Shipping a vehicle'],['pet','Bringing pets'],['dorm','Dorm resident'],['sipr','Holds a SIPR token'],['cust','Custodian or monitor'],['moto','Motorcycle rider']];
+var h='<div class="card"><div class="row"><div class="av" style="background:#B5D4F4;color:#0D4680">'+esc(initials(me.name))+'</div><div style="flex:1"><div class="tn">'+esc(me.name)+'</div><div class="ts">'+esc(me.unit)+' \u00b7 '+esc(journey.losing)+'</div></div><span class="pill pn">Approved</span></div></div>';
+h+='<div class="card"><div class="dlbl">Your move</div><div class="dmr" style="margin-top:7px"><i class="ti ti-plane-departure"></i><span>'+esc(journey.losing)+' to '+esc(p.gaining||'')+'</span></div><div class="dmr"><i class="ti ti-calendar"></i><span>Departs '+esc(p.depart||'not set')+'</span></div><div class="dmr"><i class="ti ti-world"></i><span>'+esc(p.type||'')+'</span></div></div>';
+h+='<div class="card"><div class="dlbl">What applies to you</div><div class="ts" style="margin-bottom:4px">These control which tasks show on your checklist. Changing one updates it straight away.</div>';
+for(var i=0;i<opts.length;i++){
+h+='<div class="rule"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">'+opts[i][1]+'</div></div><label class="tgl"><input type="checkbox" data-k="'+opts[i][0]+'"'+(p[opts[i][0]]?' checked':'')+' onchange="flipOpt(this)"><span class="tsl"></span></label></div>';
+}
+h+='</div><button class="ibtn" style="width:100%" onclick="switchRole()">'+(me.roles.length>1?'Switch role':'Sign out')+'</button>';
+box.innerHTML=h;
+}
+function flipOpt(cb){
+var k=cb.getAttribute('data-k');
+if(!me.profile)me.profile={};
+me.profile[k]=cb.checked;
+drawMember();
+say('nf-m','nf-mt','Checklist updated.');
+}
+
+function setInbox(f){
+inboxFilt=f;var ids=['all','reminder','message'];
+for(var i=0;i<ids.length;i++){var e=el('ib-'+ids[i]);if(e)e.className='fb'+(ids[i]===f?' on':'');}
+drawInbox();
+}
+function drawInbox(){
+var box=el('minbox');if(!box)return;box.innerHTML='';
+var unread=0;
+for(var i=0;i<inbox.length;i++){if(!inbox[i].read)unread++;}
+var bg=el('mbadge');
+if(bg){bg.textContent=unread;bg.className='dotb'+(unread>0?' on':'');}
+var list=[];
+for(var j=0;j<inbox.length;j++){
+var m=inbox[j];
+if(inboxFilt==='all'||m.kind===inboxFilt)list.push(m);
+}
+if(!list.length){box.innerHTML='<div class="emp"><i class="ti ti-inbox"></i>Nothing here</div>';return;}
+for(var k=0;k<list.length;k++){
+var n=list[k],d=document.createElement('div');
+d.className='inb'+(n.read?'':' unread');
+d.setAttribute('data-id',n.id);
+d.onclick=function(){readMsg(parseInt(this.getAttribute('data-id'),10));};
+d.innerHTML='<div class="inbi" style="background:'+n.bg+'"><i class="ti '+n.icon+'" style="font-size:17px;color:'+n.fg+'"></i></div><div style="flex:1"><div class="tn">'+esc(n.t)+'</div><div class="ts">'+esc(n.b)+'</div><div style="font-size:10.5px;color:var(--t3);margin-top:6px">'+esc(n.when)+'</div></div>';
+box.appendChild(d);
+}
+}
+function readMsg(id){for(var i=0;i<inbox.length;i++){if(inbox[i].id===id)inbox[i].read=true;}drawInbox();}
+
+function drawForms(){
+var box=el('mforms');if(!box)return;
+box.innerHTML='<div class="card"><div class="tn">Travels with you</div><div class="ts" style="margin-bottom:4px">These follow your record to '+esc(journey.gaining)+' automatically.</div>'+
+'<div class="frow"><i class="ti ti-file-certificate" style="font-size:19px;color:#1A5FA8"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">PCS orders</div><div class="ts">Ready to download</div></div><button class="ibtn" onclick="say(\'nf-m\',\'nf-mt\',\'Downloaded and saved for offline.\')">Get</button></div>'+
+'<div class="frow"><i class="ti ti-stethoscope" style="font-size:19px;color:#3C6E12"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Medical records packet</div><div class="ts">Mailed to gaining treatment facility</div></div><span class="pill pp">In transit</span></div>'+
+'<div class="frow"><i class="ti ti-tooth" style="font-size:19px;color:#3C6E12"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Transfer of dental records memo</div><div class="ts">Bring to MPF final out</div></div><button class="ibtn" onclick="say(\'nf-m\',\'nf-mt\',\'Downloaded and saved for offline.\')">Get</button></div></div>'+
+'<div class="card"><div class="tn">Still needed here</div>'+
+'<div class="frow"><i class="ti ti-truck" style="font-size:19px;color:#7A4809"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">PPTY Locally Generated Form 75</div><div class="ts">Send with orders to 100lrs.tmo@us.af.mil</div></div><button class="ibtn" onclick="say(\'nf-m\',\'nf-mt\',\'Uploaded. TMO notified.\')">Upload</button></div>'+
+'<div class="frow"><i class="ti ti-file-text" style="font-size:19px;color:#7A4809"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Medical clearance memorandum</div><div class="ts">Email to the BOMC org box</div></div><button class="ibtn" onclick="say(\'nf-m\',\'nf-mt\',\'Downloaded and saved for offline.\')">Get</button></div>'+
+'<div class="frow"><i class="ti ti-clipboard-list" style="font-size:19px;color:#7A4809"></i><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Team Mildenhall out-processing checklist</div><div class="ts">Print and hand carry to final out</div></div><button class="ibtn" onclick="say(\'nf-m\',\'nf-mt\',\'Downloaded and saved for offline.\')">Get</button></div></div>';
+}
+
+function drawTips(cid,tier){
+var box=el(cid);if(!box)return;
+var list=[];
+for(var i=0;i<tips.length;i++){
+var t=tips[i];
+if(tier===null){if(t.y===dir||t.y==='both')list.push(t);}
+else if(t.tier===tier)list.push(t);
+}
+box.innerHTML='';
+if(!list.length){box.innerHTML='<div class="emp"><i class="ti ti-bulb"></i>No tips yet</div>';return;}
+for(var j=0;j<list.length;j++){
+var tp=list[j],key=cid+'-'+tp.id,open=!!expTip[key];
+var yc=tp.y==='out'?'tout':tp.y==='in'?'tin':'tbo';
+var yl=tp.y==='out'?'Out-processing':tp.y==='in'?'In-processing':'Both';
+var d=document.createElement('div');d.className='tipc';
+var del=tier!==null?'<button class="ibtn dg" style="margin-top:10px" onclick="delTip('+tp.id+',\''+cid+'\',\''+tier+'\')">Remove</button>':'';
+var ta=tier===null?'':tier;
+d.innerHTML='<div class="row" onclick="tapTip(\''+key+'\',\''+cid+'\',\''+ta+'\')"><div style="flex:1"><div class="tn">'+esc(tp.t)+'</div><div style="display:flex;gap:6px;margin-top:7px"><span class="ttag '+yc+'">'+yl+'</span>'+(tier===null?'<span class="tbadge">'+esc(tp.tl)+'</span>':'')+'</div></div><i class="ti ti-chevron-'+(open?'up':'down')+'" style="font-size:15px;color:var(--t3)"></i></div><div class="tipb'+(open?' on':'')+'">'+esc(tp.b)+del+'</div>';
+box.appendChild(d);
+}
+}
+function tapTip(k,cid,tier){expTip[k]=!expTip[k];drawTips(cid,tier===''?null:tier);}
+function delTip(id,cid,tier){var o=[];for(var i=0;i<tips.length;i++){if(tips[i].id!==id)o.push(tips[i]);}tips=o;drawTips(cid,tier);}
+function addTip(r){
+var cfg={worker:{t:'wt-t',b:'wt-b',y:'wt-y',tier:'office',tl:'Medical Records',n:'nf-w',nt:'nf-wt',c:'wtips',af:'waf'},
+lead:{t:'lt-t',b:'lt-b',y:'lt-y',tier:'office',tl:'Medical Records lead',n:'nf-l',nt:'nf-lt',c:'ltips',af:'laf'},
+counsel:{t:'ct-t',b:'ct-b',y:null,tier:'counsel',tl:'Base counselor',n:'nf-c',nt:'nf-ct',c:'ctips',af:'caf'},
+cmd:{t:'dt-t',b:'dt-b',y:'dt-y',tier:'cmd',tl:'Commander',n:'nf-c',nt:'nf-ct',c:'dtips',af:'daf'},
+global:{t:'gt-t',b:'gt-b',y:'gt-y',tier:'global',tl:'Global',n:'nf-g',nt:'nf-gt',c:'gtips',af:'gaf'}};
+var c=cfg[r];if(!c)return;
+var ti=el(c.t),bi=el(c.b);if(!ti||!bi)return;
+var title=ti.value.trim();if(!title)return;
+var y=c.y&&el(c.y)?el(c.y).value:'out';
+tips.push({id:Date.now(),t:title,b:bi.value.trim(),y:y,tier:c.tier,tl:c.tl});
+ti.value='';bi.value='';
+tog(c.af);drawTips(c.c,c.tier);
+say(c.n,c.nt,'Tip published. Members see it in their Tips tab.');
+}
+
+function navTab(pre,ids,t,cls){
+for(var i=0;i<ids.length;i++){
+var a=el(pre+'t-'+ids[i]),b=el(pre+'n-'+ids[i]);
+if(a)a.classList.remove('on');
+if(b)b.classList.remove(cls);
+}
+var c=el(pre+'t-'+t),d=el(pre+'n-'+t);
+if(c)c.classList.add('on');
+if(d)d.classList.add(cls);
+}
+function mTab(t){navTab('m',['tasks','inbox','forms','tips','me'],t,'on');if(t==='tips')drawTips('mtips',null);if(t==='inbox')drawInbox();if(t==='me')drawProfileTab();}
+function sTab(t){navTab('s',['mem','prep','msg'],t,'son');if(t==='prep')drawPrep();if(t==='msg')drawMsgs();}
+function wTab(t){navTab('w',['queue','docs','tips'],t,'on');if(t==='queue')drawQueue('wqueue','w');if(t==='tips')drawTips('wtips','office');}
+function lTab(t){navTab('l',['sched','queue','office','tips'],t,'lon');if(t==='queue')drawQueue('lqueue','l');if(t==='tips')drawTips('ltips','office');}
+function cTab(t){navTab('c',['mem','so','req','tips'],t,'con');if(t==='so')drawCSO();if(t==='req')drawReqs('creq','c');if(t==='tips')drawTips('ctips','counsel');}
+function bTab(t){navTab('b',['prof','tasks','inb','users'],t,'bon');if(t==='prof')drawProfiles();if(t==='tasks'){drawMaster();drawRules();}if(t==='inb')drawInbound();if(t==='users')drawUsers();}
+function dTab(t){navTab('d',['out','in','tips'],t,'con');if(t==='in')drawDInb();if(t==='tips')drawTips('dtips','cmd');}
+function gTab(t){navTab('g',['health','bases','req','tips'],t,'gon');if(t==='bases')drawBases();if(t==='req')drawReqs('greq','g');if(t==='tips')drawTips('gtips','global');}
+
+function drawProfiles(){
+var box=el('bprof');if(!box)return;box.innerHTML='';
+var pend=[];
+for(var i=0;i<accounts.length;i++){if(accounts[i].status==='pending')pend.push(accounts[i]);}
+var bg=el('bbadge');
+if(bg){bg.textContent=pend.length;bg.className='dotb'+(pend.length>0?' on':'');}
+if(!pend.length){box.innerHTML='<div class="emp"><i class="ti ti-user-check"></i>No profiles waiting</div>';}
+for(var j=0;j<pend.length;j++){
+var a=pend[j],p=a.profile||{};
+var opts=[];
+if(p.fam)opts.push('family');
+if(p.efmp)opts.push('EFMP');
+if(p.pov)opts.push('vehicle');
+if(p.pet)opts.push('pets');
+if(p.dorm)opts.push('dorm');
+if(p.sipr)opts.push('SIPR');
+if(p.cust)opts.push('custodian');
+if(p.moto)opts.push('motorcycle');
+var d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="row"><div class="av" style="background:#FAEEDA;color:#7A4809">'+esc(initials(a.name))+'</div><div style="flex:1"><div class="tn">'+esc(a.name)+'</div><div class="ts">'+esc(a.unit)+' \u00b7 '+esc(a.email)+'</div></div><span class="pill pa">Pending</span></div>'+
+'<div class="dmeta" style="margin-top:11px"><div class="dmr"><i class="ti ti-plane-departure"></i><span>'+(p.dir==='in'?'In-processing':p.dir==='both'?'Both directions':'Out-processing')+' to '+esc(p.gaining||'not set')+'</span></div><div class="dmr"><i class="ti ti-calendar"></i><span>Departs '+esc(p.depart||'not set')+'</span></div><div class="dmr"><i class="ti ti-list-check"></i><span>'+(opts.length?esc(opts.join(', ')):'no extra circumstances')+'</span></div></div>'+
+'<div style="display:flex;gap:9px"><button class="sbtn" style="flex:1" data-e="'+esc(a.email)+'" onclick="approveProfile(this.getAttribute(\'data-e\'))">Approve and unlock</button><button class="ibtn dg" data-e="'+esc(a.email)+'" onclick="returnProfile(this.getAttribute(\'data-e\'))">Send back</button></div>';
+box.appendChild(d);
+}
+}
+function approveProfile(email){
+for(var i=0;i<accounts.length;i++){
+if(accounts[i].email===email){
+accounts[i].status='active';
+var nm=accounts[i].name;
+caseload.push({ini:initials(nm),c:'#CFE3F7',tc:'#0D4680',n:nm,dep:(accounts[i].profile&&accounts[i].profile.depart)||'TBD',pct:0,risk:'medium'});
+say('nf-b','nf-bt',nm+' approved. Their checklist is live.');
+}
+}
+drawProfiles();drawUsers();
+}
+function returnProfile(email){
+for(var i=0;i<accounts.length;i++){
+if(accounts[i].email===email){say('nf-b','nf-bt','Sent back to '+accounts[i].name+' with a note.');}
+}
+}
+
+function setMDir(d){
+mdir=d;
+var a=el('bo-out'),b=el('bo-in');
+if(a)a.className='mtb'+(d==='out'?' on':'');
+if(b)b.className='mtb'+(d==='in'?' on':'');
+drawMaster();
+}
+function drawMaster(){
+var list=mdir==='out'?masterOut:masterIn;
+var box=el('blist');if(!box)return;box.innerHTML='';
+for(var i=0;i<list.length;i++){
+var t=list[i],d=document.createElement('div');d.className='card';
+var flags='';
+if(t.tag)flags+='<span class="pill pgy">Only if '+esc(t.tag)+'</span>';
+if(t.carry)flags+='<span class="pill pp">Carries over</span>';
+if(t.triggersHandoff)flags+='<span class="pill pi">Triggers handoff</span>';
+var meta='<div class="dmr"><i class="ti ti-map-pin"></i><span>'+esc(t.loc)+'</span></div>';
+if(t.hours)meta+='<div class="dmr"><i class="ti ti-clock"></i><span>'+esc(t.hours)+'</span></div>';
+if(t.phone)meta+='<div class="dmr"><i class="ti ti-phone"></i><span>DSN '+esc(t.phone)+'</span></div>';
+d.innerHTML='<div class="row" style="margin-bottom:9px"><div style="flex:1"><div class="tn">'+esc(t.name)+'</div><div class="ts">'+esc(t.office)+'</div></div><span class="pill pm">'+esc(t.due)+'</span></div>'+(flags?'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px">'+flags+'</div>':'')+'<div class="dmeta">'+meta+'</div><div style="font-size:12.5px;color:var(--t2);line-height:1.6">'+esc(t.desc)+'</div><button class="ibtn dg" style="margin-top:11px" onclick="delMaster('+t.id+')">Remove from list</button>';
+box.appendChild(d);
+}
+}
+function delMaster(id){
+var list=mdir==='out'?masterOut:masterIn,o=[];
+for(var i=0;i<list.length;i++){if(list[i].id!==id)o.push(list[i]);}
+if(mdir==='out'){masterOut=o;}else{masterIn=o;}
+drawMaster();say('nf-b','nf-bt','Task removed from the master list.');
+}
+function addMaster(){
+var n=el('bt-n');if(!n)return;
+var name=n.value.trim();if(!name)return;
+var t={id:Date.now(),name:name,desc:val('bt-d').trim()||'No description added yet.',
+office:val('bt-o').trim()||'TBD',loc:val('bt-loc').trim()||'TBD',
+hours:val('bt-h').trim(),phone:val('bt-p').trim(),
+due:val('bt-w').trim()||'TBD',status:'open'};
+if(mdir==='out'){masterOut.push(t);}else{masterIn.push(t);}
+var ids=['bt-n','bt-d','bt-o','bt-loc','bt-h','bt-p','bt-w'];
+for(var i=0;i<ids.length;i++){var e=el(ids[i]);if(e)e.value='';}
+tog('baf');drawMaster();say('nf-b','nf-bt','Added. Every member now sees this task.');
+}
+function drawRules(){
+var box=el('brules');if(!box)return;box.innerHTML='';
+var card=document.createElement('div');card.className='card';
+var h='';
+for(var i=0;i<rules.length;i++){
+var r=rules[i];
+h+='<div class="rule"'+(i===0?' style="border-top:none;padding-top:0"':'')+'><div style="flex:1"><div style="font-size:12.5px;font-weight:600">'+esc(r.t)+'</div><div class="ts">'+esc(r.b)+'</div></div><label class="tgl"><input type="checkbox" data-id="'+r.id+'"'+(r.on?' checked':'')+' onchange="toggleRule(this)"><span class="tsl"></span></label></div>';
+}
+card.innerHTML=h;box.appendChild(card);
+}
+function toggleRule(cb){
+var id=parseInt(cb.getAttribute('data-id'),10);
+for(var i=0;i<rules.length;i++){
+if(rules[i].id===id){rules[i].on=cb.checked;say('nf-b','nf-bt',rules[i].t+(cb.checked?' is on.':' is off.'));}
+}
+}
+function drawInbound(){
+var box=el('binbound');if(!box)return;box.innerHTML='';
+for(var i=0;i<inbound.length;i++){
+var m=inbound[i],d=document.createElement('div');d.className='card';
+var st=m.state==='arrived'?'<span class="pill pn">Arrived</span>':m.state==='enroute'?'<span class="pill pp">En route</span>':'<span class="pill pa">Notified</span>';
+var sp=m.sponsor==='Not assigned'?'<button class="pbtn bspon" style="margin-top:10px" data-i="'+i+'" onclick="assignSponsor(parseInt(this.getAttribute(\'data-i\'),10))">Assign a sponsor</button>':'<div class="dmr" style="margin-top:9px"><i class="ti ti-friends"></i><span>Sponsor '+esc(m.sponsor)+'</span></div>';
+d.innerHTML='<div class="row"><div class="av" style="background:'+m.c+';color:'+m.tc+'">'+m.ini+'</div><div style="flex:1"><div class="tn">'+esc(m.n)+'</div><div class="ts">From '+esc(m.from)+' \u00b7 RNLTD '+esc(m.rnltd)+'</div></div>'+st+'</div><div class="ts" style="margin-top:8px">In-processing '+m.pct+'% complete</div>'+sp;
+box.appendChild(d);
+}
+}
+function assignSponsor(i){
+inbound[i].sponsor='TSgt Alvarez';
+drawInbound();say('nf-b','nf-bt','Sponsor assigned and both parties introduced.');
+}
+function drawDInb(){
+var box=el('dinb');if(!box)return;box.innerHTML='';
+for(var i=0;i<inbound.length;i++){
+var m=inbound[i],d=document.createElement('div');d.className='card';
+var risk=(m.pct===0&&m.state==='arrived')?'<span class="pill pa">Attention</span>':'<span class="pill pn">On track</span>';
+d.innerHTML='<div class="row"><div class="av" style="background:'+m.c+';color:'+m.tc+'">'+m.ini+'</div><div style="flex:1"><div class="tn">'+esc(m.n)+'</div><div class="ts">From '+esc(m.from)+' \u00b7 RNLTD '+esc(m.rnltd)+' \u00b7 '+m.pct+'%</div></div>'+risk+'</div>';
+box.appendChild(d);
+}
+}
+function drawUsers(){
+var box=el('busers');if(!box)return;box.innerHTML='';
+for(var i=0;i<accounts.length;i++){
+var a=accounts[i];
+var pills='';
+for(var j=0;j<a.roles.length;j++){
+var m=roleMeta[a.roles[j]];
+if(m)pills+='<span class="pill pgy">'+esc(m.n)+'</span>';
+}
+var st=a.status==='pending'?'<span class="pill pa">Pending</span>':'';
+var d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="row"><div class="av" style="background:var(--b2);color:var(--t2)">'+esc(initials(a.name))+'</div><div style="flex:1"><div class="tn">'+esc(a.name)+'</div><div class="ts">'+esc(a.unit)+'</div></div>'+st+'</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:9px">'+pills+'</div>';
+box.appendChild(d);
+}
+}
+
+function drawSponsor(){
+var box=el('smem');if(!box)return;
+box.innerHTML='<div class="card"><div class="row"><div class="av" style="background:#B5D4F4;color:#0D4680">JC</div><div style="flex:1"><div class="tn">SSgt Carter, James</div><div class="ts">Inbound from RAF Mildenhall</div></div><span class="pill pp">En route</span></div><div class="dmeta" style="margin-top:11px;margin-bottom:0"><div class="dmr"><i class="ti ti-calendar"></i><span>RNLTD 01 SEP 2026</span></div><div class="dmr"><i class="ti ti-users"></i><span>Spouse and one dependent aged 8</span></div><div class="dmr"><i class="ti ti-paw"></i><span>One dog, health certificate required</span></div><div class="dmr"><i class="ti ti-home"></i><span>Needs lodging, six week housing wait</span></div></div></div>'+
+'<div class="card"><div class="tn">Their out-processing progress</div><div class="ts">You see the shape of it, not their documents.</div><div class="frow"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">20 of 54 complete</div><div class="ts">Two items overdue at Mildenhall</div></div><span class="pill pa">Behind</span></div><div class="frow" style="border-bottom:none"><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Arrival readiness</div><div class="ts">Lodging booked, pickup not yet arranged</div></div><span class="pill pn">Mostly set</span></div></div>';
+}
+function drawPrep(){
+var box=el('sprep');if(!box)return;box.innerHTML='';
+for(var i=0;i<sponsorPrep.length;i++){
+var p=sponsorPrep[i],d=document.createElement('div');d.className='card';
+if(p.done)d.style.opacity='.6';
+d.innerHTML='<div class="row"><div class="chk'+(p.done?' ck':'')+'" data-i="'+i+'" onclick="togglePrep(this)">'+(p.done?'<i class="ti ti-check" style="font-size:13px"></i>':'')+'</div><div style="flex:1"><div class="tn">'+esc(p.t)+'</div><div class="ts">'+esc(p.b)+'</div></div></div>';
+box.appendChild(d);
+}
+}
+function togglePrep(node){
+var i=parseInt(node.getAttribute('data-i'),10);
+sponsorPrep[i].done=!sponsorPrep[i].done;
+drawPrep();say('nf-s','nf-st',sponsorPrep[i].done?'Marked done.':'Marked not done.');
+}
+function drawMsgs(){
+var box=el('smsgs');if(!box)return;box.innerHTML='';
+for(var i=0;i<sponsorMsgs.length;i++){
+var m=sponsorMsgs[i],w=document.createElement('div');
+w.style.cssText='display:flex;flex-direction:column;'+(m.from==='me'?'align-items:flex-end':'align-items:flex-start');
+w.innerHTML='<div class="msg '+(m.from==='me'?'me':'them')+'">'+esc(m.b)+'</div><div class="msgt">'+esc(m.when)+'</div>';
+box.appendChild(w);
+}
+}
+function sendMsg(){
+var inp=el('sinput');if(!inp)return;
+var v=inp.value.trim();if(!v)return;
+sponsorMsgs.push({from:'them',b:v,when:'Just now'});
+inp.value='';drawMsgs();
+}
+
+function taskRows(m,fn){
+var rows='';
+for(var j=0;j<m.tasks.length;j++){
+var t=m.tasks[j];
+rows+='<div class="frow"><span style="flex:1;font-size:12.5px;color:var(--t2)">'+esc(t.n)+'</span>'+(t.done?'<span style="font-size:11.5px;color:#356210;font-weight:600">Signed off</span>':'<button class="sbtn" onclick="'+fn+'(\''+m.id+'\',\''+t.id+'\')">Sign off</button>')+'</div>';
+}
+return rows;
+}
+function drawQueue(cid,who){
+var box=el(cid);if(!box)return;box.innerHTML='';
+for(var i=0;i<qMembers.length;i++){
+var m=qMembers[i],d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="row"><div class="av" style="background:'+m.c+';color:'+m.tc+'">'+m.ini+'</div><div style="flex:1"><div class="tn">'+esc(m.n)+'</div><div class="ts">Departs '+esc(m.dep)+'</div></div>'+(m.over?'<span class="pill pr">Overdue</span>':'<span class="pill pn">On track</span>')+'</div>'+taskRows(m,who==='w'?'wSign':'lSign');
+box.appendChild(d);
+}
+}
+function markDone(mid,tid){
+for(var i=0;i<qMembers.length;i++){
+if(qMembers[i].id===mid){
+for(var j=0;j<qMembers[i].tasks.length;j++){if(qMembers[i].tasks[j].id===tid)qMembers[i].tasks[j].done=true;}
+}
+}
+}
+function wSign(m,t){markDone(m,t);drawQueue('wqueue','w');say('nf-w','nf-wt','Signed off. The member has been notified.');}
+function lSign(m,t){markDone(m,t);drawQueue('lqueue','l');say('nf-l','nf-lt','Signed off. The member has been notified.');}
+function cSign(m,t){markDone(m,t);drawCSO();say('nf-c','nf-ct','Signed off.');}
+
+function drawCase(){
+var box=el('clist');if(!box)return;box.innerHTML='';
+for(var i=0;i<caseload.length;i++){
+var m=caseload[i];
+var rc=m.risk==='high'?'pr':m.risk==='medium'?'pa':'pn';
+var rl=m.risk==='high'?'High risk':m.risk==='medium'?'Attention':'On track';
+var d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="row"><div class="av" style="background:'+m.c+';color:'+m.tc+'">'+m.ini+'</div><div style="flex:1"><div class="tn">'+esc(m.n)+'</div><div class="ts">Departs '+esc(m.dep)+' \u00b7 '+m.pct+'% complete</div></div><span class="pill '+rc+'">'+rl+'</span></div>';
+box.appendChild(d);
+}
+}
+function drawCSO(){
+var box=el('cso');if(!box)return;box.innerHTML='';
+for(var i=0;i<qMembers.length;i++){
+var m=qMembers[i],d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="row"><div class="av" style="background:'+m.c+';color:'+m.tc+'">'+m.ini+'</div><div style="flex:1"><div class="tn">'+esc(m.n)+'</div><div class="ts">Departs '+esc(m.dep)+'</div></div></div>'+taskRows(m,'cSign');
+box.appendChild(d);
+}
+}
+function drawReqs(cid,who){
+var box=el(cid);if(!box)return;box.innerHTML='';
+var src=who==='g'?greqs:reqs,any=false;
+for(var i=0;i<src.length;i++){
+var r=src[i];if(r.st!=='pending')continue;any=true;
+var sub=who==='g'?esc(r.base)+' \u2192 '+esc(r.want):esc(r.cur)+' \u2192 '+esc(r.want);
+var d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="row" style="margin-bottom:7px"><div style="flex:1"><div class="tn">'+esc(r.n)+'</div><div class="ts">'+sub+'</div></div></div><div style="font-size:12.5px;color:var(--t2);line-height:1.55;margin-bottom:11px">'+esc(r.why)+'</div><div style="display:flex;gap:9px"><button class="sbtn" style="flex:1" onclick="doReq('+r.id+',1,\''+cid+'\',\''+who+'\')">Approve</button><button class="ibtn dg" onclick="doReq('+r.id+',0,\''+cid+'\',\''+who+'\')">Deny</button></div>';
+box.appendChild(d);
+}
+if(!any)box.innerHTML='<div class="emp"><i class="ti ti-inbox"></i>No pending requests</div>';
+}
+function doReq(id,ok,cid,who){
+var src=who==='g'?greqs:reqs;
+for(var i=0;i<src.length;i++){
+if(src[i].id===id){
+src[i].st=ok?'approved':'denied';
+var msg=ok?src[i].n+' approved as '+src[i].want+'.':'Request denied.';
+if(who==='g'){say('nf-g','nf-gt',msg);}else{say('nf-c','nf-ct',msg);}
+}
+}
+drawReqs(cid,who);
+}
+function drawBases(){
+var box=el('gbases');if(!box)return;box.innerHTML='';
+for(var i=0;i<bases.length;i++){
+var b=bases[i],d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="row"><div style="flex:1"><div class="tn">'+esc(b.n)+'</div><div class="ts">'+esc(b.c)+' \u00b7 MPF '+esc(b.mpf)+'</div></div><span class="pill '+(b.live?'pn':'pa')+'">'+(b.live?'Active':'Pending')+'</span></div>'+(b.live?'':'<button class="pbtn bglob" style="margin-top:11px" onclick="say(\'nf-g\',\'nf-gt\',\'MPF rights granted.\')">Grant MPF rights</button>');
+box.appendChild(d);
+}
+}
+function drawCmd(){
+var bn=el('dbn');if(!bn)return;bn.innerHTML='';
+var mx=0;
+for(var i=0;i<offices.length;i++){if(offices[i].m+offices[i].o>mx)mx=offices[i].m+offices[i].o;}
+for(var j=0;j<offices.length;j++){
+var o=offices[j],tot=o.m+o.o,d=document.createElement('div');d.className='bnr';
+d.innerHTML='<div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:5px"><span>'+esc(o.n)+'</span><span style="color:var(--t3)">'+tot.toFixed(1)+'d</span></div><div class="bnt"><div class="bbl" style="width:'+Math.round(o.m/mx*100)+'%"></div><div class="bred" style="width:'+Math.round(o.o/mx*100)+'%"></div></div>';
+bn.appendChild(d);
+}
+var note=document.createElement('div');
+note.style.cssText='font-size:11.5px;color:var(--t2)';
+note.innerHTML='<span style="color:#3B8DE0;font-weight:600">Blue</span> member pending \u00b7 <span style="color:#E24B4A;font-weight:600">Red</span> office delay';
+bn.appendChild(note);
+var rk=el('drisk');if(!rk)return;rk.innerHTML='';
+for(var k=0;k<caseload.length;k++){
+var m=caseload[k];if(m.risk==='low')continue;
+var rc=m.risk==='high'?'pr':'pa';
+var c=document.createElement('div');c.className='card';
+c.innerHTML='<div class="row"><div class="av" style="background:'+m.c+';color:'+m.tc+'">'+m.ini+'</div><div style="flex:1"><div class="tn">'+esc(m.n)+'</div><div class="ts">Departs '+esc(m.dep)+' \u00b7 '+m.pct+'% complete</div></div><span class="pill '+rc+'">'+(m.risk==='high'?'High risk':'Attention')+'</span></div>';
+rk.appendChild(c);
+}
+}
+function wk(d){
+curWk=Math.max(0,Math.min(weeks.length-1,curWk+d));
+var l=el('wklbl');if(l)l.textContent=weeks[curWk];
+drawSlots();
+}
+function drawSlots(){
+var box=el('lslots');if(!box)return;box.innerHTML='';
+var list=slots[curWk]||[];
+for(var i=0;i<list.length;i++){
+var s=list[i],d=document.createElement('div');
+d.className='slot'+(s.s==='taken'?' taken':'');
+d.textContent=s.t;
+if(s.s==='open'){
+d.setAttribute('data-i',i);
+d.onclick=function(){
+var idx=parseInt(this.getAttribute('data-i'),10);
+slots[curWk][idx].s='taken';
+drawSlots();say('nf-l','nf-lt','Slot blocked.');
+};
+}
+box.appendChild(d);
+}
+}
+function addSlot(){
+if(!slots[curWk])slots[curWk]=[];
+slots[curWk].push({t:'New slot',s:'open'});
+drawSlots();say('nf-l','nf-lt','Slot added to '+weeks[curWk]+'.');
+}
+function setOnline(v){
+online=v;
+var b=el('offbar');
+if(b)b.className='offbar'+(v?'':' on');
+}
+if(typeof window!=='undefined'&&window.addEventListener){
+window.addEventListener('online',function(){setOnline(true);});
+window.addEventListener('offline',function(){setOnline(false);});
+if(typeof navigator!=='undefined'&&navigator.onLine===false)setOnline(false);
+}
+</script>
+</body>
+</html>
